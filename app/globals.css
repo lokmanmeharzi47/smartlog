@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root {
+  --navy:       #1B3A6B;
+  --navy-deep:  #0F2347;
+  --cyan:       #1E9FD8;
+  --green:      #18A265;
+  --orange:     #E07020;
+  --red:        #D63031;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #1E9FD8; }
+
+/* Smooth focus rings */
+*:focus-visible { outline: 2px solid #1E9FD8; outline-offset: 2px; }
+
+/* Loading skeleton animation */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200%  0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Pulse animation for live indicators */
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
+  50%      { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+}
+.live-dot { animation: live-pulse 1.5s infinite; }
+
+/* Fade-in for page transitions */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.fade-in { animation: fadeInUp 0.3s ease forwards; }
