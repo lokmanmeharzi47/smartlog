@@ -1,0 +1,7 @@
+src/app/(wms)/inventory/page.tsx(59,9): error TS2451: Cannot redeclare block-scoped variable 'totalPages'.
+src/app/(wms)/inventory/page.tsx(61,9): error TS2451: Cannot redeclare block-scoped variable 'totalPages'.
+src/features/dashboard/services/dashboard.service.ts(58,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(relation: "products" | "movements" | "profiles"): PostgrestQueryBuilder<{ PostgrestVersion: "14.5"; }, { Tables: { movements: { Row: { created_at: string | null; id: string; note: string | null; product_id: string; quantity: number; type: string; }; Insert: { ...; }; Update: { ...; }; Relationships: [...]; }; products: { ...; }; profiles: { ...; }; }; Views: {}; Functions: {}; Enums: {}; CompositeTypes: {}; }, { ...; } | ... 1 more ... | { ...; }, "products" | ... 1 more ... | "profiles", [...] | []>', gave the following error.
+    Argument of type '"orders"' is not assignable to parameter of type '"products" | "movements" | "profiles"'.
+  Overload 2 of 2, '(relation: never): PostgrestQueryBuilder<{ PostgrestVersion: "14.5"; }, { Tables: { movements: { Row: { created_at: string | null; id: string; note: string | null; product_id: string; quantity: number; type: string; }; Insert: { ...; }; Update: { ...; }; Relationships: [...]; }; products: { ...; }; profiles: { ...; }; }; Views: {}; Functions: {}; Enums: {}; CompositeTypes: {}; }, never, never, never>', gave the following error.
+    Argument of type '"orders"' is not assignable to parameter of type 'never'.
