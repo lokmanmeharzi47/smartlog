@@ -10,16 +10,10 @@ import {
   ScanLine,
   AlertTriangle,
   LogOut,
-  Zap,
-  BarChart3,
   Activity,
-  MapPin,
+  Zap,
   FileText,
-  GraduationCap,
-  Lightbulb,
-  ClipboardList,
-  BrainCircuit,
-  BarChart2
+  BrainCircuit
 } from 'lucide-react'
 
 const navItems = [
@@ -27,13 +21,8 @@ const navItems = [
   { href: '/inventory', label: 'Inventory', icon: Package },
   { href: '/scan', label: 'Scan / Move', icon: ScanLine },
   { href: '/predictive-ai', label: 'Predictive AI', icon: BrainCircuit },
-  { href: '/tracking', label: 'Tracking', icon: MapPin },
-  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/performance', label: 'Performance', icon: BarChart2 },
   { href: '/alerts', label: 'Alerts', icon: AlertTriangle },
   { href: '/reports', label: 'Reports', icon: FileText },
-  { href: '/training', label: 'Training', icon: GraduationCap },
-  { href: '/procedures', label: 'Procedures', icon: ClipboardList },
 ]
 
 export default function Sidebar() {
