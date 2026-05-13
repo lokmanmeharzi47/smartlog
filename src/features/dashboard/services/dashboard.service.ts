@@ -14,13 +14,13 @@ export async function getAdvancedMetrics(): Promise<AdvancedMetrics> {
     supabase
       .from('products')
       .select('*, product_prices(*)'),
-    supabase.from('warehouse_config').select('key, value'),
-    supabase.from('orders').select('*') // Fetch all to handle variants in code
+    (supabase as any).from('warehouse_config').select('key, value'),
+    (supabase as any).from('orders').select('*') // Fetch all to handle variants in code
   ])
 
   const movesOut = movesOutRes.data ?? []
   const products = (prodsRes.data ?? []) as any[]
-  const configs = (configRes.data ?? []).reduce((acc, c) => ({ ...acc, [c.key]: Number(c.value) }), {} as Record<string, number>)
+  const configs = (configRes.data ?? []).reduce((acc: any, c: any) => ({ ...acc, [c.key]: Number(c.value) }), {} as Record<string, number>)
   const allOrders = ordersRes.data ?? []
 
   // --- Configuration Defaults ---
@@ -70,15 +70,15 @@ export async function getAdvancedMetrics(): Promise<AdvancedMetrics> {
   const pendingVariants = ['EN_ATTENTE', 'pending', 'EN ATTENTE']
   const inProgressVariants = ['EN_COURS', 'in_progress', 'EN COURS']
   
-  const pendingOrdersList = allOrders.filter(o => 
+  const pendingOrdersList = allOrders.filter((o: any) => 
     pendingVariants.includes(o.status) || inProgressVariants.includes(o.status)
   )
   const pendingOrders = pendingOrdersList.length
   
   // DEBUG: order breakdown
   console.log('Orders Breakdown:', {
-    pending: allOrders.filter(o => pendingVariants.includes(o.status)).length,
-    in_progress: allOrders.filter(o => inProgressVariants.includes(o.status)).length,
+    pending: allOrders.filter((o: any) => pendingVariants.includes(o.status)).length,
+    in_progress: allOrders.filter((o: any) => inProgressVariants.includes(o.status)).length,
     total: pendingOrders
   })
 
