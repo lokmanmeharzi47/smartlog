@@ -34,6 +34,9 @@ export function useAdvancedMetrics() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
         loadMetrics()
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'warehouse_config' }, () => {
+        loadMetrics()
+      })
       .subscribe()
 
     return () => {

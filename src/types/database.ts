@@ -267,6 +267,7 @@ export interface DashboardStats {
   totalStock: number
   totalProducts: number
   criticalItems: number
+  lowItems: number
   okItems: number
   coverageRate: number
   totalValue: number

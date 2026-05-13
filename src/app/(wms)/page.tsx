@@ -69,6 +69,12 @@ export default function DashboardPage() {
         loadData()
         toast.success('Nouveau mouvement détecté', { id: 'rt-movements', duration: 2000 })
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        loadData()
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'warehouse_config' }, () => {
+        loadData()
+      })
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
@@ -98,7 +104,7 @@ export default function DashboardPage() {
 
       <main className="flex-1 p-6 space-y-6 fade-in">
         {/* KPI Grid */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           <KpiCard
             label="Total articles en stock"
             value={loading ? '—' : fmt(stats?.totalStock ?? 0)}
@@ -116,9 +122,17 @@ export default function DashboardPage() {
             loading={loading}
           />
           <KpiCard
+            label="Stock faible"
+            value={loading ? '—' : String(stats?.lowItems ?? 0)}
+            subLabel="Réapprovisionnement à prévoir"
+            icon={<TrendingUp />}
+            accent="orange"
+            loading={loading}
+          />
+          <KpiCard
             label="Articles stock OK"
             value={loading ? '—' : String(stats?.okItems ?? 0)}
-            subLabel="Au-dessus du seuil min"
+            subLabel="Niveaux optimaux"
             icon={<CheckCircle />}
             accent="emerald"
             loading={loading}

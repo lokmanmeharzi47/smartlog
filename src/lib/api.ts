@@ -3,12 +3,12 @@ import type { Product, Movement, MovementWithProduct, DashboardStats } from '@/t
 
 // ── PRODUCTS ───────────────────────────────────────────────────────────────
 
-/** Fetch all products ordered by name */
+/** Fetch all products ordered by barcode (code) */
 export async function getProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from('products')
     .select('*')
-    .order('name')
+    .order('barcode')
   if (error) throw error
   return data ?? []
 }
@@ -104,23 +104,32 @@ export async function getRecentMovements(limit = 20): Promise<MovementWithProduc
 /** Compute aggregate dashboard statistics */
 export async function getDashboardStats(): Promise<DashboardStats> {
   const [{ data: products }, { data: movements }] = await Promise.all([
-    supabase.from('products').select('*'),
+    supabase
+      .from('products')
+      .select('*, product_prices(unit_price)'),
     supabase
       .from('movements')
       .select('*')
       .gte('created_at', new Date().toISOString().split('T')[0] + 'T00:00:00Z'),
   ])
 
-  const prods = products ?? []
+  const prods = (products || []) as any[]
   const moves = movements ?? []
 
   const totalStock = prods.reduce((s, p) => s + p.stock, 0)
   const totalProducts = prods.length
-  const criticalItems = prods.filter((p) => p.stock < p.min_stock).length
-  const okItems = prods.filter((p) => p.stock >= p.min_stock).length
+  const criticalItems = prods.filter((p) => p.stock <= p.min_stock).length
+  const lowItems = prods.filter((p) => p.stock > p.min_stock && p.stock <= p.min_stock * 1.5).length
+  const okItems = prods.filter((p) => p.stock > p.min_stock * 1.5).length
   const coverageRate = totalProducts > 0 ? Math.round((okItems / totalProducts) * 100) : 0
-  const totalValue = prods.reduce((s, p) => s + p.stock * (p.unit_price ?? 0), 0)
+  
+  // Rule A: Use price from product_prices if exists, else product.unit_price, else 500
+  const totalValue = prods.reduce((s, p) => {
+    const price = p.product_prices?.unit_price ?? (p.unit_price > 0 ? p.unit_price : 500)
+    return s + p.stock * price
+  }, 0)
+  
   const todayMovements = moves.length
 
-  return { totalStock, totalProducts, criticalItems, okItems, coverageRate, totalValue, todayMovements }
+  return { totalStock, totalProducts, criticalItems, lowItems, okItems, coverageRate, totalValue, todayMovements }
 }
