@@ -11,6 +11,8 @@ import { getStockStatus } from '@/features/inventory/utils/stock'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { motion } from 'framer-motion'
 import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
+import AddProductModal from '@/features/inventory/components/AddProductModal'
+import { deleteProduct } from '@/lib/api'
 
 export default function InventoryPage() {
   const [products, setProducts]   = useState<Product[]>([])
@@ -18,6 +20,7 @@ export default function InventoryPage() {
   const [search, setSearch]       = useState('')
   const [loading, setLoading]     = useState(true)
   const [page, setPage]           = useState(1)
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const perPage = 15
 
   const load = useCallback(async () => {
@@ -58,6 +61,17 @@ export default function InventoryPage() {
   const paginated = filtered.slice((page - 1) * perPage, page * perPage)
   const totalPages = Math.ceil(filtered.length / perPage)
 
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Êtes-vous sûr de vouloir supprimer le produit "${name}" ?`)) return
+    try {
+      await deleteProduct(id)
+      toast.success('Produit supprimé')
+      load()
+    } catch (err: any) {
+      toast.error(err.message || 'Erreur lors de la suppression')
+    }
+  }
+
   return (
     <>
       <TopBar title="Inventaire" subtitle={`${products.length} produits — Mise à jour temps réel`} />
@@ -88,6 +102,13 @@ export default function InventoryPage() {
             <span className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono px-3 py-1.5 rounded-lg">
               ✓ {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'OK').length} OK
             </span>
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center gap-2 px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold rounded-lg transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+            >
+              <Plus className="w-4 h-4" />
+              Ajouter produit
+            </button>
             <PDFExportButton />
           </div>
         </div>
@@ -98,7 +119,7 @@ export default function InventoryPage() {
             <table className="w-full text-sm block md:table">
               <thead className="hidden md:table-header-group">
                 <tr className="border-b border-white/5 bg-white/[0.02]">
-                  {['Code', 'Désignation', 'Catégorie', 'Quantité', 'Seuil min', 'Zone', 'Statut'].map(h => (
+                  {['Code', 'Désignation', 'Catégorie', 'Quantité', 'Seuil min', 'Zone', 'Statut', 'Actions'].map(h => (
                     <th key={h} className="text-left px-5 py-4 text-xs font-bold uppercase tracking-[0.25em] text-slate-400 whitespace-nowrap">
                       {h}
                     </th>
@@ -109,7 +130,7 @@ export default function InventoryPage() {
                 {loading ? (
                   [...Array(8)].map((_, i) => (
                     <tr key={i} className="block md:table-row border-b border-white/5 p-4 md:p-0">
-                      {[...Array(7)].map((_, j) => (
+                      {[...Array(8)].map((_, j) => (
                         <td key={j} className="block md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <div className="skeleton h-4 w-full opacity-50" />
                         </td>
@@ -118,7 +139,7 @@ export default function InventoryPage() {
                   ))
                 ) : paginated.length === 0 ? (
                   <tr className="block md:table-row">
-                    <td colSpan={7} className="block md:table-cell px-5 py-12 text-center text-slate-600">
+                    <td colSpan={8} className="block md:table-cell px-5 py-12 text-center text-slate-600">
                       <Package className="w-8 h-8 mx-auto mb-2 opacity-40" />
                       {search ? 'Aucun produit trouvé' : 'Aucun produit'}
                     </td>
@@ -182,6 +203,16 @@ export default function InventoryPage() {
                             label={status} 
                           />
                         </td>
+                        <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
+                          <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Actions</span>
+                          <button
+                            onClick={() => handleDelete(p.id, p.name)}
+                            className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                            title="Supprimer"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                          </button>
+                        </td>
                       </tr>
                     )
                   })
@@ -216,6 +247,16 @@ export default function InventoryPage() {
           )}
         </div>
       </main>
+
+      {isAddModalOpen && (
+        <AddProductModal 
+          onClose={() => setIsAddModalOpen(false)} 
+          onSuccess={() => {
+            setIsAddModalOpen(false)
+            load()
+          }} 
+        />
+      )}
     </>
   )
 }

@@ -48,6 +48,18 @@ export async function createProduct(
 
 /** Delete a product */
 export async function deleteProduct(id: string): Promise<void> {
+  // Check for existing movements
+  const { count, error: countError } = await supabase
+    .from('movements')
+    .select('*', { count: 'exact', head: true })
+    .eq('product_id', id)
+  
+  if (countError) throw countError
+  
+  if (count && count > 0) {
+    throw new Error('Impossible de supprimer : ce produit possède un historique de mouvements. Veuillez le désactiver à la place.')
+  }
+
   const { error } = await supabase.from('products').delete().eq('id', id)
   if (error) throw error
 }
