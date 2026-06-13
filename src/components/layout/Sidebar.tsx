@@ -16,6 +16,8 @@ import {
   BrainCircuit
 } from 'lucide-react'
 
+import Image from 'next/image'
+
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/inventory', label: 'Inventory', icon: Package },
@@ -48,8 +50,8 @@ export default function Sidebar() {
       {/* Logo Section */}
       <div className="px-6 py-8 border-b border-slate-800 relative">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center shadow-lg shadow-cyan-500/30 flex-shrink-0">
-            <Activity className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center shadow-lg shadow-cyan-500/30 flex-shrink-0 overflow-hidden">
+            <Image src="/logo.png" alt="SmartLog Logo" width={40} height={40} className="object-cover" />
           </div>
           <div>
             <div className="text-white font-bold text-base tracking-tight">SmartLog</div>

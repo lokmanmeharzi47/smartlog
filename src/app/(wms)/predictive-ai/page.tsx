@@ -10,6 +10,7 @@ import RecommendationCards from '@/features/predictive-ai/components/Recommendat
 import ConfidenceGauge from '@/features/predictive-ai/components/ConfidenceGauge'
 import PredictiveCharts from '@/features/predictive-ai/components/PredictiveCharts'
 import RealtimeInsights from '@/features/predictive-ai/components/RealtimeInsights'
+import AdvancedAnalytics from '@/features/predictive-ai/components/AdvancedAnalytics'
 import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
 
 const stagger = {
@@ -151,6 +152,11 @@ export default function PredictiveAIPage() {
         {/* ── RECOMMENDATION CARDS ───────────────────────────────── */}
         <motion.div variants={fadeUp}>
           <RecommendationCards predictions={predictions} loading={loading} />
+        </motion.div>
+
+        {/* ── ADVANCED AI ANALYTICS ──────────────────────────────── */}
+        <motion.div variants={fadeUp}>
+          <AdvancedAnalytics predictions={predictions} loading={loading} />
         </motion.div>
 
         {/* ── CHARTS ─────────────────────────────────────────────── */}

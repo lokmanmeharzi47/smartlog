@@ -1,108 +1,117 @@
 import type { Metadata } from "next";
 import TopBar from "@/components/layout/TopBar";
-import KpiCard from "@/components/ui/KpiCard";
-import ReportCard from "@/components/ui/ReportCard";
-import DonutChart from "@/components/charts/DonutChart";
-import { reportKPIs, recentReports, recommendations, errorsByType } from "@/lib/mockData";
-import { ArrowRight, Beaker, Route, Users } from "lucide-react";
+import { fetchReportDashboard } from "@/features/reports/services/reports.service";
+import ReportCharts from "@/features/reports/components/ReportCharts";
+import { Activity, Box, RefreshCw, Wallet, LayoutGrid, Package, ArrowRight, ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Management Reports",
-  description: "Monthly performance reports, strategic recommendations, and generated report archive.",
+  title: "Rapports & Analyses",
+  description: "Tableau de bord de direction et rapports automatisés.",
 };
 
-const recIcons = [Route, Users, Beaker];
-const impactColors = { high: "#fb7185", medium: "#E65100", low: "#34d399" };
+export const dynamic = 'force-dynamic';
 
-export default function ReportsPage() {
+export default async function ReportsPage() {
+  const data = await fetchReportDashboard();
+
   return (
-    <div className="min-h-full">
+    <div className="min-h-full" style={{ background: '#020617' }}>
       <TopBar
-        title="Reports &amp; Insights"
-        subtitle="Automated reporting — Clinical Logistics Management"
-        period="October 01 – 31, 2023"
+        title="Rapports & Direction"
+        subtitle="Analyses financières et état de santé du stock global"
+        period="Mois en cours"
       />
 
-      <div className="px-8 py-6 space-y-6">
-        {/* Monthly preview KPIs */}
+      <div className="px-8 py-6 space-y-6 max-w-[1600px] mx-auto">
+        {/* EXECUTIVE SUMMARY KPIs */}
         <section>
-          <p className="section-label mb-3">Monthly Performance Preview</p>
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
-            {reportKPIs.map((kpi) => (
-              <KpiCard
-                key={kpi.label}
-                label={kpi.label}
-                value={kpi.value}
-                unit={kpi.unit}
-                trend={kpi.trend}
-                subLabel={kpi.subLabel}
-                accent="cyan"
-              />
-            ))}
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1.5 h-6 bg-cyan-500 rounded-full" />
+            <h2 className="text-white font-bold text-lg">Résumé Exécutif</h2>
+          </div>
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+            {/* Total Stock Value */}
+            <div className="bg-[#081225] border border-cyan-500/20 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Valeur Totale du Stock</p>
+                <div className="p-2 rounded-lg bg-cyan-500/10">
+                  <Wallet className="w-5 h-5 text-cyan-400" />
+                </div>
+              </div>
+              <p className="text-3xl font-black text-white font-mono">{data.totalStockValue.toLocaleString('fr-FR')} €</p>
+              <div className="mt-2 flex items-center text-emerald-400 text-xs font-semibold">
+                <span>Investissement immobilisé</span>
+              </div>
+            </div>
+
+            {/* Coverage Rate */}
+            <div className="bg-[#081225] border border-white/10 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Taux de Couverture</p>
+                <div className="p-2 rounded-lg bg-emerald-500/10">
+                  <Box className="w-5 h-5 text-emerald-400" />
+                </div>
+              </div>
+              <p className="text-3xl font-black text-white font-mono">{data.coverageRate} %</p>
+              <div className="mt-2 w-full bg-slate-800 rounded-full h-1.5">
+                <div className="bg-emerald-400 h-1.5 rounded-full" style={{ width: `${data.coverageRate}%` }} />
+              </div>
+            </div>
+
+            {/* Rotation Rate */}
+            <div className="bg-[#081225] border border-white/10 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Taux de Rotation</p>
+                <div className="p-2 rounded-lg bg-purple-500/10">
+                  <RefreshCw className="w-5 h-5 text-purple-400" />
+                </div>
+              </div>
+              <p className="text-3xl font-black text-white font-mono">{data.rotationRate}</p>
+              <p className="mt-2 text-slate-500 text-xs font-medium">Sur les 30 derniers jours</p>
+            </div>
+
+            {/* Health Score */}
+            <div className={`bg-[#081225] border rounded-2xl p-5 ${data.stockHealthScore > 80 ? 'border-emerald-500/20' : data.stockHealthScore > 50 ? 'border-orange-500/20' : 'border-red-500/20'}`}>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-slate-400 text-sm font-medium">Santé du Stock</p>
+                <div className={`p-2 rounded-lg ${data.stockHealthScore > 80 ? 'bg-emerald-500/10' : data.stockHealthScore > 50 ? 'bg-orange-500/10' : 'bg-red-500/10'}`}>
+                  <Activity className={`w-5 h-5 ${data.stockHealthScore > 80 ? 'text-emerald-400' : data.stockHealthScore > 50 ? 'text-orange-400' : 'text-red-400'}`} />
+                </div>
+              </div>
+              <p className={`text-3xl font-black font-mono ${data.stockHealthScore > 80 ? 'text-emerald-400' : data.stockHealthScore > 50 ? 'text-orange-400' : 'text-red-400'}`}>{data.stockHealthScore} / 100</p>
+              <p className="mt-2 text-slate-500 text-xs font-medium">Indice global algorithmique</p>
+            </div>
           </div>
         </section>
 
-        {/* Content row */}
-        <div className="grid grid-cols-12 gap-4">
-          {/* Errors donut */}
-          <section className="col-span-12 xl:col-span-5 card">
-            <h2 className="text-base font-semibold text-[#f8fafc] mb-4" style={{ fontFamily: "Manrope, sans-serif" }}>
-              Errors by Type
-            </h2>
-            <DonutChart data={errorsByType} height={240} />
-          </section>
-
-          {/* Strategic Recommendations */}
-          <section className="col-span-12 xl:col-span-7 card">
-            <h2 className="text-base font-semibold text-[#f8fafc] mb-4" style={{ fontFamily: "Manrope, sans-serif" }}>
-              Strategic Recommendations
-            </h2>
-            <div className="space-y-4">
-              {recommendations.map((rec, i) => {
-                const Icon = recIcons[i] || Route;
-                return (
-                  <div
-                    key={rec.id}
-                    className="p-4 rounded bg-[#0f172a] hover:bg-[#1e293b] transition-colors cursor-pointer group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div
-                        className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0 mt-0.5"
-                        style={{ background: `${impactColors[rec.impact]}18` }}
-                      >
-                        <Icon size={15} style={{ color: impactColors[rec.impact] }} />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-[#f8fafc]" style={{ fontFamily: "Manrope, sans-serif" }}>
-                          {rec.title}
-                        </h3>
-                        <p className="text-xs text-[#94a3b8] mt-1 leading-relaxed">{rec.description}</p>
-                        <button className="flex items-center gap-1 text-xs font-semibold text-[#1A2B4B] mt-3 group-hover:gap-2 transition-all">
-                          {rec.action}
-                          <ArrowRight size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+        {/* OPERATIONS SUMMARY */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="bg-slate-900/50 border border-white/5 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Package className="w-5 h-5 text-slate-400" />
+              <span className="text-slate-300 font-semibold">Volume Total (unités)</span>
             </div>
-          </section>
-        </div>
+            <span className="text-white font-black font-mono">{data.totalStock.toLocaleString('fr-FR')}</span>
+          </div>
+          <div className="bg-slate-900/50 border border-white/5 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <ShieldAlert className="w-5 h-5 text-red-400" />
+              <span className="text-slate-300 font-semibold">Articles en Rupture</span>
+            </div>
+            <span className="text-red-400 font-black font-mono">{data.criticalProducts}</span>
+          </div>
+          <div className="bg-slate-900/50 border border-white/5 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <LayoutGrid className="w-5 h-5 text-cyan-400" />
+              <span className="text-slate-300 font-semibold">Mouvements (Auj.)</span>
+            </div>
+            <span className="text-cyan-400 font-black font-mono">{data.todayMovements}</span>
+          </div>
+        </section>
 
-        {/* Recent Reports */}
-        <section className="card">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-base font-semibold text-[#f8fafc]" style={{ fontFamily: "Manrope, sans-serif" }}>
-              Recent Generated Reports
-            </h2>
-            <button className="btn-ghost text-xs py-1.5 px-3">View Archive</button>
-          </div>
-          <div className="divide-y divide-[rgba(255,255,255,0.1)]/10">
-            {recentReports.map((r, i) => (
-              <ReportCard key={i} {...r} />
-            ))}
-          </div>
+        {/* CHARTS */}
+        <section>
+          <ReportCharts data={data} />
         </section>
       </div>
     </div>

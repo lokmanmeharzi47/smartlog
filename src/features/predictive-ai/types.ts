@@ -14,6 +14,16 @@ export interface Prediction {
   stockoutDate: string | null
   thresholdDate: string | null
   status: PredictionStatus
+  
+  // Advanced AI
+  unitPrice: number
+  annualDemand: number
+  annualValue: number
+  abcClass: 'A' | 'B' | 'C'
+  eoq: number
+  safetyStock: number
+  zScore: number
+  anomalyLevel: 'CRITICAL' | 'MODERATE' | 'NORMAL'
 }
 
 export interface RealtimeInsight {

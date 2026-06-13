@@ -21,6 +21,9 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
     zone: '',
     max_stock: null,
     unit_price: null,
+    lead_time_days: null,
+    order_cost: null,
+    holding_cost_pct: null,
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

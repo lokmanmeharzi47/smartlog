@@ -145,3 +145,29 @@ export async function getDashboardStats(): Promise<DashboardStats> {
 
   return { totalStock, totalProducts, criticalItems, lowItems, okItems, coverageRate, totalValue, todayMovements }
 }
+
+// ── REPORTS ───────────────────────────────────────────────────────────────
+
+export async function getReportKPIs() {
+  const { data, error } = await supabase.from('report_kpis').select('*').order('created_at', { ascending: true })
+  if (error) throw error
+  return data
+}
+
+export async function getErrorsByType() {
+  const { data, error } = await supabase.from('errors_by_type').select('*').order('created_at', { ascending: true })
+  if (error) throw error
+  return data
+}
+
+export async function getStrategicRecommendations() {
+  const { data, error } = await supabase.from('strategic_recommendations').select('*').order('created_at', { ascending: true })
+  if (error) throw error
+  return data
+}
+
+export async function getRecentReports() {
+  const { data, error } = await supabase.from('recent_reports').select('*').order('created_at', { ascending: true })
+  if (error) throw error
+  return data
+}

@@ -61,6 +61,9 @@ export type Database = {
           stock: number
           unit_price: number | null
           zone: string | null
+          lead_time_days: number | null
+          order_cost: number | null
+          holding_cost_pct: number | null
         }
         Insert: {
           barcode: string
@@ -73,6 +76,9 @@ export type Database = {
           stock?: number
           unit_price?: number | null
           zone?: string | null
+          lead_time_days?: number | null
+          order_cost?: number | null
+          holding_cost_pct?: number | null
         }
         Update: {
           barcode?: string
@@ -85,6 +91,9 @@ export type Database = {
           stock?: number
           unit_price?: number | null
           zone?: string | null
+          lead_time_days?: number | null
+          order_cost?: number | null
+          holding_cost_pct?: number | null
         }
         Relationships: []
       }
@@ -112,6 +121,126 @@ export type Database = {
           id?: string
           role?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      report_kpis: {
+        Row: {
+          id: string
+          label: string
+          value: string
+          unit: string | null
+          trend: number | null
+          trend_label: string | null
+          sub_label: string | null
+          accent: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          label: string
+          value: string
+          unit?: string | null
+          trend?: number | null
+          trend_label?: string | null
+          sub_label?: string | null
+          accent?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          label?: string
+          value?: string
+          unit?: string | null
+          trend?: number | null
+          trend_label?: string | null
+          sub_label?: string | null
+          accent?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      errors_by_type: {
+        Row: {
+          id: string
+          label: string
+          value: number
+          color: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          label: string
+          value: number
+          color: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          label?: string
+          value?: number
+          color?: string
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      strategic_recommendations: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          action: string
+          impact: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          action: string
+          impact: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          action?: string
+          impact?: string
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      recent_reports: {
+        Row: {
+          id: string
+          title: string
+          period: string
+          type: string
+          status: string
+          size: string | null
+          generated_at: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          period: string
+          type: string
+          status: string
+          size?: string | null
+          generated_at?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          period?: string
+          type?: string
+          status?: string
+          size?: string | null
+          generated_at?: string | null
+          created_at?: string | null
         }
         Relationships: []
       }

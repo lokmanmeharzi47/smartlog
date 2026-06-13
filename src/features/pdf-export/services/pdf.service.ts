@@ -258,10 +258,10 @@ function drawAlertsPage(doc: InstanceType<Awaited<ReturnType<typeof getJsPDF>>>,
 // ─── PAGE 5: AI PREDICTIONS ────────────────────────────────────────────────
 function drawPredictionsPage(doc: InstanceType<Awaited<ReturnType<typeof getJsPDF>>>, predictions: Prediction[]) {
   doc.addPage()
-  drawPageBg(doc, 'Prédictions IA', 5, 5)
+  drawPageBg(doc, 'Prédictions IA & Advanced Analytics', 5, 5)
 
   let y = 22
-  sectionTitle(doc, 'Prédictions IA — Weighted Moving Average', y)
+  sectionTitle(doc, 'Analytique Avancée (WMA, EOQ, Z-Score)', y)
   y += 8
 
   // Formula box
@@ -269,23 +269,24 @@ function drawPredictionsPage(doc: InstanceType<Awaited<ReturnType<typeof getJsPD
   doc.setFont('courier', 'bold')
   doc.setFontSize(9)
   doc.setTextColor(C.cyan)
-  doc.text('WMA = Σ(wᵢ × xᵢ) / Σwᵢ', PAGE.w / 2, y + 8, { align: 'center' })
+  doc.text('WMA = Σ(wᵢ × xᵢ) / Σwᵢ | Z-Score (Anomalie) | EOQ (Formule de Wilson)', PAGE.w / 2, y + 8, { align: 'center' })
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(7)
   doc.setTextColor(C.muted)
-  doc.text('Poids [1,2,3,4,5,6,7] — poids 7 = jour le plus récent', PAGE.w / 2, y + 14, { align: 'center' })
+  doc.text('Classe ABC (Pareto) — Stock Sécurité dynamique', PAGE.w / 2, y + 14, { align: 'center' })
   doc.text('jours_restants = floor(stock_actuel / WMA_journalier)', PAGE.w / 2, y + 19, { align: 'center' })
   y += 28
 
   // Table headers
   const tCols = [
-    { label: 'Article', x: 14, w: 40 },
-    { label: 'Stock', x: 56, w: 18 },
-    { label: 'WMA/j', x: 76, w: 20 },
-    { label: 'Prévu 7j', x: 98, w: 20 },
-    { label: 'Prévu 14j', x: 120, w: 22 },
-    { label: 'Jours rest.', x: 144, w: 22 },
-    { label: 'Confiance', x: 168, w: 22 },
+    { label: 'Article', x: 14, w: 34 },
+    { label: 'Classe', x: 50, w: 12 },
+    { label: 'Stock', x: 64, w: 16 },
+    { label: 'Prévu 7j', x: 82, w: 18 },
+    { label: 'Jours rest.', x: 102, w: 20 },
+    { label: 'EOQ', x: 124, w: 16 },
+    { label: 'Z-Score', x: 142, w: 18 },
+    { label: 'Confiance', x: 162, w: 20 },
   ]
 
   doc.setFillColor(C.navy)
@@ -309,20 +310,36 @@ function drawPredictionsPage(doc: InstanceType<Awaited<ReturnType<typeof getJsPD
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(6)
     doc.setTextColor(C.white)
-    doc.text(p.productName.substring(0, 22), tCols[0].x + 1, y + 4)
+    doc.text(p.productName.substring(0, 18), tCols[0].x + 1, y + 4)
+    
+    // ABC Class
+    doc.setTextColor(p.abcClass === 'A' ? C.emerald : p.abcClass === 'B' ? C.orange : C.muted)
+    doc.text(p.abcClass, tCols[1].x + 1, y + 4)
+
     doc.setFont('helvetica', 'bold')
     doc.setTextColor(sc)
-    doc.text(String(p.stock), tCols[1].x + 1, y + 4)
+    doc.text(String(p.stock), tCols[2].x + 1, y + 4)
+    
     doc.setTextColor(C.muted)
     doc.setFont('helvetica', 'normal')
-    doc.text(`${p.wma}`, tCols[2].x + 1, y + 4)
     doc.text(String(p.forecast7d), tCols[3].x + 1, y + 4)
-    doc.text(String(p.forecast14d), tCols[4].x + 1, y + 4)
+    
     doc.setFont('helvetica', 'bold')
     doc.setTextColor(sc)
-    doc.text(p.daysRemaining >= 999 ? '∞' : `${p.daysRemaining}j`, tCols[5].x + 1, y + 4)
+    doc.text(p.daysRemaining >= 999 ? '∞' : `${p.daysRemaining}j`, tCols[4].x + 1, y + 4)
+    
+    // EOQ
     doc.setTextColor(C.cyan)
-    doc.text(`${p.confidence}%`, tCols[6].x + 1, y + 4)
+    doc.text(String(p.eoq || '-'), tCols[5].x + 1, y + 4)
+
+    // Z-Score
+    doc.setTextColor(p.anomalyLevel === 'CRITICAL' ? C.red : p.anomalyLevel === 'MODERATE' ? C.orange : C.emerald)
+    doc.text(String(p.zScore || '-'), tCols[6].x + 1, y + 4)
+
+    // Confidence
+    doc.setTextColor(C.cyan)
+    doc.text(`${p.confidence}%`, tCols[7].x + 1, y + 4)
+    
     y += 6.5
   })
 }
