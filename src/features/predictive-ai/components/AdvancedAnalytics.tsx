@@ -119,56 +119,7 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* ── EOQ & SAFETY STOCK ───────────────────────────────────── */}
-      <div className="bg-[#081225] border border-white/10 rounded-2xl p-6 lg:col-span-2">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-            <PackageOpen className="w-5 h-5 text-cyan-400" />
-          </div>
-          <div>
-            <h2 className="text-white font-bold text-lg">Quantité Économique de Commande (EOQ) & Stock de Sécurité</h2>
-            <p className="text-slate-400 text-xs">Optimisation des réapprovisionnements (Formule de Wilson)</p>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-white/5">
-                <th className="pb-3 text-slate-400 text-xs uppercase font-semibold">Article</th>
-                <th className="pb-3 text-slate-400 text-xs uppercase font-semibold">Stock Actuel</th>
-                <th className="pb-3 text-slate-400 text-xs uppercase font-semibold text-right">Demande Annuelle</th>
-                <th className="pb-3 text-cyan-400 text-xs uppercase font-bold text-right bg-cyan-500/5 px-2 rounded-tl">EOQ</th>
-                <th className="pb-3 text-emerald-400 text-xs uppercase font-bold text-right bg-emerald-500/5 px-2 rounded-tr">Stock Sécurité</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {predictions.slice(0, 8).map(p => (
-                <tr key={p.productId} className="hover:bg-white/[0.02]">
-                  <td className="py-3">
-                    <p className="text-white font-bold text-sm">{p.productName}</p>
-                    <p className="text-slate-500 text-xs font-mono">{p.barcode}</p>
-                  </td>
-                  <td className="py-3">
-                    <span className="text-slate-300 font-mono text-sm">{p.stock}</span>
-                  </td>
-                  <td className="py-3 text-right">
-                    <span className="text-slate-400 font-mono text-sm">{Math.round(p.annualDemand)} u/an</span>
-                  </td>
-                  <td className="py-3 text-right bg-cyan-500/5 px-2">
-                    <span className="text-cyan-300 font-bold font-mono text-sm">{p.eoq}</span>
-                  </td>
-                  <td className="py-3 text-right bg-emerald-500/5 px-2">
-                    <span className="text-emerald-300 font-bold font-mono text-sm">{p.safetyStock}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </div>      
     </div>
   )
 }

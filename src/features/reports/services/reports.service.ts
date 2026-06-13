@@ -88,15 +88,36 @@ export async function fetchReportDashboard(): Promise<ReportDashboardData> {
     { name: 'Surstock', value: overstock },
   ]
 
-  // Mocking monthly movements for the chart to look good since DB might have sparse data
-  const monthlyMovements = [
-    { name: 'Jan', in: 400, out: 240 },
-    { name: 'Fév', in: 300, out: 139 },
-    { name: 'Mar', in: 200, out: 980 },
-    { name: 'Avr', in: 278, out: 390 },
-    { name: 'Mai', in: 189, out: 480 },
-    { name: 'Juin', in: 239, out: 380 },
-  ]
+  // Calculate actual monthly movements for the last 6 months
+  const monthlyData: Record<string, { in: number, out: number }> = {}
+  const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
+  
+  // Initialize last 6 months
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date()
+    d.setMonth(d.getMonth() - i)
+    const key = `${d.getFullYear()}-${d.getMonth()}`
+    monthlyData[key] = { in: 0, out: 0 }
+  }
+
+  movements.forEach(m => {
+    if (!m.created_at) return
+    const d = new Date(m.created_at)
+    const key = `${d.getFullYear()}-${d.getMonth()}`
+    if (monthlyData[key]) {
+      if (m.type === 'IN') monthlyData[key].in += m.quantity
+      if (m.type === 'OUT') monthlyData[key].out += m.quantity
+    }
+  })
+
+  const monthlyMovements = Object.entries(monthlyData).map(([key, data]) => {
+    const [year, month] = key.split('-').map(Number)
+    return {
+      name: monthNames[month],
+      in: data.in,
+      out: data.out
+    }
+  })
 
   return {
     totalStock,

@@ -11,6 +11,7 @@ import ConfidenceGauge from '@/features/predictive-ai/components/ConfidenceGauge
 import PredictiveCharts from '@/features/predictive-ai/components/PredictiveCharts'
 import RealtimeInsights from '@/features/predictive-ai/components/RealtimeInsights'
 import AdvancedAnalytics from '@/features/predictive-ai/components/AdvancedAnalytics'
+import GenerateDemoData from '@/features/predictive-ai/components/GenerateDemoData'
 import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
 
 const stagger = {
@@ -48,6 +49,7 @@ export default function PredictiveAIPage() {
 
           {/* WMA Engine badge + Export */}
           <div className="flex items-center gap-3">
+            <GenerateDemoData />
             <motion.div
               animate={{ opacity: [0.8, 1, 0.8] }}
               transition={{ repeat: Infinity, duration: 2 }}
