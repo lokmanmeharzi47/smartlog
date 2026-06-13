@@ -4,19 +4,23 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import TopBar from '@/components/layout/TopBar'
 import { supabase } from '@/lib/supabaseClient'
 import { fetchAlerts, type Alert, type AlertType } from '@/features/alerts/services/alerts.service'
+import { fetchPredictions } from '@/features/predictive-ai/services/predictive.service'
+import type { Prediction } from '@/features/predictive-ai/types'
 import toast from 'react-hot-toast'
-import { AlertTriangle, AlertCircle, Package, BrainCircuit, Search, Filter } from 'lucide-react'
+import { AlertTriangle, AlertCircle, Package, BrainCircuit, Search, Filter, Activity, ShieldCheck } from 'lucide-react'
 
 export default function AlertsPage() {
   const [alerts, setAlerts] = useState<Alert[]>([])
+  const [predictions, setPredictions] = useState<Prediction[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState<AlertType | 'ALL'>('ALL')
 
   const load = useCallback(async (isRealtimeUpdate = false) => {
     try {
-      const data = await fetchAlerts()
+      const [data, preds] = await Promise.all([fetchAlerts(), fetchPredictions()])
       setAlerts(data)
+      setPredictions(preds)
       if (isRealtimeUpdate) {
         toast('Inventaire mis à jour. Recalcul des alertes.', {
           icon: '🔄',
@@ -58,6 +62,11 @@ export default function AlertsPage() {
       overstock: alerts.filter(a => a.type === 'OVERSTOCK').length,
     }
   }, [alerts])
+
+  const anomalies = useMemo(() => {
+    return predictions.filter(p => p.anomalyLevel !== 'NORMAL')
+      .sort((a, b) => b.zScore - a.zScore)
+  }, [predictions])
 
   const getAlertConfig = (type: AlertType) => {
     switch (type) {
@@ -162,6 +171,46 @@ export default function AlertsPage() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Z-SCORE ANOMALIES */}
+        <div className="bg-[#081225] border border-white/10 rounded-2xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+              <Activity className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <h2 className="text-white font-bold text-lg">Détection d'Anomalies (Z-Score)</h2>
+              <p className="text-slate-400 text-xs">Détection des pics de consommation</p>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="text-center py-8 text-slate-500">Chargement...</div>
+          ) : anomalies.length === 0 ? (
+            <div className="text-center py-8">
+              <ShieldCheck className="w-10 h-10 text-emerald-500/50 mx-auto mb-2" />
+              <p className="text-emerald-400 text-sm font-bold">Aucune anomalie détectée</p>
+              <p className="text-slate-500 text-xs">La consommation est stable.</p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+              {anomalies.map(a => (
+                <div key={a.productId} className={`p-3 rounded-xl border ${a.anomalyLevel === 'CRITICAL' ? 'bg-red-500/5 border-red-500/20' : 'bg-orange-500/5 border-orange-500/20'} flex items-center justify-between`}>
+                  <div>
+                    <h3 className="text-white font-bold text-sm">{a.productName}</h3>
+                    <p className="text-slate-400 text-xs font-mono mt-0.5">{a.barcode}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-xs font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`}>
+                      {a.anomalyLevel === 'CRITICAL' ? 'Critique' : 'Modéré'}
+                    </p>
+                    <p className="text-slate-300 text-xs font-mono mt-0.5">Z={a.zScore.toFixed(2)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>

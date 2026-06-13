@@ -24,7 +24,10 @@ export function usePredictiveAI() {
     load()
     const ch = supabase
       .channel('predictive-ai')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, load)
+      // Delay reload after product changes to allow demo movements to be inserted first
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+        setTimeout(load, 1200)
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'movements' }, load)
       .subscribe()
     return () => { supabase.removeChannel(ch) }

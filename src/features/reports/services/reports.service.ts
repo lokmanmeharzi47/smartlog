@@ -19,14 +19,16 @@ export interface ReportDashboardData {
 
 export async function fetchReportDashboard(): Promise<ReportDashboardData> {
   // 1. Fetch data
-  const [prodsRes, movRes, predictions] = await Promise.all([
+  const [prodsRes, movRes, ordersRes, predictions] = await Promise.all([
     supabase.from('products').select('*'),
     supabase.from('movements').select('*'),
+    supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'EN_ATTENTE'),
     fetchPredictions()
   ])
 
   const products = prodsRes.data ?? []
   const movements = movRes.data ?? []
+  const pendingOrdersCount = ordersRes.count ?? 0
 
   // 2. Base metrics
   const totalItems = products.length
@@ -40,7 +42,7 @@ export async function fetchReportDashboard(): Promise<ReportDashboardData> {
     const val = p.stock * (p.unit_price ?? 0)
     totalStockValue += val
     
-    const cat = p.category ?? 'Autre'
+    const cat = p.category && p.category.trim() !== '' ? p.category : 'Autre'
     categoryValues[cat] = (categoryValues[cat] || 0) + val
   })
 
@@ -125,7 +127,7 @@ export async function fetchReportDashboard(): Promise<ReportDashboardData> {
     coverageRate: Math.round(coverageRate),
     stockHealthScore: Math.round(stockHealthScore),
     rotationRate: Math.round(rotationRate * 100) / 100,
-    pendingOrders: 12, // Mocked pending orders since there's no orders table
+    pendingOrders: pendingOrdersCount,
     todayMovements,
     criticalProducts: critical,
     stockValueByCategory,

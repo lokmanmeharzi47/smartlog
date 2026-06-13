@@ -1,18 +1,38 @@
-import type { Metadata } from "next";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import TopBar from "@/components/layout/TopBar";
-import { fetchReportDashboard } from "@/features/reports/services/reports.service";
+import { fetchReportDashboard, type ReportDashboardData } from "@/features/reports/services/reports.service";
 import ReportCharts from "@/features/reports/components/ReportCharts";
-import { Activity, Box, RefreshCw, Wallet, LayoutGrid, Package, ArrowRight, ShieldAlert } from "lucide-react";
+import RecommendationCards from "@/features/predictive-ai/components/RecommendationCards";
+import { usePredictiveAI } from "@/features/predictive-ai/hooks/usePredictiveAI";
+import { Activity, Box, RefreshCw, Wallet, LayoutGrid, Package, ShieldAlert } from "lucide-react";
+import toast from "react-hot-toast";
 
-export const metadata: Metadata = {
-  title: "Rapports & Analyses",
-  description: "Tableau de bord de direction et rapports automatisés.",
-};
+export default function ReportsPage() {
+  const [data, setData] = useState<ReportDashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { predictions, loading: predictionsLoading } = usePredictiveAI();
 
-export const dynamic = 'force-dynamic';
+  useEffect(() => {
+    fetchReportDashboard()
+      .then(setData)
+      .catch((err) => {
+        console.error(err);
+        toast.error("Erreur lors du chargement des rapports");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-export default async function ReportsPage() {
-  const data = await fetchReportDashboard();
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center" style={{ background: '#020617' }}>
+        <div className="text-slate-400 font-mono animate-pulse">Chargement des données...</div>
+      </div>
+    );
+  }
+
+  if (!data) return null;
 
   return (
     <div className="min-h-full" style={{ background: '#020617' }}>
@@ -22,7 +42,7 @@ export default async function ReportsPage() {
         period="Mois en cours"
       />
 
-      <div className="px-8 py-6 space-y-6 max-w-[1600px] mx-auto">
+      <div className="px-8 py-6 space-y-6 max-w-[1600px] mx-auto fade-in">
         {/* EXECUTIVE SUMMARY KPIs */}
         <section>
           <div className="flex items-center gap-2 mb-4">
@@ -112,6 +132,15 @@ export default async function ReportsPage() {
         {/* CHARTS */}
         <section>
           <ReportCharts data={data} />
+        </section>
+
+        {/* AI RECOMMENDATIONS */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1.5 h-6 bg-cyan-500 rounded-full" />
+            <h2 className="text-white font-bold text-lg">Recommandations IA</h2>
+          </div>
+          <RecommendationCards predictions={predictions} loading={predictionsLoading} />
         </section>
       </div>
     </div>

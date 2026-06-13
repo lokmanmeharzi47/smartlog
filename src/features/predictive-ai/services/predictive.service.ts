@@ -25,15 +25,8 @@ type MovementRow = {
 }
 
 export async function fetchPredictions(): Promise<Prediction[]> {
-  // Find the most recent movement to anchor the 7-day window, ensuring the demo always looks populated
-  const { data: latestMov } = await supabase
-    .from('movements')
-    .select('created_at')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-
-  const anchorDate = latestMov?.created_at ? new Date(latestMov.created_at) : new Date()
+  // Always anchor to NOW() so newly added products' demo movements are always captured
+  const anchorDate = new Date()
 
   const sevenDaysAgo = new Date(anchorDate)
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6)

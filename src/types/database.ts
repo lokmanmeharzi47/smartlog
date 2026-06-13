@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      errors_by_type: {
+        Row: {
+          color: string
+          created_at: string | null
+          id: string
+          label: string
+          value: number
+        }
+        Insert: {
+          color: string
+          created_at?: string | null
+          id?: string
+          label: string
+          value: number
+        }
+        Update: {
+          color?: string
+          created_at?: string | null
+          id?: string
+          label?: string
+          value?: number
+        }
+        Relationships: []
+      }
       movements: {
         Row: {
           created_at: string | null
@@ -49,51 +73,110 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          created_at: string | null
+          id: string
+          order_number: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          order_number: string
+          status: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          order_number?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      product_prices: {
+        Row: {
+          item_storage_cost: number | null
+          product_id: string
+          stock_max: number | null
+          unit_price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          item_storage_cost?: number | null
+          product_id: string
+          stock_max?: number | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          item_storage_cost?: number | null
+          product_id?: string
+          stock_max?: number | null
+          unit_price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_prices_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: true
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           barcode: string
           category: string | null
           created_at: string | null
+          holding_cost_pct: number | null
           id: string
+          item_storage_cost: number | null
+          lead_time_days: number | null
           max_stock: number | null
           min_stock: number
           name: string
+          order_cost: number | null
           stock: number
           unit_price: number | null
           zone: string | null
-          lead_time_days: number | null
-          order_cost: number | null
-          holding_cost_pct: number | null
         }
         Insert: {
           barcode: string
           category?: string | null
           created_at?: string | null
+          holding_cost_pct?: number | null
           id?: string
+          item_storage_cost?: number | null
+          lead_time_days?: number | null
           max_stock?: number | null
           min_stock?: number
           name: string
+          order_cost?: number | null
           stock?: number
           unit_price?: number | null
           zone?: string | null
-          lead_time_days?: number | null
-          order_cost?: number | null
-          holding_cost_pct?: number | null
         }
         Update: {
           barcode?: string
           category?: string | null
           created_at?: string | null
+          holding_cost_pct?: number | null
           id?: string
+          item_storage_cost?: number | null
+          lead_time_days?: number | null
           max_stock?: number | null
           min_stock?: number
           name?: string
+          order_cost?: number | null
           stock?: number
           unit_price?: number | null
           zone?: string | null
-          lead_time_days?: number | null
-          order_cost?: number | null
-          holding_cost_pct?: number | null
         }
         Relationships: []
       }
@@ -124,123 +207,120 @@ export type Database = {
         }
         Relationships: []
       }
-      report_kpis: {
+      recent_reports: {
         Row: {
-          id: string
-          label: string
-          value: string
-          unit: string | null
-          trend: number | null
-          trend_label: string | null
-          sub_label: string | null
-          accent: string | null
           created_at: string | null
+          generated_at: string | null
+          id: string
+          period: string
+          size: string | null
+          status: string
+          title: string
+          type: string
         }
         Insert: {
-          id?: string
-          label: string
-          value: string
-          unit?: string | null
-          trend?: number | null
-          trend_label?: string | null
-          sub_label?: string | null
-          accent?: string | null
           created_at?: string | null
+          generated_at?: string | null
+          id?: string
+          period: string
+          size?: string | null
+          status: string
+          title: string
+          type: string
         }
         Update: {
-          id?: string
-          label?: string
-          value?: string
-          unit?: string | null
-          trend?: number | null
-          trend_label?: string | null
-          sub_label?: string | null
-          accent?: string | null
           created_at?: string | null
+          generated_at?: string | null
+          id?: string
+          period?: string
+          size?: string | null
+          status?: string
+          title?: string
+          type?: string
         }
         Relationships: []
       }
-      errors_by_type: {
+      report_kpis: {
         Row: {
+          accent: string | null
+          created_at: string | null
           id: string
           label: string
-          value: number
-          color: string
-          created_at: string | null
+          sub_label: string | null
+          trend: number | null
+          trend_label: string | null
+          unit: string | null
+          value: string
         }
         Insert: {
+          accent?: string | null
+          created_at?: string | null
           id?: string
           label: string
-          value: number
-          color: string
-          created_at?: string | null
+          sub_label?: string | null
+          trend?: number | null
+          trend_label?: string | null
+          unit?: string | null
+          value: string
         }
         Update: {
+          accent?: string | null
+          created_at?: string | null
           id?: string
           label?: string
-          value?: number
-          color?: string
-          created_at?: string | null
+          sub_label?: string | null
+          trend?: number | null
+          trend_label?: string | null
+          unit?: string | null
+          value?: string
         }
         Relationships: []
       }
       strategic_recommendations: {
         Row: {
-          id: string
-          title: string
-          description: string
           action: string
-          impact: string
           created_at: string | null
+          description: string
+          id: string
+          impact: string
+          title: string
         }
         Insert: {
-          id?: string
-          title: string
-          description: string
           action: string
-          impact: string
           created_at?: string | null
+          description: string
+          id?: string
+          impact: string
+          title: string
         }
         Update: {
-          id?: string
-          title?: string
-          description?: string
           action?: string
-          impact?: string
           created_at?: string | null
+          description?: string
+          id?: string
+          impact?: string
+          title?: string
         }
         Relationships: []
       }
-      recent_reports: {
+      warehouse_config: {
         Row: {
-          id: string
-          title: string
-          period: string
-          type: string
-          status: string
-          size: string | null
-          generated_at: string | null
-          created_at: string | null
+          description: string | null
+          key: string
+          updated_at: string | null
+          value: number
         }
         Insert: {
-          id?: string
-          title: string
-          period: string
-          type: string
-          status: string
-          size?: string | null
-          generated_at?: string | null
-          created_at?: string | null
+          description?: string | null
+          key: string
+          updated_at?: string | null
+          value: number
         }
         Update: {
-          id?: string
-          title?: string
-          period?: string
-          type?: string
-          status?: string
-          size?: string | null
-          generated_at?: string | null
-          created_at?: string | null
+          description?: string | null
+          key?: string
+          updated_at?: string | null
+          value?: number
         }
         Relationships: []
       }
@@ -382,6 +462,7 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
 
 // ----- Custom Aliases & Dashboard Types -----
 

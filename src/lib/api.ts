@@ -43,6 +43,30 @@ export async function createProduct(
     .select()
     .single()
   if (error) throw error
+
+  // --- DEMO: Générer un historique de sorties sur 7 jours pour alimenter les prévisions IA ---
+  // Quantité de base = 5% du stock initial (min 3, max 20), avec variation ±30%
+  const baseQty = Math.max(3, Math.min(20, Math.round((product.stock || 50) * 0.05)))
+  const mockMovements = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date()
+    date.setDate(date.getDate() - (6 - i)) // du plus ancien au plus récent
+    date.setHours(9 + Math.floor(i * 2), 0, 0, 0)
+    const variation = 0.7 + Math.random() * 0.6 // facteur entre 0.7 et 1.3
+    return {
+      product_id: data.id,
+      type: 'OUT',
+      quantity: Math.max(1, Math.round(baseQty * variation)),
+      created_at: date.toISOString(),
+      note: 'Auto-généré (Démo IA)'
+    }
+  })
+
+  const { error: movErr } = await supabase.from('movements').insert(mockMovements)
+  if (movErr) {
+    console.error("Erreur lors de la génération de l'historique démo:", movErr.message)
+  }
+  // --------------------------------------------------------------------------------------------
+
   return data
 }
 
