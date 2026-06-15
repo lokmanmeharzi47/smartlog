@@ -251,7 +251,7 @@ function EmptyState({ message }: { message: string }) {
 // Card 1 — Actions Urgentes
 // ─────────────────────────────────────────────────────────────────────────────
 
-function UrgentActionsCard({ items }: { items: UrgentItem[] }) {
+function UrgentActionsCard({ items, onGeminiClick }: { items: UrgentItem[], onGeminiClick: (ctx: any) => void }) {
   return (
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
@@ -292,8 +292,13 @@ function UrgentActionsCard({ items }: { items: UrgentItem[] }) {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group relative bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/25 rounded-xl p-3 transition-all cursor-default"
+                className="group relative bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                onClick={() => onGeminiClick({ ...item, type: 'URGENT' })}
               >
+                {/* AI badge */}
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-400" />
+                </div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 mb-1">
@@ -340,7 +345,7 @@ function UrgentActionsCard({ items }: { items: UrgentItem[] }) {
 // Card 2 — Commandes Recommandées
 // ─────────────────────────────────────────────────────────────────────────────
 
-function OrdersCard({ items }: { items: OrderItem[] }) {
+function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClick: (ctx: any) => void }) {
   return (
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
@@ -378,8 +383,13 @@ function OrdersCard({ items }: { items: OrderItem[] }) {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-orange-500/5 hover:bg-orange-500/10 border border-orange-500/10 hover:border-orange-500/25 rounded-xl p-3 transition-all cursor-default"
+                className="group relative bg-orange-500/5 hover:bg-orange-500/10 border border-orange-500/10 hover:border-orange-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                onClick={() => onGeminiClick({ ...item, type: 'ORDER' })}
               >
+                {/* AI badge */}
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-400" />
+                </div>
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span className="text-[8px] text-orange-400/60 font-mono">{i + 1}.</span>
@@ -414,7 +424,7 @@ function OrdersCard({ items }: { items: OrderItem[] }) {
 // Card 3 — Optimisation du Stock
 // ─────────────────────────────────────────────────────────────────────────────
 
-function OptimCard({ items }: { items: OptimItem[] }) {
+function OptimCard({ items, onGeminiClick }: { items: OptimItem[], onGeminiClick: (ctx: any) => void }) {
   const issueConfig = {
     OVERSTOCK: {
       color: 'text-blue-300',
@@ -478,8 +488,13 @@ function OptimCard({ items }: { items: OptimItem[] }) {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`${cfg.bg} border ${cfg.border} hover:brightness-125 rounded-xl p-3 transition-all cursor-default`}
+                  className={`group relative ${cfg.bg} border ${cfg.border} hover:brightness-125 rounded-xl p-3 transition-all cursor-pointer`}
+                  onClick={() => onGeminiClick({ ...item, type: 'OPTIMIZATION' })}
                 >
+                  {/* AI badge */}
+                  <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Sparkles className="w-3 h-3 text-violet-400" />
+                  </div>
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
                     <span className={`flex items-center gap-1 text-[9px] font-bold ${cfg.color} bg-black/20 rounded-full px-2 py-0.5`}>
@@ -505,7 +520,7 @@ function OptimCard({ items }: { items: OptimItem[] }) {
 // Card 4 — Prévisions 7 Jours
 // ─────────────────────────────────────────────────────────────────────────────
 
-function ForecastCard({ items }: { items: ForecastItem[] }) {
+function ForecastCard({ items, onGeminiClick }: { items: ForecastItem[], onGeminiClick: (ctx: any) => void }) {
   return (
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
@@ -543,8 +558,13 @@ function ForecastCard({ items }: { items: ForecastItem[] }) {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-emerald-500/5 hover:bg-emerald-500/10 border border-emerald-500/10 hover:border-emerald-500/25 rounded-xl p-3 transition-all cursor-default"
+                className="group relative bg-emerald-500/5 hover:bg-emerald-500/10 border border-emerald-500/10 hover:border-emerald-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                onClick={() => onGeminiClick({ ...item, type: 'FORECAST' })}
               >
+                {/* AI badge */}
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-400" />
+                </div>
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
@@ -585,7 +605,7 @@ function ForecastCard({ items }: { items: ForecastItem[] }) {
 // Modal — Toutes les recommandations
 // ─────────────────────────────────────────────────────────────────────────────
 
-function RecommendationsModal({ rows, onClose }: { rows: ModalRow[]; onClose: () => void }) {
+function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow[]; onClose: () => void; onGeminiClick: (ctx: any) => void }) {
   // Close on Escape
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -691,8 +711,18 @@ function RecommendationsModal({ rows, onClose }: { rows: ModalRow[]; onClose: ()
                         </span>
                       </td>
                       {/* Recommendation */}
-                      <td className="px-4 py-3 text-slate-300">
+                      <td className="px-4 py-3 text-slate-300 flex items-center justify-between">
                         {row.recommendation}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onGeminiClick({ ...row, type: 'MODAL_ROW' });
+                          }}
+                          className="w-6 h-6 rounded-full bg-violet-500/10 hover:bg-violet-500/30 border border-violet-500/30 flex items-center justify-center transition-all"
+                          title="Demander à l'IA"
+                        >
+                          <Sparkles className="w-3 h-3 text-violet-400" />
+                        </button>
                       </td>
                     </motion.tr>
                   )
@@ -737,8 +767,11 @@ const fadeUpVariants: Variants = {
 // Main Component — Centre de Décision IA
 // ─────────────────────────────────────────────────────────────────────────────
 
+import GeminiModal from './GeminiModal'
+
 export default function RecommendationCards({ predictions, loading }: Props) {
   const [modalOpen, setModalOpen] = useState(false)
+  const [geminiContext, setGeminiContext] = useState<any | null>(null)
 
   const urgent = deriveUrgent(predictions)
   const orders = deriveOrders(predictions)
@@ -819,16 +852,16 @@ export default function RecommendationCards({ predictions, loading }: Props) {
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             <motion.div variants={fadeUpVariants}>
-              <UrgentActionsCard items={urgent} />
+              <UrgentActionsCard items={urgent} onGeminiClick={setGeminiContext} />
             </motion.div>
             <motion.div variants={fadeUpVariants}>
-              <OrdersCard items={orders} />
+              <OrdersCard items={orders} onGeminiClick={setGeminiContext} />
             </motion.div>
             <motion.div variants={fadeUpVariants}>
-              <OptimCard items={optim} />
+              <OptimCard items={optim} onGeminiClick={setGeminiContext} />
             </motion.div>
             <motion.div variants={fadeUpVariants}>
-              <ForecastCard items={forecast} />
+              <ForecastCard items={forecast} onGeminiClick={setGeminiContext} />
             </motion.div>
           </motion.div>
         )}
@@ -849,7 +882,12 @@ export default function RecommendationCards({ predictions, loading }: Props) {
 
       {/* ── Modal ── */}
       {modalOpen && (
-        <RecommendationsModal rows={modalRows} onClose={closeModal} />
+        <RecommendationsModal rows={modalRows} onClose={closeModal} onGeminiClick={setGeminiContext} />
+      )}
+
+      {/* ── Gemini Modal ── */}
+      {geminiContext && (
+        <GeminiModal context={geminiContext} onClose={() => setGeminiContext(null)} />
       )}
     </>
   )
