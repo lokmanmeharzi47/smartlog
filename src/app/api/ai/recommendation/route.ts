@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
 
 export async function POST(request: Request) {
   try {
@@ -13,38 +10,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Context is required' }, { status: 400 });
     }
 
-    const project = process.env.GOOGLE_CLOUD_PROJECT || 'gen-lang-client-0498601710';
-    const location = process.env.GOOGLE_CLOUD_LOCATION || 'us-central1';
-
-    // --- Vercel / Serverless credential handling ---
-    // Always prefer GOOGLE_CREDENTIALS_JSON (full JSON content as a string).
-    // This avoids the GOOGLE_APPLICATION_CREDENTIALS file-path env var pointing
-    // to a local Windows path that doesn't exist on Vercel's Linux servers.
-    if (process.env.GOOGLE_CREDENTIALS_JSON) {
-      const tmpKeyPath = path.join(os.tmpdir(), 'google-key.json');
-      fs.writeFileSync(tmpKeyPath, process.env.GOOGLE_CREDENTIALS_JSON, 'utf8');
-      // Override whatever GOOGLE_APPLICATION_CREDENTIALS was set to (e.g. a Windows path)
-      process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpKeyPath;
-    } else if (
-      process.env.GOOGLE_APPLICATION_CREDENTIALS &&
-      !fs.existsSync(process.env.GOOGLE_APPLICATION_CREDENTIALS)
-    ) {
-      // The env var points to a non-existent file (e.g. a hardcoded Windows path).
-      // Clear it so the SDK doesn't crash trying to lstat a bad path.
-      delete process.env.GOOGLE_APPLICATION_CREDENTIALS;
-      throw new Error(
-        'Google credentials are not configured. ' +
-        'Please set the GOOGLE_CREDENTIALS_JSON environment variable in your Vercel project settings ' +
-        'with the full contents of your service account JSON file.'
+    const apiKey = 'process.env.GEMINI_API_KEY';
+    if (!apiKey) {
+      return NextResponse.json(
+        {
+          error: 'Failed to generate recommendation',
+          details: 'GEMINI_API_KEY is not set. Please add it to your Vercel environment variables.',
+        },
+        { status: 500 }
       );
     }
 
-    // Initialize the Google Gen AI SDK for Vertex AI
-    const ai = new GoogleGenAI({
-      project,
-      location,
-      vertexai: true,
-    });
+    // Initialize the Google Gen AI SDK using Google AI Studio (API key, no Vertex AI)
+    const ai = new GoogleGenAI({ apiKey });
 
     const prompt = `
 You are an expert AI logistics and warehouse management assistant for a system called "SmartLog".
@@ -63,7 +41,7 @@ Format your response in clean markdown, using bullet points or bold text where a
 `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash-001',
+      model: 'gemini-1.5-flash',
       contents: prompt,
     });
 
