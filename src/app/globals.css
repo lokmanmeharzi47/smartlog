@@ -124,33 +124,30 @@
 
   body {
     font-family: var(--font-inter);
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
+    background-color: #f8fafc; /* slate-50 */
+    color: #1e293b; /* slate-800 */
     line-height: 1.5;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-manrope);
-    color: var(--color-on-surface);
+    color: #0f172a; /* slate-900 */
     letter-spacing: -0.01em;
   }
 }
 
 @layer components {
   .card {
-    background-color: rgba(15, 23, 42, 0.6); /* slate-900 with opacity */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border-radius: 1.5rem; /* 24px */
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0; /* slate-200 */
+    border-radius: 1rem;
     padding: 1.5rem;
-    transition: all 300ms ease;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05);
+    transition: all 250ms ease;
   }
   .card:hover {
-    background-color: rgba(15, 23, 42, 0.8);
-    border-color: rgba(34, 211, 238, 0.3); /* cyan-400/30 */
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 12px 0 rgba(0,0,0,0.08);
   }
 
   .kpi-value {
@@ -158,7 +155,7 @@
     font-size: var(--font-size-display-md);
     font-weight: 700;
     line-height: 1.16;
-    color: var(--color-on-surface);
+    color: #00509d; /* primary */
     letter-spacing: -0.02em;
   }
 
@@ -168,7 +165,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-on-surface-variant);
+    color: #64748b; /* slate-500 */
   }
 
   .btn-primary {

@@ -206,12 +206,12 @@ function deriveModalRows(predictions: Prediction[]): ModalRow[] {
 
 function ABCBadge({ cls }: { cls: 'A' | 'B' | 'C' }) {
   const colors = {
-    A: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    B: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-    C: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
+    A: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    B: 'bg-amber-50 text-amber-700 border-amber-200',
+    C: 'bg-slate-100 text-slate-500 border-slate-200',
   }
   return (
-    <span className={`text-[9px] font-black border rounded px-1 py-0.5 leading-none ${colors[cls]}`}>
+    <span className={`text-[9px] font-bold border rounded px-1.5 py-0.5 leading-none ${colors[cls]}`}>
       {cls}
     </span>
   )
@@ -425,25 +425,25 @@ function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClic
 function OptimCard({ items, onGeminiClick }: { items: OptimItem[], onGeminiClick: (ctx: any) => void }) {
   const issueConfig = {
     OVERSTOCK: {
-      color: 'text-blue-300',
-      bg: 'bg-blue-500/10',
-      border: 'border-blue-500/25',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
       icon: <ArrowDown className="w-3 h-3" />,
-      label: 'Surstock',
+      label: 'Overstock',
     },
     LOW_ROTATION: {
-      color: 'text-sky-300',
-      bg: 'bg-sky-500/10',
-      border: 'border-sky-500/20',
+      color: 'text-sky-600',
+      bg: 'bg-sky-50',
+      border: 'border-sky-200',
       icon: <RefreshCw className="w-3 h-3" />,
-      label: 'Rotation faible',
+      label: 'Low Rotation',
     },
     ANOMALY: {
-      color: 'text-violet-300',
-      bg: 'bg-violet-500/10',
-      border: 'border-violet-500/20',
+      color: 'text-violet-600',
+      bg: 'bg-violet-50',
+      border: 'border-violet-200',
       icon: <Info className="w-3 h-3" />,
-      label: 'Anomalie',
+      label: 'Anomaly',
     },
   }
 
@@ -618,9 +618,9 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
   const totalPages = Math.ceil(rows.length / itemsPerPage)
 
   const priorityConfig = {
-    HIGH: { label: 'Haute', dot: 'bg-red-400', text: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-    MEDIUM: { label: 'Moyenne', dot: 'bg-orange-400', text: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
-    LOW: { label: 'Faible', dot: 'bg-emerald-400', text: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+    HIGH: { label: 'High', dot: 'bg-red-500', text: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+    MEDIUM: { label: 'Medium', dot: 'bg-orange-500', text: 'text-orange-600', bg: 'bg-orange-50 border-orange-200' },
+    LOW: { label: 'Low', dot: 'bg-emerald-500', text: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
   }
 
   return (
@@ -642,23 +642,22 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
           exit={{ opacity: 0, y: 20, scale: 0.96 }}
           transition={{ type: 'spring', stiffness: 280, damping: 28 }}
           onClick={e => e.stopPropagation()}
-          className="relative w-full max-w-5xl max-h-[85vh] bg-[#060d1a] border border-white/10 rounded-3xl overflow-hidden flex flex-col"
-          style={{ boxShadow: '0 40px 120px -20px rgba(0,0,0,0.9), 0 0 60px -20px rgba(6,182,212,0.1)' }}
+          className="relative w-full max-w-5xl max-h-[85vh] bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-2xl shadow-slate-900/15"
         >
           {/* Modal Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/8 bg-gradient-to-r from-cyan-950/30 to-transparent flex-shrink-0">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-white flex-shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                <BrainCircuit className="w-5 h-5 text-cyan-400" />
+              <div className="w-9 h-9 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
+                <BrainCircuit className="w-5 h-5 text-secondary" />
               </div>
               <div>
-                <h2 className="text-white font-bold text-base">Toutes les Recommandations IA</h2>
-                <p className="text-slate-500 text-xs">{rows.length} produits analysés · Trié par criticité</p>
+                <h2 className="text-primary font-bold text-base">All AI Recommendations</h2>
+                <p className="text-slate-400 text-xs">{rows.length} products analyzed &middot; Sorted by criticality</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+              className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all"
             >
               <X className="w-4 h-4" />
             </button>
@@ -667,16 +666,16 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
           {/* Table */}
           <div className="overflow-y-auto overflow-x-auto flex-1 overscroll-contain">
             <table className="w-full text-xs min-w-[800px]">
-              <thead className="sticky top-0 bg-[#060d1a] border-b border-white/8 z-10">
+              <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 z-10">
                 <tr>
-                  {['Priorité', 'Produit', 'Classe', 'Risque', 'Jours', 'Recommandation'].map(h => (
-                    <th key={h} className="text-left px-4 py-3 text-[10px] font-bold uppercase tracking-[1.5px] text-slate-500">
+                  {['Priority', 'Product', 'Class', 'Risk', 'Days', 'Recommendation'].map(h => (
+                    <th key={h} className="text-left px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                       {h}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {paginatedRows.map((row, i) => {
                   const cfg = priorityConfig[row.priority]
                   return (
@@ -685,18 +684,18 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: Math.min(i * 0.02, 0.3) }}
-                      className="border-b border-white/5 hover:bg-white/3 transition-colors"
+                      className="hover:bg-slate-50 transition-colors"
                     >
                       {/* Priority */}
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1.5 border rounded-full px-2 py-0.5 font-bold ${cfg.bg} ${cfg.text}`}>
+                        <span className={`inline-flex items-center gap-1.5 border rounded-full px-2 py-0.5 text-[10px] font-semibold ${cfg.bg} ${cfg.text}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
                           {cfg.label}
                         </span>
                       </td>
                       {/* Product */}
                       <td className="px-4 py-3">
-                        <p className="text-white font-semibold">{row.productName}</p>
+                        <p className="text-slate-800 font-semibold">{row.productName}</p>
                       </td>
                       {/* ABC Class */}
                       <td className="px-4 py-3">
@@ -704,27 +703,29 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
                       </td>
                       {/* Risk */}
                       <td className="px-4 py-3">
-                        <span className={`font-mono font-semibold ${cfg.text}`}>{row.risk}</span>
+                        <span className={`font-mono font-semibold text-xs ${cfg.text}`}>{row.risk}</span>
                       </td>
                       {/* Days */}
                       <td className="px-4 py-3">
-                        <span className={`font-mono font-bold ${row.days !== null && row.days < 7 ? 'text-red-400' : row.days !== null && row.days < 14 ? 'text-orange-400' : 'text-slate-500'}`}>
-                          {row.days !== null ? `${row.days}j` : '∞'}
+                        <span className={`font-mono font-bold ${row.days !== null && row.days < 7 ? 'text-red-500' : row.days !== null && row.days < 14 ? 'text-orange-500' : 'text-slate-400'}`}>
+                          {row.days !== null ? `${row.days}d` : '∞'}
                         </span>
                       </td>
                       {/* Recommendation */}
-                      <td className="px-4 py-3 text-slate-300 flex items-center justify-between">
-                        {row.recommendation}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onGeminiClick({ ...row, type: 'MODAL_ROW' });
-                          }}
-                          className="w-6 h-6 rounded-full bg-violet-500/10 hover:bg-violet-500/30 border border-violet-500/30 flex items-center justify-center transition-all"
-                          title="Demander à l'IA"
-                        >
-                          <Sparkles className="w-3 h-3 text-violet-400" />
-                        </button>
+                      <td className="px-4 py-3 text-slate-600">
+                        <div className="flex items-center justify-between gap-3">
+                          <span>{row.recommendation}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onGeminiClick({ ...row, type: 'MODAL_ROW' });
+                            }}
+                            className="w-6 h-6 rounded-lg bg-primary/5 hover:bg-primary/10 border border-primary/20 flex items-center justify-center transition-all flex-shrink-0"
+                            title="Ask AI"
+                          >
+                            <Sparkles className="w-3 h-3 text-primary" />
+                          </button>
+                        </div>
                       </td>
                     </motion.tr>
                   )
@@ -734,21 +735,21 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-3 border-t border-white/8 bg-black/20 flex items-center justify-between flex-shrink-0">
+          <div className="px-6 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between flex-shrink-0">
             <div className="flex flex-col gap-2 w-full">
               <div className="flex items-center justify-between">
-                <p className="text-slate-600 text-[10px] font-mono">
-                  Moteur WMA · EOQ Wilson · Classification ABC · Z-Score · Confiance algorithmique
+                <p className="text-slate-400 text-[10px] font-mono">
+                  WMA Engine · EOQ Wilson · ABC Classification · Z-Score · Safety Stock
                 </p>
                 <button
                   onClick={onClose}
-                  className="text-xs text-slate-400 hover:text-white border border-white/10 hover:border-white/20 rounded-xl px-4 py-1.5 transition-all"
+                  className="text-xs text-slate-500 hover:text-slate-800 border border-slate-200 hover:border-slate-300 rounded-lg px-4 py-1.5 transition-all bg-white"
                 >
-                  Fermer
+                  Close
                 </button>
               </div>
               {totalPages > 1 && (
-                <Pagination 
+                <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={setCurrentPage}
@@ -806,38 +807,33 @@ export default function RecommendationCards({ predictions, loading }: Props) {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                <BrainCircuit className="w-4 h-4 text-cyan-400" />
+              <div className="w-8 h-8 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
+                <BrainCircuit className="w-4 h-4 text-secondary" />
               </div>
-              <h2 className="text-white font-black text-lg tracking-tight">
-                🤖 Centre de Décision IA
+              <h2 className="text-primary font-bold text-lg tracking-tight">
+                AI Decision Center
               </h2>
               {/* Live badge */}
-              <motion.div
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ repeat: Infinity, duration: 2.5 }}
-                className="flex items-center gap-1.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2.5 py-1"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-cyan-400 text-[10px] font-bold uppercase tracking-wider">Live</span>
-              </motion.div>
+              <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-emerald-600 text-[10px] font-semibold uppercase tracking-wider">Live</span>
+              </div>
             </div>
             <p className="text-slate-500 text-xs leading-relaxed max-w-2xl">
-              Recommandations intelligentes générées automatiquement à partir des prévisions de
-              consommation, des niveaux de stock, des mouvements récents et des risques de rupture.
+              Smart recommendations generated from consumption forecasts, stock levels, recent movements and stockout risks.
             </p>
           </div>
 
           {/* CTA Button */}
           {!loading && predictions.length > 0 && (
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setModalOpen(true)}
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/50 text-cyan-300 hover:text-cyan-200 rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 text-primary rounded-xl text-xs font-semibold transition-all shadow-sm"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              Voir toutes les recommandations
+              View All Recommendations
             </motion.button>
           )}
         </div>
@@ -848,13 +844,13 @@ export default function RecommendationCards({ predictions, loading }: Props) {
             {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : predictions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-4 border border-white/5 rounded-2xl bg-white/2">
-            <div className="w-16 h-16 rounded-2xl bg-cyan-500/5 border border-cyan-500/10 flex items-center justify-center">
-              <BrainCircuit className="w-8 h-8 text-cyan-500/40" />
+          <div className="flex flex-col items-center justify-center py-16 gap-4 border border-slate-200 rounded-2xl bg-white">
+            <div className="w-14 h-14 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
+              <BrainCircuit className="w-7 h-7 text-secondary/50" />
             </div>
             <div className="text-center">
-              <p className="text-slate-400 font-semibold">Aucune donnée disponible</p>
-              <p className="text-slate-600 text-xs mt-1">Chargez des produits et des mouvements pour activer l&apos;IA</p>
+              <p className="text-slate-600 font-semibold">No data available</p>
+              <p className="text-slate-400 text-xs mt-1">Load products and movements to activate AI</p>
             </div>
           </div>
         ) : (
@@ -885,7 +881,7 @@ export default function RecommendationCards({ predictions, loading }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-4 flex items-center justify-center gap-2 text-slate-700 text-[10px] font-mono"
+            className="mt-4 flex items-center justify-center gap-2 text-slate-400 text-[10px] font-mono"
           >
             <BrainCircuit className="w-3 h-3" />
             <span>WMA Engine · EOQ Wilson · ABC Pareto · Z-Score Anomaly Detection · Safety Stock</span>
