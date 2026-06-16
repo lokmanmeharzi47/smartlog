@@ -7,10 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 import type { Product } from '@/types/database'
 import toast from 'react-hot-toast'
 import { AlertTriangle, TrendingDown, Package } from 'lucide-react'
-<<<<<<< HEAD
 import { Pagination } from '@/components/ui/Pagination'
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
 
 export default function AlertsPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -80,14 +77,12 @@ export default function AlertsPage() {
     variant: 'critical' | 'overstock' | 'nearMin'
     emptyMsg: string
   }) {
-<<<<<<< HEAD
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
     const paginatedItems = items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     const totalPages = Math.ceil(items.length / itemsPerPage)
 
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
     return (
       <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
@@ -109,7 +104,6 @@ export default function AlertsPage() {
           ) : items.length === 0 ? (
             <p className="text-slate-600 text-sm text-center py-4">{emptyMsg}</p>
           ) : (
-<<<<<<< HEAD
             paginatedItems.map(p => <AlertRow key={p.id} p={p} variant={variant} />)
           )}
         </div>
@@ -122,11 +116,6 @@ export default function AlertsPage() {
             />
           </div>
         )}
-=======
-            items.map(p => <AlertRow key={p.id} p={p} variant={variant} />)
-          )}
-        </div>
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
       </div>
     )
   }

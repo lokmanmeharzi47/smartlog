@@ -8,22 +8,17 @@ import { fetchPredictions } from '@/features/predictive-ai/services/predictive.s
 import type { Prediction } from '@/features/predictive-ai/types'
 import toast from 'react-hot-toast'
 import { AlertTriangle, AlertCircle, Package, BrainCircuit, Search, Filter, Activity, ShieldCheck } from 'lucide-react'
-<<<<<<< HEAD
 import { Pagination } from '@/components/ui/Pagination'
-=======
 
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
 export default function AlertsPage() {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [predictions, setPredictions] = useState<Prediction[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState<AlertType | 'ALL'>('ALL')
-<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
 
   const load = useCallback(async (isRealtimeUpdate = false) => {
     try {
@@ -62,7 +57,6 @@ export default function AlertsPage() {
     })
   }, [alerts, search, filterType])
 
-<<<<<<< HEAD
   const paginatedAlerts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage
     return filteredAlerts.slice(startIndex, startIndex + itemsPerPage)
@@ -74,8 +68,7 @@ export default function AlertsPage() {
     setCurrentPage(1)
   }, [search, filterType])
 
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
   const stats = useMemo(() => {
     return {
       total: alerts.length,
@@ -148,11 +141,8 @@ export default function AlertsPage() {
         </div>
 
         {/* ALERTS TABLE */}
-<<<<<<< HEAD
         <div className="bg-[#081225] border border-white/10 rounded-2xl overflow-hidden flex flex-col">
-=======
-        <div className="bg-[#081225] border border-white/10 rounded-2xl overflow-hidden">
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -169,11 +159,8 @@ export default function AlertsPage() {
                 ) : filteredAlerts.length === 0 ? (
                   <tr><td colSpan={4} className="p-8 text-center text-emerald-500">✓ Aucune alerte trouvée</td></tr>
                 ) : (
-<<<<<<< HEAD
                   paginatedAlerts.map(a => {
-=======
-                  filteredAlerts.map(a => {
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
                     const cfg = getAlertConfig(a.type)
                     return (
                       <tr key={a.id} className="hover:bg-white/[0.02] transition-colors">
@@ -202,7 +189,6 @@ export default function AlertsPage() {
               </tbody>
             </table>
           </div>
-<<<<<<< HEAD
           {!loading && filteredAlerts.length > 0 && (
             <div className="border-t border-white/5 px-4 pb-2">
               <Pagination 
@@ -212,8 +198,7 @@ export default function AlertsPage() {
               />
             </div>
           )}
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
         </div>
 
         {/* Z-SCORE ANOMALIES */}

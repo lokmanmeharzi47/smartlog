@@ -13,10 +13,8 @@ import { motion } from 'framer-motion'
 import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
 import AddProductModal from '@/features/inventory/components/AddProductModal'
 import { deleteProduct } from '@/lib/api'
-<<<<<<< HEAD
 import { Pagination } from '@/components/ui/Pagination'
-=======
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
 
 export default function InventoryPage() {
   const [products, setProducts]   = useState<Product[]>([])
@@ -229,7 +227,6 @@ export default function InventoryPage() {
           {totalPages > 1 && (
             <div className="px-5 py-3 border-t border-slate-800 flex items-center justify-between">
               <span className="text-slate-500 text-xs font-mono">
-<<<<<<< HEAD
                 {filtered.length} résultats
               </span>
               <Pagination 
@@ -237,26 +234,7 @@ export default function InventoryPage() {
                 totalPages={totalPages}
                 onPageChange={setPage}
               />
-=======
-                {filtered.length} résultats · Page {page}/{totalPages}
-              </span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg text-slate-400 hover:text-white disabled:opacity-40 transition-all"
-                >
-                  ← Préc.
-                </button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
-                  className="px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg text-slate-400 hover:text-white disabled:opacity-40 transition-all"
-                >
-                  Suiv. →
-                </button>
-              </div>
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
+
             </div>
           )}
         </div>
