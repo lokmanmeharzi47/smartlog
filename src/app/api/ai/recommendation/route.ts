@@ -10,22 +10,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Context is required' }, { status: 400 });
     }
 
-    const project = process.env.GOOGLE_CLOUD_PROJECT;
-    if (!project) {
+    // Initialize the Google Gen AI SDK for Google AI Studio
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+    if (!apiKey) {
       return NextResponse.json(
-        { error: 'GOOGLE_CLOUD_PROJECT is not configured' },
+        { error: 'GEMINI_API_KEY is not configured' },
         { status: 500 }
       );
     }
 
-    const location = process.env.GOOGLE_CLOUD_LOCATION || 'us-central1';
-
-    // Initialize the new Google Gen AI SDK for Vertex AI (Google Cloud)
-    const ai = new GoogleGenAI({
-      project: project,
-      location: location,
-      vertexai: true
-    });
+    const ai = new GoogleGenAI({ apiKey });
 
     const prompt = `
 You are an expert AI logistics and warehouse management assistant for a system called "SmartLog".
