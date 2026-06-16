@@ -15,14 +15,12 @@ import toast from 'react-hot-toast'
 import { AdvancedMetricsGrid } from '@/features/dashboard/components/AdvancedMetricsGrid'
 import { motion } from 'framer-motion'
 
-// ── Helper: format big numbers ─────────────────────────────────────────────
 function fmt(n: number) {
   return n >= 1_000_000 ? (n / 1_000_000).toFixed(1) + 'M'
     : n >= 1_000 ? (n / 1_000).toFixed(1) + 'k'
     : String(n)
 }
 
-// ── Custom Tooltip ──────────────────────────────────────────────────────────
 function CustomTooltip({ active, payload, label }: {
   active?: boolean
   payload?: { name: string; value: number; fill: string; color: string }[]
@@ -30,8 +28,8 @@ function CustomTooltip({ active, payload, label }: {
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs shadow-xl">
-      <p className="text-slate-600 mb-1.5 font-mono font-semibold">{label}</p>
+    <div className="bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs shadow-lg">
+      <p className="text-slate-600 mb-1 font-semibold">{label}</p>
       {payload.map(p => (
         <p key={p.name} style={{ color: p.fill || p.color }} className="font-semibold">
           {p.name}: {p.value}
@@ -41,10 +39,6 @@ function CustomTooltip({ active, payload, label }: {
   )
 }
 
-// ── 3.1 — Bar color per spec ────────────────────────────────────────────────
-// 🔵 Cyan: qty > 1.5 × seuil (OK)
-// 🟠 Orange: seuil < qty ≤ 1.5 × seuil (Faible)
-// 🔴 Rouge: qty ≤ seuil (Critique)
 function getBarColor(stock: number, minStock: number): string {
   if (stock <= minStock) return '#ef4444'
   if (stock <= minStock * 1.5) return '#f97316'
@@ -63,7 +57,7 @@ export default function DashboardPage() {
     try {
       const [s, m, prods] = await Promise.all([
         getDashboardStats(),
-        getRecentMovements(12),
+        getRecentMovements(10),
         getProducts(),
       ])
       setStats(s)
@@ -78,13 +72,11 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadData()
-
-    // Realtime subscriptions (Supabase)
     const channel = supabase
       .channel('dashboard-realtime')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
         loadData()
-        toast.success('Données mises à jour en temps réel', { id: 'rt-products', duration: 2000 })
+        toast.success('Données mises à jour', { id: 'rt-products', duration: 2000 })
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'movements' }, () => {
         loadData()
@@ -94,16 +86,13 @@ export default function DashboardPage() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'warehouse_config' }, () => loadData())
       .subscribe()
 
-    // §1 — rafraîchissement toutes les 5 secondes
     const timer = setInterval(loadData, 5000)
-
     return () => {
       supabase.removeChannel(channel)
       clearInterval(timer)
     }
   }, [loadData])
 
-  // ── §3.1 — Bar chart data: stock vs min_stock per article ──────────────
   const barData = products.slice(0, 20).map(p => ({
     name: (p.barcode || p.name).substring(0, 8),
     fullName: p.name,
@@ -112,7 +101,6 @@ export default function DashboardPage() {
     color: getBarColor(p.stock, p.min_stock),
   }))
 
-  // ── §3.2 — Donut: real category distribution ───────────────────────────
   const categoryMap: Record<string, number> = {}
   products.forEach(p => {
     const cat = p.category || 'Autre'
@@ -122,8 +110,6 @@ export default function DashboardPage() {
     name, value, fill: CATEGORY_COLORS[i % CATEGORY_COLORS.length],
   }))
 
-  // ── §3.3 — Zone fill progress bars ────────────────────────────────────
-  // Remplissage (%) = Quantité_actuelle / (Seuil_Min × 3) × 100
   const zoneMap: Record<string, { stock: number; capacity: number }> = {}
   products.forEach(p => {
     const zone = p.zone || 'Zone A'
@@ -144,10 +130,9 @@ export default function DashboardPage() {
     <>
       <TopBar title="Dashboard" subtitle="Vue globale de l'entrepôt — Temps réel" period="5s" />
 
-      <main className="flex-1 p-4 sm:p-6 space-y-6 fade-in">
+      <main className="flex-1 p-4 md:p-6 space-y-5 fade-in max-w-[1600px] mx-auto">
 
-        {/* ── §1.1 — KPI Grid ─────────────────────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 fade-up">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           <KpiCard
             label="Total articles en stock"
             value={loading ? '—' : fmt(stats?.totalStock ?? 0)}
@@ -180,73 +165,68 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* ── §2 — Indicateurs Avancés ────────────────────────────────── */}
         <AdvancedMetricsGrid />
 
-        {/* ── §3.1 + §3.2 — Bar chart + Donut ──────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 fade-up">
-
-          {/* §3.1 — Barres : niveau de stock par article (3 couleurs) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                 <span className="text-primary text-sm font-semibold">Niveau de stock par article</span>
               </div>
-              <div className="flex items-center gap-3 text-[10px] font-mono text-slate-500">
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#0099e0] inline-block" />OK</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#f97316] inline-block" />Faible</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#ef4444] inline-block" />Critique</span>
+              <div className="flex items-center gap-2.5 text-[10px] text-slate-400">
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#0099e0] inline-block" />OK</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#f97316] inline-block" />Faible</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ef4444] inline-block" />Critique</span>
               </div>
             </div>
             <div className="p-4">
               {loading ? (
-                <div className="h-[220px] bg-slate-100 rounded-xl animate-pulse" />
+                <div className="h-[200px] bg-slate-100 rounded-xl animate-pulse" />
               ) : barData.length === 0 ? (
-                <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm">Aucun article chargé</div>
+                <div className="h-[200px] flex items-center justify-center text-slate-400 text-sm">Aucun article chargé</div>
               ) : (
-                <ResponsiveContainer width="100%" height={220}>
-                  <BarChart data={barData} margin={{ top: 5, right: 10, bottom: 30, left: 0 }}>
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={barData} margin={{ top: 5, right: 8, bottom: 25, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                     <XAxis
                       dataKey="name"
                       tick={{ fill: '#94a3b8', fontSize: 9 }}
                       axisLine={false} tickLine={false}
-                      interval={0} angle={-45} textAnchor="end"
+                      interval={0} angle={-35} textAnchor="end"
                     />
                     <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="stock" name="Stock actuel" radius={[4, 4, 0, 0]} maxBarSize={32}>
+                    <Bar dataKey="stock" name="Stock actuel" radius={[3, 3, 0, 0]} maxBarSize={28}>
                       {barData.map((entry, idx) => (
                         <Cell key={idx} fill={entry.color} />
                       ))}
                     </Bar>
-                    <Bar dataKey="seuil" name="Seuil min" fill="#e2e8f0" radius={[4, 4, 0, 0]} maxBarSize={32} />
+                    <Bar dataKey="seuil" name="Seuil min" fill="#e2e8f0" radius={[3, 3, 0, 0]} maxBarSize={28} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
             </div>
           </div>
 
-          {/* §3.2 — Donut : répartition par catégorie */}
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
               <span className="text-primary text-sm font-semibold">Répartition par catégorie</span>
             </div>
             <div className="p-4">
               {loading ? (
-                <div className="h-[220px] bg-slate-100 rounded-xl animate-pulse" />
+                <div className="h-[200px] bg-slate-100 rounded-xl animate-pulse" />
               ) : categoryData.length === 0 ? (
-                <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm">Aucune donnée</div>
+                <div className="h-[200px] flex items-center justify-center text-slate-400 text-sm">Aucune donnée</div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={140}>
                     <PieChart>
                       <Pie
                         data={categoryData}
                         cx="50%" cy="50%"
-                        innerRadius={42} outerRadius={68}
+                        innerRadius={38} outerRadius={62}
                         dataKey="value" strokeWidth={0}
                       >
                         {categoryData.map((e, i) => <Cell key={i} fill={e.fill} />)}
@@ -254,12 +234,12 @@ export default function DashboardPage() {
                       <Tooltip content={<CustomTooltip />} />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="w-full space-y-1.5">
+                  <div className="w-full space-y-1">
                     {categoryData.map(c => (
                       <div key={c.name} className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: c.fill }} />
-                        <span className="text-slate-500 text-xs flex-1 truncate">{c.name}</span>
-                        <span className="text-slate-700 text-xs font-mono font-semibold">{c.value}</span>
+                        <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c.fill }} />
+                        <span className="text-slate-400 text-[11px] flex-1 truncate">{c.name}</span>
+                        <span className="text-slate-600 text-[11px] font-mono font-semibold">{c.value}</span>
                       </div>
                     ))}
                   </div>
@@ -269,24 +249,21 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ── §3.3 + §3.4 — Zone fills + Event feed ─────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 fade-up">
-
-          {/* §3.3 — Barres de progression : remplissage zones */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                 <span className="text-primary text-sm font-semibold">Remplissage des zones</span>
               </div>
               <span className="text-slate-400 text-[10px] font-mono">Qté / (Seuil × 3)</span>
             </div>
-            <div className="p-5 space-y-4">
+            <div className="p-5 space-y-3.5">
               {loading ? (
                 [...Array(4)].map((_, i) => (
-                  <div key={i} className="space-y-1.5">
-                    <div className="h-4 bg-slate-100 rounded animate-pulse" />
-                    <div className="h-2.5 bg-slate-100 rounded-full animate-pulse" />
+                  <div key={i} className="space-y-1">
+                    <div className="h-3.5 bg-slate-100 rounded animate-pulse" />
+                    <div className="h-2 bg-slate-100 rounded-full animate-pulse" />
                   </div>
                 ))
               ) : zoneFillData.length === 0 ? (
@@ -294,17 +271,16 @@ export default function DashboardPage() {
               ) : (
                 zoneFillData.map(z => {
                   const barColor = z.pct >= 90 ? 'bg-red-500' : z.pct >= 70 ? 'bg-orange-400' : 'bg-secondary'
-                  const textColor = z.pct >= 90 ? 'text-red-600' : z.pct >= 70 ? 'text-orange-600' : 'text-secondary'
                   return (
                     <div key={z.zone}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-slate-700 text-xs font-semibold">{z.zone}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-slate-600 text-xs font-semibold">{z.zone}</span>
                         <div className="flex items-center gap-2">
                           <span className="text-slate-400 text-[10px] font-mono">{z.stock} / {z.capacity} u</span>
-                          <span className={`text-[11px] font-black font-mono ${textColor}`}>{z.pct}%</span>
+                          <span className={`text-[11px] font-bold font-mono ${z.pct >= 90 ? 'text-red-500' : z.pct >= 70 ? 'text-orange-500' : 'text-secondary'}`}>{z.pct}%</span>
                         </div>
                       </div>
-                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${z.pct}%` }}
@@ -319,48 +295,47 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* §3.4 — Fil d'événements */}
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
                 <span className="text-primary text-sm font-semibold">Fil d&apos;événements</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-emerald-600 text-[10px] font-bold uppercase tracking-wider">Live</span>
-                <span className="text-slate-400 text-[10px] font-mono ml-2">{stats?.todayMovements ?? 0} aujourd&apos;hui</span>
+                <span className="text-emerald-600 text-[9px] font-bold uppercase tracking-wider">Live</span>
+                <span className="text-slate-400 text-[10px] font-mono ml-1">{stats?.todayMovements ?? 0} aujourd&apos;hui</span>
               </div>
             </div>
             <div
               className="divide-y divide-slate-100 overflow-y-auto"
-              style={{ maxHeight: '280px', scrollbarWidth: 'thin' }}
+              style={{ maxHeight: '260px', scrollbarWidth: 'thin' }}
             >
               {loading ? (
-                [...Array(5)].map((_, i) => (
-                  <div key={i} className="p-4">
-                    <div className="h-8 bg-slate-100 rounded-lg animate-pulse" />
+                [...Array(4)].map((_, i) => (
+                  <div key={i} className="p-3">
+                    <div className="h-7 bg-slate-100 rounded-lg animate-pulse" />
                   </div>
                 ))
               ) : moves.length === 0 ? (
-                <div className="p-10 text-center text-slate-400 text-sm">Aucun mouvement enregistré</div>
+                <div className="p-8 text-center text-slate-400 text-sm">Aucun mouvement enregistré</div>
               ) : (
                 moves.map(m => (
-                  <div key={m.id} className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 transition-colors">
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  <div key={m.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 ${
                       m.type === 'IN'
                         ? 'bg-emerald-50 border border-emerald-200'
                         : 'bg-red-50 border border-red-200'
                     }`}>
                       {m.type === 'IN'
-                        ? <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
-                        : <ArrowDown className="w-3.5 h-3.5 text-red-600" />
+                        ? <ArrowUp className="w-3 h-3 text-emerald-600" />
+                        : <ArrowDown className="w-3 h-3 text-red-600" />
                       }
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-slate-800 text-xs font-semibold truncate">{m.products?.name ?? '—'}</p>
-                      <p className="text-slate-500 text-[10px] font-mono">
-                        {m.type === 'IN' ? '📥 Entrée' : '📤 Sortie'} &nbsp;
+                      <p className="text-slate-700 text-xs font-semibold truncate">{m.products?.name ?? '—'}</p>
+                      <p className="text-slate-400 text-[10px] font-mono">
+                        {m.type === 'IN' ? 'Entrée' : 'Sortie'} &nbsp;
                         {m.type === 'IN' ? '+' : '-'}{m.quantity} u
                         {m.products?.category ? ` · ${m.products.category}` : ''}
                       </p>

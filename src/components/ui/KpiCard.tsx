@@ -14,10 +14,24 @@ interface KpiCardProps {
   subLabel?: string;
   description?: string;
   icon?: ReactNode;
-  accent?: "cyan" | "emerald" | "rose" | "amber" | "default" | "red" | "orange" | "green";
+  accent?: "cyan" | "emerald" | "rose" | "amber" | "default" | "red" | "orange" | "green" | "blue" | "violet";
   loading?: boolean;
   pulse?: boolean;
+  size?: "sm" | "md";
 }
+
+const colorMap: Record<string, string> = {
+  default: "from-slate-400 to-slate-500",
+  cyan: "from-secondary to-primary",
+  emerald: "from-emerald-400 to-emerald-600",
+  green: "from-emerald-400 to-emerald-600",
+  rose: "from-rose-400 to-rose-600",
+  red: "from-rose-400 to-rose-600",
+  amber: "from-amber-400 to-amber-600",
+  orange: "from-amber-400 to-amber-600",
+  blue: "from-blue-400 to-blue-600",
+  violet: "from-violet-400 to-violet-600",
+};
 
 export default function KpiCard({
   label,
@@ -32,30 +46,19 @@ export default function KpiCard({
   accent = "default",
   loading = false,
   pulse = false,
+  size = "md",
 }: KpiCardProps) {
   if (loading) {
     return (
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 relative overflow-hidden shadow-sm">
-        <div className="animate-pulse space-y-4">
-          <div className="h-3 w-24 bg-slate-200 rounded" />
-          <div className="h-10 w-32 bg-slate-200 rounded" />
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden shadow-sm">
+        <div className="animate-pulse space-y-3">
           <div className="h-3 w-20 bg-slate-200 rounded" />
+          <div className="h-8 w-28 bg-slate-200 rounded" />
+          <div className="h-3 w-16 bg-slate-200 rounded" />
         </div>
       </div>
     );
   }
-
-  // Map colors for compatibility
-  const colorMap: Record<string, string> = {
-    default: "from-slate-400 to-slate-600 shadow-slate-500/20",
-    cyan: "from-secondary to-primary shadow-secondary/20",
-    emerald: "from-emerald-400 to-emerald-600 shadow-emerald-500/20",
-    green: "from-emerald-400 to-emerald-600 shadow-emerald-500/20",
-    rose: "from-rose-400 to-rose-600 shadow-rose-500/20",
-    red: "from-rose-400 to-rose-600 shadow-rose-500/20",
-    amber: "from-amber-400 to-amber-600 shadow-amber-500/20",
-    orange: "from-amber-400 to-amber-600 shadow-amber-500/20",
-  };
 
   const accentClass = colorMap[accent] || colorMap.default;
 
@@ -63,65 +66,64 @@ export default function KpiCard({
     trend === undefined ? null : trend > 0 ? TrendingUp : trend < 0 ? TrendingDown : Minus;
 
   const trendColor =
-    trend === undefined ? "" : trend > 0 ? "text-emerald-400" : trend < 0 ? "text-rose-400" : "text-slate-400";
+    trend === undefined ? "" : trend > 0 ? "text-emerald-500" : trend < 0 ? "text-rose-500" : "text-slate-400";
+
+  const valueSize = size === "sm" ? "text-2xl" : "text-3xl";
 
   return (
-    <motion.div 
-      whileHover={{ y: -4 }}
-      className="group bg-white border border-slate-200 rounded-2xl p-6 relative overflow-hidden transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/10"
+    <motion.div
+      whileHover={{ y: -3 }}
+      className="group bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden transition-all duration-200 shadow-sm hover:shadow-lg"
     >
-      {/* Top Accent Bar */}
-      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentClass}`} />
-      
-      {/* Glow Effect */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 bg-secondary/10 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
+      <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${accentClass}`} />
 
-      {/* Pulse Indicator */}
+      <div className="absolute -top-10 -right-10 w-24 h-24 bg-secondary/5 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
+
       {pulse && (
         <div className="absolute top-4 right-4 flex h-2 w-2">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-gradient-to-r ${accentClass}`}></span>
-          <span className={`relative inline-flex rounded-full h-2 w-2 bg-gradient-to-r ${accentClass} shadow-[0_0_8px_rgba(34,211,238,0.5)]`}></span>
+          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-gradient-to-r ${accentClass}`} />
+          <span className={`relative inline-flex rounded-full h-2 w-2 bg-gradient-to-r ${accentClass}`} />
         </div>
       )}
 
       <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[2px] font-mono mb-1">
+        <div className="flex items-start justify-between mb-3">
+          <div className="min-w-0">
+            <p className="text-slate-400 text-[9px] font-bold uppercase tracking-[1.5px] font-mono mb-0.5 truncate">
               {label}
             </p>
             {(subLabel || description) && (
-              <p className="text-slate-600 text-[10px] font-medium leading-none">
+              <p className="text-slate-400 text-[9px] font-medium truncate">
                 {subLabel || description}
               </p>
             )}
           </div>
           {icon && (
-            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 group-hover:text-primary group-hover:bg-primary/5 transition-colors shadow-sm">
+            <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-400 group-hover:text-primary group-hover:bg-primary/5 transition-colors flex-shrink-0 ml-2">
               {icon}
             </div>
           )}
         </div>
 
-        <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-black text-primary tracking-tight font-mono">
+        <div className="flex items-baseline gap-1.5">
+          <span className={`${valueSize} font-bold text-primary tracking-tight font-mono leading-none`}>
             {value}
           </span>
           {(unit || suffix) && (
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{unit || suffix}</span>
+            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">{unit || suffix}</span>
           )}
         </div>
 
         {(trend !== undefined || trendLabel) && (
-          <div className="flex items-center gap-2 mt-4">
+          <div className="flex items-center gap-2 mt-3">
             {trend !== undefined && (
-              <div className={`flex items-center gap-1 text-[11px] font-bold ${trendColor} bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200`}>
-                {TrendIcon && <TrendIcon size={12} strokeWidth={3} />}
+              <div className={`flex items-center gap-1 text-[10px] font-bold ${trendColor} bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100`}>
+                {TrendIcon && <TrendIcon size={11} strokeWidth={3} />}
                 <span>{Math.abs(trend)}%</span>
               </div>
             )}
             {trendLabel && (
-              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500">
+              <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">
                 {trendLabel}
               </span>
             )}

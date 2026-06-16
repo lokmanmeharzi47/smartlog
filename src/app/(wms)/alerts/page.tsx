@@ -7,7 +7,7 @@ import { fetchAlerts, type Alert, type AlertType } from '@/features/alerts/servi
 import { fetchPredictions } from '@/features/predictive-ai/services/predictive.service'
 import type { Prediction } from '@/features/predictive-ai/types'
 import toast from 'react-hot-toast'
-import { AlertTriangle, AlertCircle, Package, BrainCircuit, Search, Filter, Activity, ShieldCheck } from 'lucide-react'
+import { AlertTriangle, AlertCircle, Package, BrainCircuit, Search, Activity, ShieldCheck } from 'lucide-react'
 import { Pagination } from '@/components/ui/Pagination'
 
 export default function AlertsPage() {
@@ -18,7 +18,6 @@ export default function AlertsPage() {
   const [filterType, setFilterType] = useState<AlertType | 'ALL'>('ALL')
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
-
 
   const load = useCallback(async (isRealtimeUpdate = false) => {
     try {
@@ -68,7 +67,6 @@ export default function AlertsPage() {
     setCurrentPage(1)
   }, [search, filterType])
 
-
   const stats = useMemo(() => {
     return {
       total: alerts.length,
@@ -86,53 +84,50 @@ export default function AlertsPage() {
 
   const getAlertConfig = (type: AlertType) => {
     switch (type) {
-      case 'CRITICAL_STOCK': return { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', icon: <AlertTriangle className="w-4 h-4 text-red-400" />, label: 'Critique' }
-      case 'WARNING_STOCK': return { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20', icon: <AlertCircle className="w-4 h-4 text-orange-400" />, label: 'Attention' }
-      case 'PREDICTIVE': return { color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20', icon: <BrainCircuit className="w-4 h-4 text-purple-400" />, label: 'Prédictif' }
-      case 'OVERSTOCK': return { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', icon: <Package className="w-4 h-4 text-emerald-400" />, label: 'Surstock' }
+      case 'CRITICAL_STOCK': return { color: 'text-red-500', bg: 'bg-red-50', border: 'border-red-200', icon: <AlertTriangle className="w-3.5 h-3.5 text-red-500" />, label: 'Critique' }
+      case 'WARNING_STOCK': return { color: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-200', icon: <AlertCircle className="w-3.5 h-3.5 text-orange-500" />, label: 'Attention' }
+      case 'PREDICTIVE': return { color: 'text-purple-500', bg: 'bg-purple-50', border: 'border-purple-200', icon: <BrainCircuit className="w-3.5 h-3.5 text-purple-500" />, label: 'Prédictif' }
+      case 'OVERSTOCK': return { color: 'text-emerald-500', bg: 'bg-emerald-50', border: 'border-emerald-200', icon: <Package className="w-3.5 h-3.5 text-emerald-500" />, label: 'Surstock' }
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen">
       <TopBar title="Alertes & Notifications" subtitle="Centre de contrôle des anomalies et ruptures" />
 
-      <main className="p-8 space-y-6 max-w-[1600px] mx-auto">
-        {/* STATS CARDS */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <main className="px-4 md:px-8 py-5 space-y-4 max-w-[1600px] mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
           {[
-            { label: 'Total Alertes', value: stats.total, color: 'text-cyan-400', border: 'border-cyan-500/20' },
-            { label: 'Critiques', value: stats.critical, color: 'text-red-400', border: 'border-red-500/20' },
-            { label: 'Attention', value: stats.warning, color: 'text-orange-400', border: 'border-orange-500/20' },
-            { label: 'Prédictives', value: stats.predictive, color: 'text-purple-400', border: 'border-purple-500/20' },
-            { label: 'Surstock', value: stats.overstock, color: 'text-emerald-400', border: 'border-emerald-500/20' },
+            { label: 'Total Alertes', value: stats.total, color: 'text-secondary' },
+            { label: 'Critiques', value: stats.critical, color: 'text-red-500' },
+            { label: 'Attention', value: stats.warning, color: 'text-orange-500' },
+            { label: 'Prédictives', value: stats.predictive, color: 'text-purple-500' },
+            { label: 'Surstock', value: stats.overstock, color: 'text-emerald-500' },
           ].map(stat => (
-            <div key={stat.label} className={`bg-white shadow-sm border ${stat.border.replace('500/20', '200')} rounded-2xl p-4 flex flex-col justify-center`}>
-              <p className={`text-3xl font-black font-mono ${stat.color.replace('400', '600').replace('cyan-600', 'secondary')}`}>{loading ? '-' : stat.value}</p>
-              <p className="text-slate-500 text-sm mt-1">{stat.label}</p>
+            <div key={stat.label} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4">
+              <p className={`text-2xl font-bold font-mono ${stat.color}`}>{loading ? '-' : stat.value}</p>
+              <p className="text-slate-400 text-xs mt-0.5">{stat.label}</p>
             </div>
           ))}
         </div>
 
-        {/* FILTERS & SEARCH */}
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
-          <div className="relative w-full lg:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="Rechercher par produit ou SKU..." 
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+          <div className="relative w-full lg:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Rechercher par produit ou SKU..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-colors"
+              className="w-full bg-slate-50 border border-slate-200 text-slate-600 text-sm rounded-xl pl-9 pr-3 py-2 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-colors"
             />
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0">
-            <Filter className="w-4 h-4 text-slate-500 mr-2 flex-shrink-0" />
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0">
             {(['ALL', 'CRITICAL_STOCK', 'WARNING_STOCK', 'PREDICTIVE', 'OVERSTOCK'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => setFilterType(type)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${filterType === type ? 'bg-secondary text-white border border-secondary shadow-sm' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'}`}
+                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-semibold whitespace-nowrap transition-colors ${filterType === type ? 'bg-secondary text-white border border-secondary shadow-sm' : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50'}`}
               >
                 {type === 'ALL' ? 'Toutes' : getAlertConfig(type as AlertType).label}
               </button>
@@ -140,47 +135,44 @@ export default function AlertsPage() {
           </div>
         </div>
 
-        {/* ALERTS TABLE */}
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col">
-
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Produit & SKU</th>
-                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Type</th>
-                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider text-right">Stock / Seuil</th>
-                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Message & Action</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Produit & SKU</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Type</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider text-right">Stock / Seuil</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Message & Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-slate-100">
                 {loading ? (
-                  <tr><td colSpan={4} className="p-8 text-center text-slate-500">Chargement des alertes...</td></tr>
+                  <tr><td colSpan={4} className="p-6 text-center text-slate-400 text-sm">Chargement des alertes...</td></tr>
                 ) : filteredAlerts.length === 0 ? (
-                  <tr><td colSpan={4} className="p-8 text-center text-emerald-600 font-medium">✓ Aucune alerte trouvée</td></tr>
+                  <tr><td colSpan={4} className="p-6 text-center text-emerald-500 font-medium text-sm">✓ Aucune alerte trouvée</td></tr>
                 ) : (
                   paginatedAlerts.map(a => {
-
                     const cfg = getAlertConfig(a.type)
                     return (
                       <tr key={a.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="p-4">
-                          <p className="text-primary font-bold text-sm">{a.productName}</p>
-                          <p className="text-slate-500 text-xs font-mono">{a.sku}</p>
+                        <td className="p-3">
+                          <p className="text-primary font-semibold text-sm">{a.productName}</p>
+                          <p className="text-slate-400 text-[10px] font-mono">{a.sku}</p>
                         </td>
-                        <td className="p-4">
-                          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border ${cfg.bg} ${cfg.border}`}>
+                        <td className="p-3">
+                          <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg border ${cfg.bg} ${cfg.border}`}>
                             {cfg.icon}
-                            <span className={`text-[10px] font-bold uppercase ${cfg.color.replace('400', '600')}`}>{cfg.label}</span>
+                            <span className={`text-[10px] font-bold uppercase ${cfg.color}`}>{cfg.label}</span>
                           </div>
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="p-3 text-right">
                           <p className="text-primary font-mono font-bold">{a.currentStock}</p>
-                          <p className="text-slate-500 text-xs font-mono">Seuil: {a.threshold}</p>
+                          <p className="text-slate-400 text-[10px] font-mono">Seuil: {a.threshold}</p>
                         </td>
-                        <td className="p-4 max-w-[300px]">
-                          <p className={`text-sm font-semibold ${cfg.color.replace('400', '600')}`}>{a.message}</p>
-                          <p className="text-slate-500 text-xs mt-1">{a.recommendedAction}</p>
+                        <td className="p-3 max-w-[280px]">
+                          <p className={`text-xs font-semibold ${cfg.color}`}>{a.message}</p>
+                          <p className="text-slate-400 text-[10px] mt-0.5">{a.recommendedAction}</p>
                         </td>
                       </tr>
                     )
@@ -190,50 +182,48 @@ export default function AlertsPage() {
             </table>
           </div>
           {!loading && filteredAlerts.length > 0 && (
-            <div className="border-t border-slate-200 px-4 pb-2 pt-2">
-              <Pagination 
+            <div className="border-t border-slate-100 px-3 py-2">
+              <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
               />
             </div>
           )}
-
         </div>
 
-        {/* Z-SCORE ANOMALIES */}
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center">
-              <Activity className="w-5 h-5 text-purple-600" />
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 hover:shadow-md transition-shadow">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center">
+              <Activity className="w-4 h-4 text-purple-500" />
             </div>
             <div>
-              <h2 className="text-primary font-bold text-lg">Détection d'Anomalies (Z-Score)</h2>
-              <p className="text-slate-500 text-xs">Détection des pics de consommation</p>
+              <h2 className="text-primary font-bold text-sm">Détection d'Anomalies (Z-Score)</h2>
+              <p className="text-slate-400 text-[10px]">Détection des pics de consommation</p>
             </div>
           </div>
 
           {loading ? (
-            <div className="text-center py-8 text-slate-500">Chargement...</div>
+            <div className="text-center py-6 text-slate-400 text-sm">Chargement...</div>
           ) : anomalies.length === 0 ? (
-            <div className="text-center py-8">
-              <ShieldCheck className="w-10 h-10 text-emerald-500/50 mx-auto mb-2" />
-              <p className="text-emerald-400 text-sm font-bold">Aucune anomalie détectée</p>
-              <p className="text-slate-500 text-xs">La consommation est stable.</p>
+            <div className="text-center py-6">
+              <ShieldCheck className="w-8 h-8 text-emerald-400/50 mx-auto mb-1" />
+              <p className="text-emerald-500 text-sm font-bold">Aucune anomalie détectée</p>
+              <p className="text-slate-400 text-xs">La consommation est stable.</p>
             </div>
           ) : (
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
               {anomalies.map(a => (
-                <div key={a.productId} className={`p-3 rounded-xl border ${a.anomalyLevel === 'CRITICAL' ? 'bg-red-50 border-red-200' : 'bg-orange-50 border-orange-200'} flex items-center justify-between`}>
+                <div key={a.productId} className={`p-3 rounded-xl border flex items-center justify-between ${a.anomalyLevel === 'CRITICAL' ? 'bg-red-50 border-red-200' : 'bg-orange-50 border-orange-200'}`}>
                   <div>
-                    <h3 className="text-primary font-bold text-sm">{a.productName}</h3>
-                    <p className="text-slate-500 text-xs font-mono mt-0.5">{a.barcode}</p>
+                    <h3 className="text-primary font-semibold text-sm">{a.productName}</h3>
+                    <p className="text-slate-400 text-[10px] font-mono mt-0.5">{a.barcode}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`text-xs font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-600' : 'text-orange-600'}`}>
+                    <p className={`text-xs font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-500' : 'text-orange-500'}`}>
                       {a.anomalyLevel === 'CRITICAL' ? 'Critique' : 'Modéré'}
                     </p>
-                    <p className="text-slate-500 text-xs font-mono mt-0.5">Z={a.zScore.toFixed(2)}</p>
+                    <p className="text-slate-400 text-[10px] font-mono mt-0.5">Z={a.zScore.toFixed(2)}</p>
                   </div>
                 </div>
               ))}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bell, Clock, Calendar, Download, Filter } from 'lucide-react'
+import { Bell, Clock, Download } from 'lucide-react'
 import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
 
 interface TopBarProps {
@@ -16,7 +16,6 @@ export default function TopBar({
   title,
   subtitle,
   showExport = true,
-  showFilter = false,
   period,
 }: TopBarProps) {
   const [time, setTime] = useState('')
@@ -26,7 +25,7 @@ export default function TopBar({
     function update() {
       setTime(new Date().toLocaleString('en-US', {
         weekday: 'short', day: 'numeric', month: 'short',
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour: '2-digit', minute: '2-digit',
       }))
     }
     update()
@@ -40,64 +39,45 @@ export default function TopBar({
 
   return (
     <header
-      className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center px-4 md:px-8 py-3 md:py-0 min-h-[5rem] gap-4 md:gap-6"
+      className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 flex items-center px-4 md:px-6 h-14 gap-4"
       dir={language === 'AR' ? 'rtl' : 'ltr'}
     >
-      <div className="flex-1 w-full">
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(0,153,224,0.5)] shrink-0" />
-          <h1 className="text-primary font-bold text-lg md:text-xl tracking-tight truncate">{title}</h1>
-          {language === 'AR' && (
-            <span className="text-[10px] font-mono bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full border border-slate-200">العربية</span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2.5">
+          <div className="w-2 h-2 rounded-full bg-secondary shrink-0" />
+          <h1 className="text-primary font-bold text-base md:text-lg tracking-tight truncate">{title}</h1>
+          {subtitle && (
+            <span className="hidden md:inline text-slate-400 text-xs font-medium truncate">— {subtitle}</span>
           )}
         </div>
         {subtitle && (
-          <p className={`text-slate-500 text-[10px] md:text-xs mt-1 font-medium uppercase tracking-[1px] line-clamp-2 md:line-clamp-1 ${language === 'FR' ? 'ml-5' : 'mr-5'}`}>
-            {subtitle} {period && <span className={`${language === 'FR' ? 'ml-2' : 'mr-2'} text-slate-600`}>| {period}</span>}
+          <p className="hidden max-md:block text-slate-400 text-[10px] font-medium truncate ml-4.5">
+            {subtitle}
           </p>
         )}
       </div>
 
-      <div className="flex items-center w-full justify-between md:justify-end md:w-auto gap-2 md:gap-4 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-        {/* Real-time Clock */}
-        <div className="hidden lg:flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
-          <Clock className="w-4 h-4 text-secondary" />
-          <span className="text-slate-600 text-xs font-mono font-medium tracking-tight">
+      <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-sm">
+          <Clock className="w-3.5 h-3.5 text-secondary" />
+          <span className="text-slate-500 text-[11px] font-mono font-medium">
             {time}
           </span>
         </div>
 
-        {/* Global Filter */}
-        {showFilter && (
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-primary transition-all text-xs font-bold uppercase tracking-widest">
-            <Filter className="w-4 h-4" />
-            {language === 'FR' ? 'Filtrer' : 'تصفية'}
-          </button>
-        )}
-
-        {/* PDF Export / Actions */}
-        {showExport && (
-          <div className="flex items-center gap-2">
-            <PDFExportButton />
-          </div>
-        )}
-
-        {/* Language Toggle */}
         <button
           onClick={() => setLanguage(l => l === 'FR' ? 'AR' : 'FR')}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary transition-all text-xs font-bold min-w-[60px] justify-center"
-          title={language === 'FR' ? 'Switch to Arabic' : 'Passer en français'}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-primary transition-all text-[11px] font-bold min-w-[48px] justify-center"
         >
-          <span className={`transition-all ${language === 'AR' ? 'text-lg' : ''}`}>
-            {language === 'FR' ? '🇫🇷 FR' : '🇩🇿 AR'}
-          </span>
+          {language === 'FR' ? 'FR' : 'AR'}
         </button>
 
-        {/* Notifications */}
-        <button className="relative w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/30 transition-all shadow-sm group">
-          <Bell className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+        <button className="relative w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary/30 transition-all">
+          <Bell className="w-4 h-4" />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full" />
         </button>
+
+        {showExport && <PDFExportButton />}
       </div>
     </header>
   )

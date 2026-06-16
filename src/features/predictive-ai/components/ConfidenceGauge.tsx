@@ -13,7 +13,6 @@ export default function ConfidenceGauge({ confidence, loading }: Props) {
   const color = clamp >= 85 ? '#10b981' : clamp >= 70 ? '#22d3ee' : '#fb923c'
   const label = clamp >= 85 ? 'Élevée' : clamp >= 70 ? 'Moyenne' : 'Faible'
 
-  // SVG arc math
   const r = 52
   const cx = 64
   const cy = 64
@@ -40,13 +39,13 @@ export default function ConfidenceGauge({ confidence, loading }: Props) {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6"
+      className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-5"
     >
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-3">
         <ShieldCheck className="w-4 h-4 text-secondary" />
-        <h3 className="text-primary font-bold text-sm">6.3 Taux de Confiance Moyen</h3>
+        <h3 className="text-primary font-bold text-sm">Taux de Confiance Moyen</h3>
       </div>
-      <p className="text-slate-500 text-xs mb-6">
+      <p className="text-slate-400 text-xs mb-5">
         Le coefficient de variation mesure la stabilité de la demande. CV faible → haute confiance.
       </p>
 
@@ -55,9 +54,7 @@ export default function ConfidenceGauge({ confidence, loading }: Props) {
       ) : (
         <div className="flex flex-col items-center gap-4">
           <svg width={128} height={100} viewBox="0 0 128 128">
-            {/* Track */}
-            <path d={trackPath} stroke="rgba(255,255,255,0.06)" strokeWidth="10" fill="none" strokeLinecap="round" />
-            {/* Fill */}
+            <path d={trackPath} stroke="#e2e8f0" strokeWidth="10" fill="none" strokeLinecap="round" />
             <motion.path
               d={fillPath}
               stroke={color}
@@ -67,9 +64,7 @@ export default function ConfidenceGauge({ confidence, loading }: Props) {
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
               transition={{ duration: 1.5, ease: 'easeOut' }}
-              style={{ filter: `drop-shadow(0 0 6px ${color}80)` }}
             />
-            {/* Center text */}
             <text x={cx} y={cy - 4} textAnchor="middle" fill={color} fontSize="20" fontWeight="bold" fontFamily="monospace">
               {clamp}%
             </text>
@@ -79,20 +74,20 @@ export default function ConfidenceGauge({ confidence, loading }: Props) {
           </svg>
 
           <div className="grid grid-cols-2 gap-3 w-full">
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-              <p className="text-xs text-slate-500 mb-1">CV faible</p>
-              <p className="text-emerald-500 font-bold text-xs">Demande stable</p>
-              <p className="text-slate-600 text-[10px] mt-0.5">Confiance élevée</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-center">
+              <p className="text-[10px] text-slate-500 mb-0.5">CV faible</p>
+              <p className="text-emerald-500 font-bold text-[11px]">Demande stable</p>
+              <p className="text-slate-400 text-[9px] mt-0.5">Confiance élevée</p>
             </div>
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-              <p className="text-xs text-slate-500 mb-1">CV élevé</p>
-              <p className="text-orange-500 font-bold text-xs">Demande instable</p>
-              <p className="text-slate-600 text-[10px] mt-0.5">Confiance réduite</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-center">
+              <p className="text-[10px] text-slate-500 mb-0.5">CV élevé</p>
+              <p className="text-orange-500 font-bold text-[11px]">Demande instable</p>
+              <p className="text-slate-400 text-[9px] mt-0.5">Confiance réduite</p>
             </div>
           </div>
 
-          <div className="bg-slate-100 rounded-xl p-3 w-full">
-            <p className="text-slate-500 text-[10px] font-mono text-center">
+          <div className="bg-slate-100 rounded-xl p-2.5 w-full">
+            <p className="text-slate-400 text-[10px] font-mono text-center">
               Confiance = max(60%, min(97%, (1 − CV × 0.8) × 100%))
             </p>
           </div>

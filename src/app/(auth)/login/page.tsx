@@ -17,7 +17,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.push('/')
+      if (session) router.push('/dashboard')
     })
   }, [router])
 
@@ -29,7 +29,7 @@ export default function LoginPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
         toast.success('Welcome back!')
-        router.push('/')
+        router.push('/dashboard')
         router.refresh()
       } else {
         const { error } = await supabase.auth.signUp({ email, password })
