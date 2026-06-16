@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
 export async function POST(request: Request) {
   try {
@@ -10,16 +13,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Context is required' }, { status: 400 });
     }
 
-    // Initialize the Google Gen AI SDK for Google AI Studio
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: 'GEMINI_API_KEY is not configured' },
-        { status: 500 }
-      );
+    const project = process.env.GOOGLE_CLOUD_PROJECT || 'gen-lang-client-0498601710';
+    const location = process.env.GOOGLE_CLOUD_LOCATION || 'us-central1';
+
+    // Support for Vercel Deployment: Write credentials JSON to a temporary file if provided via env variable
+    if (process.env.GOOGLE_CREDENTIALS_JSON) {
+      const tmpKeyPath = path.join(os.tmpdir(), 'google-key.json');
+      fs.writeFileSync(tmpKeyPath, process.env.GOOGLE_CREDENTIALS_JSON);
+      process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpKeyPath;
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+    // Initialize the new Google Gen AI SDK for Vertex AI (Google Cloud)
+    const ai = new GoogleGenAI({
+      project: project,
+      location: location,
+      vertexai: true
+    });
 
     const prompt = `
 You are an expert AI logistics and warehouse management assistant for a system called "SmartLog".
