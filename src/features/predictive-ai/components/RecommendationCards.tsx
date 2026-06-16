@@ -676,8 +676,8 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
           </div>
 
           {/* Table */}
-          <div className="overflow-y-auto flex-1 overscroll-contain">
-            <table className="w-full text-xs">
+          <div className="overflow-y-auto overflow-x-auto flex-1 overscroll-contain">
+            <table className="w-full text-xs min-w-[800px]">
               <thead className="sticky top-0 bg-[#060d1a] border-b border-white/8 z-10">
                 <tr>
                   {['Priorité', 'Produit', 'Classe', 'Risque', 'Jours', 'Recommandation'].map(h => (
@@ -688,11 +688,7 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
                 </tr>
               </thead>
               <tbody>
-<<<<<<< HEAD
                 {paginatedRows.map((row, i) => {
-=======
-                {rows.map((row, i) => {
->>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
                   const cfg = priorityConfig[row.priority]
                   return (
                     <motion.tr
