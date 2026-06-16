@@ -47,9 +47,9 @@ Incluez obligatoirement :
 Formatez votre réponse en Markdown propre, utilisez des puces ou du texte en gras pour la lisibilité. Gardez un ton très professionnel, concis, digne d'un consultant en supply chain. N'affichez rien d'autre que l'explication.
 `;
 
-    // Use gemini-1.5-flash for speed and context capabilities
+    // Use gemma-4-31b-it for optimal performance
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemma-4-31b-it',
       contents: prompt,
     });
 

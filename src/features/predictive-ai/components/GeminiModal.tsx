@@ -2,7 +2,20 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, BrainCircuit, AlertCircle, Bot, Loader2 } from 'lucide-react'
+import { X, BrainCircuit, AlertCircle, Bot, Loader2, TrendingUp, PackageSearch, AlertTriangle, BarChart4 } from 'lucide-react'
+
+interface QuickPrompt {
+  label: string
+  icon: typeof BrainCircuit
+  prompt: string
+}
+
+const QUICK_PROMPTS: QuickPrompt[] = [
+  { label: 'Synthétiser les KPIs', icon: BarChart4, prompt: 'Quels sont les KPIs les plus critiques du tableau de bord en ce moment ?' },
+  { label: 'Analyser les risques de rupture', icon: AlertTriangle, prompt: 'Quels articles risquent une rupture de stock cette semaine ?' },
+  { label: 'Optimiser les réapprovisionnements', icon: TrendingUp, prompt: 'Suggestions d\'optimisation des réapprovisionnements basées sur l\'EOQ.' },
+  { label: 'Scan RFID -> Actions', icon: PackageSearch, prompt: 'Comment le scan RFID peut-il réduire les erreurs d\'inventaire ?' },
+]
 
 interface GeminiModalProps {
   context: any;
@@ -13,6 +26,8 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
   const [loading, setLoading] = useState(true);
   const [explanation, setExplanation] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [customQuery, setCustomQuery] = useState('');
+  const [contextData, setContextData] = useState(context);
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -22,31 +37,46 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  useEffect(() => {
-    async function fetchExplanation() {
-      try {
-        const response = await fetch('/api/ai/recommendation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ context }),
-        });
+  async function fetchExplanation(ctx?: any) {
+    const payload = ctx || context
+    setLoading(true)
+    setError(null)
+    setExplanation(null)
+    try {
+      const response = await fetch('/api/ai/recommendation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ context: payload }),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to generate analysis');
-        }
-
-        setExplanation(data.explanation);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate analysis');
       }
-    }
 
+      setExplanation(data.explanation);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     fetchExplanation();
   }, [context]);
+
+  async function handleQuickPrompt(prompt: string) {
+    setCustomQuery(prompt)
+    await fetchExplanation({ ...contextData, customQuery: prompt })
+  }
+
+  async function handleCustomSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!customQuery.trim()) return
+    await fetchExplanation({ ...contextData, customQuery: customQuery })
+  }
 
   const renderFormattedText = (text: string) => {
     const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
@@ -142,11 +172,12 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
             </button>
           </div>
 
-          {/* Context bar */}
-          <div className="bg-slate-50 px-6 py-3 border-b border-slate-100 flex items-center gap-2.5 text-xs">
-            <Bot className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-slate-400">Analyse pour :</span>
-            <span className="text-primary font-semibold">{context.productName}</span>
+          {/* Badge */}
+          <div className="bg-gradient-to-r from-primary/5 to-secondary/5 px-6 py-2 border-b border-slate-100 flex items-center gap-2 text-xs">
+            <BrainCircuit className="w-3.5 h-3.5 text-primary" />
+            <span className="text-primary font-bold uppercase tracking-wider text-[10px]">KPI Synthesizer</span>
+            <span className="text-slate-300 mx-1">|</span>
+            <span className="text-slate-500">Assistant IA prédictif — SmartLog</span>
           </div>
 
           {/* Content */}
@@ -154,23 +185,72 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-14 gap-4">
                 <Loader2 className="w-7 h-7 text-primary animate-spin" />
-                <p className="text-slate-500 text-sm">Generating strategic analysis...</p>
+                <p className="text-slate-500 text-sm">Génération de l'analyse stratégique...</p>
+                <p className="text-slate-400 text-xs font-mono">Synthèse des KPIs en cours</p>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-14 gap-3">
                 <AlertCircle className="w-9 h-9 text-red-400" />
                 <p className="text-slate-700 text-sm font-medium">{error}</p>
-                <p className="text-slate-400 text-xs">Please check your API key or try again later.</p>
+                <p className="text-slate-400 text-xs">Vérifiez votre clé API ou réessayez plus tard.</p>
               </div>
-            ) : (
+            ) : explanation ? (
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
               >
-                {explanation && renderMarkdown(explanation)}
+                {renderMarkdown(explanation)}
               </motion.div>
+            ) : (
+              /* Quick prompts when no analysis yet */
+              <div className="space-y-4">
+                <div className="text-center mb-6">
+                  <div className="w-14 h-14 mx-auto mb-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center border border-primary/10">
+                    <BrainCircuit className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="text-slate-800 font-bold text-base mb-1">Assistant KPI SmartLog</h3>
+                  <p className="text-slate-500 text-xs">Posez une question sur vos données logistiques ou cliquez sur un prompt rapide :</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {QUICK_PROMPTS.map((qp, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleQuickPrompt(qp.prompt)}
+                      className="flex flex-col items-center gap-2 p-4 bg-white border border-slate-200 rounded-xl hover:border-primary/30 hover:bg-primary/5 transition-all text-center group"
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-primary/5 border border-primary/10 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                        <qp.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-xs font-semibold text-slate-700 group-hover:text-primary transition-colors leading-tight">
+                        {qp.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
+          </div>
+
+          {/* Chat input */}
+          <div className="px-6 py-3 border-t border-slate-100 bg-white">
+            <form onSubmit={handleCustomSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={customQuery}
+                onChange={e => setCustomQuery(e.target.value)}
+                placeholder="Poser une question personnalisée..."
+                className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:bg-white outline-none transition-all"
+              />
+              <button
+                type="submit"
+                disabled={!customQuery.trim() || loading}
+                className="px-5 py-2.5 bg-primary hover:bg-primary/90 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold text-xs rounded-xl transition-all flex items-center gap-2 disabled:cursor-not-allowed"
+              >
+                {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <BrainCircuit className="w-3.5 h-3.5" />}
+                <span>Analyser</span>
+              </button>
+            </form>
           </div>
 
           {/* Footer */}

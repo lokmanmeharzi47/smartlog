@@ -39,15 +39,21 @@ export default function TopBar({
   }, [language])
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center px-4 md:px-8 py-3 md:py-0 min-h-[5rem] gap-4 md:gap-6">
+    <header
+      className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center px-4 md:px-8 py-3 md:py-0 min-h-[5rem] gap-4 md:gap-6"
+      dir={language === 'AR' ? 'rtl' : 'ltr'}
+    >
       <div className="flex-1 w-full">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(0,153,224,0.5)] shrink-0" />
           <h1 className="text-primary font-bold text-lg md:text-xl tracking-tight truncate">{title}</h1>
+          {language === 'AR' && (
+            <span className="text-[10px] font-mono bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full border border-slate-200">العربية</span>
+          )}
         </div>
         {subtitle && (
-          <p className="text-slate-500 text-[10px] md:text-xs mt-1 ml-5 font-medium uppercase tracking-[1px] line-clamp-2 md:line-clamp-1">
-            {subtitle} {period && <span className="ml-2 text-slate-600">| {period}</span>}
+          <p className={`text-slate-500 text-[10px] md:text-xs mt-1 font-medium uppercase tracking-[1px] line-clamp-2 md:line-clamp-1 ${language === 'FR' ? 'ml-5' : 'mr-5'}`}>
+            {subtitle} {period && <span className={`${language === 'FR' ? 'ml-2' : 'mr-2'} text-slate-600`}>| {period}</span>}
           </p>
         )}
       </div>
@@ -65,7 +71,7 @@ export default function TopBar({
         {showFilter && (
           <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-primary transition-all text-xs font-bold uppercase tracking-widest">
             <Filter className="w-4 h-4" />
-            Filtrer
+            {language === 'FR' ? 'Filtrer' : 'تصفية'}
           </button>
         )}
 
@@ -79,9 +85,12 @@ export default function TopBar({
         {/* Language Toggle */}
         <button
           onClick={() => setLanguage(l => l === 'FR' ? 'AR' : 'FR')}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary transition-all text-xs font-bold"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary transition-all text-xs font-bold min-w-[60px] justify-center"
+          title={language === 'FR' ? 'Switch to Arabic' : 'Passer en français'}
         >
-          {language}
+          <span className={`transition-all ${language === 'AR' ? 'text-lg' : ''}`}>
+            {language === 'FR' ? '🇫🇷 FR' : '🇩🇿 AR'}
+          </span>
         </button>
 
         {/* Notifications */}
