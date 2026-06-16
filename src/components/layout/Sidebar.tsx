@@ -28,6 +28,7 @@ const navItems = [
   { href: '/reports', label: 'Reports', icon: FileText },
 ]
 
+<<<<<<< HEAD
 import { X } from 'lucide-react'
 
 export default function Sidebar({ 
@@ -37,6 +38,9 @@ export default function Sidebar({
   isOpen?: boolean; 
   setIsOpen?: (val: boolean) => void 
 }) {
+=======
+export default function Sidebar() {
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
   const pathname = usePathname()
   const router = useRouter()
 
@@ -52,6 +56,7 @@ export default function Sidebar({
   }
 
   return (
+<<<<<<< HEAD
     <aside className={`fixed left-0 top-0 bottom-0 w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-50 overflow-hidden transition-transform duration-300 md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Mobile close button */}
       {setIsOpen && (
@@ -63,6 +68,9 @@ export default function Sidebar({
         </button>
       )}
 
+=======
+    <aside className="fixed left-0 top-0 bottom-0 w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-50 overflow-hidden">
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
       {/* Ambient glow */}
       <div className="absolute top-0 left-0 w-full h-32 bg-cyan-500/5 pointer-events-none" />
 

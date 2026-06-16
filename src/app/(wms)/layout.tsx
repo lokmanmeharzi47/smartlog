@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client'
 
 import { useState } from 'react'
@@ -25,6 +26,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         <div className="flex-1 md:ml-64 flex flex-col min-h-screen relative pt-16 md:pt-0">
+=======
+import Sidebar from '@/components/layout/Sidebar'
+import { AuthProvider } from '@/components/providers/AuthProvider'
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider>
+      <div className="flex min-h-screen bg-slate-950 text-slate-200 selection:bg-cyan-500/30 selection:text-cyan-200">
+        <Sidebar />
+        <div className="flex-1 ml-64 flex flex-col min-h-screen relative">
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
           {/* Background decorative elements */}
           <div className="fixed inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/5 blur-[120px] rounded-full" />
@@ -36,6 +48,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       
       {/* Mobile overlay */}
       {isSidebarOpen && (
@@ -44,6 +57,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
+=======
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
     </AuthProvider>
   )
 }

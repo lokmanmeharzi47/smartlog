@@ -19,7 +19,10 @@ import {
   RefreshCw,
 } from 'lucide-react'
 import type { Prediction } from '../types'
+<<<<<<< HEAD
 import { Pagination } from '@/components/ui/Pagination'
+=======
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -616,12 +619,15 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
   
   const paginatedRows = rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   const totalPages = Math.ceil(rows.length / itemsPerPage)
 
+=======
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
   const priorityConfig = {
     HIGH: { label: 'Haute', dot: 'bg-red-400', text: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
     MEDIUM: { label: 'Moyenne', dot: 'bg-orange-400', text: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
@@ -682,7 +688,11 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
                 {paginatedRows.map((row, i) => {
+=======
+                {rows.map((row, i) => {
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
                   const cfg = priorityConfig[row.priority]
                   return (
                     <motion.tr
@@ -740,6 +750,7 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
 
           {/* Footer */}
           <div className="px-6 py-3 border-t border-white/8 bg-black/20 flex items-center justify-between flex-shrink-0">
+<<<<<<< HEAD
             <div className="flex flex-col gap-2 w-full">
               <div className="flex items-center justify-between">
                 <p className="text-slate-600 text-[10px] font-mono">
@@ -760,6 +771,17 @@ function RecommendationsModal({ rows, onClose, onGeminiClick }: { rows: ModalRow
                 />
               )}
             </div>
+=======
+            <p className="text-slate-600 text-[10px] font-mono">
+              Moteur WMA · EOQ Wilson · Classification ABC · Z-Score · Confiance algorithmique
+            </p>
+            <button
+              onClick={onClose}
+              className="text-xs text-slate-400 hover:text-white border border-white/10 hover:border-white/20 rounded-xl px-4 py-1.5 transition-all"
+            >
+              Fermer
+            </button>
+>>>>>>> 681af6f013aef3d5caa7fa6f7e13c0fd885cf425
           </div>
         </motion.div>
       </motion.div>
