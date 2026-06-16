@@ -48,8 +48,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Left panel — branding */}
-      <div className="hidden lg:flex lg:w-[45%] bg-primary flex-col justify-between p-12 relative overflow-hidden">
-        {/* Subtle decorative background */}
+      <div className="hidden lg:flex lg:w-[45%] bg-gradient-to-br from-primary to-primary-container flex-col justify-between p-12 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />

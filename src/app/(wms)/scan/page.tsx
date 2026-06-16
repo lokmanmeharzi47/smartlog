@@ -102,8 +102,8 @@ export default function ScanPage() {
     <>
       <TopBar title="Scan & Mouvement" subtitle="Scanner un produit ou saisie manuelle" />
 
-      <main className="flex-1 p-6 flex justify-center fade-in">
-        <div className="w-full max-w-lg space-y-6">
+      <main className="flex-1 p-4 md:p-6 flex justify-center fade-in">
+        <div className="w-full max-w-lg space-y-5">
 
           {/* Tabs */}
           <div className="flex bg-slate-100 p-1 rounded-2xl shadow-inner">
@@ -314,7 +314,7 @@ export default function ScanPage() {
                 id="submit-movement"
                 onClick={handleSubmit}
                 disabled={submitting || !stockAfterOk}
-                className="w-full py-5 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white font-black text-sm uppercase tracking-[0.2em] rounded-2xl transition-all shadow-lg shadow-primary/20 disabled:shadow-none flex items-center justify-center gap-3 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+                 className="w-full py-5 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white font-black text-sm uppercase tracking-[0.2em] rounded-2xl transition-all shadow-sm disabled:shadow-none flex items-center justify-center gap-3 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
               >
                 {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle className="w-5 h-5" />}
                 Valider le mouvement
@@ -349,7 +349,7 @@ export default function ScanPage() {
                       toast.success('6 articles détectés instantanément !')
                     }, 2000)
                   }}
-                  className="px-8 py-4 bg-secondary text-white font-bold rounded-2xl text-sm uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 hover:scale-[1.02] active:scale-[0.98]"
+                   className="px-8 py-4 bg-secondary text-white font-bold rounded-2xl text-sm uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Activer Portique RFID
                 </button>

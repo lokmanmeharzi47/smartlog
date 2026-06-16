@@ -13,6 +13,7 @@ import {
   PieChart, LineChart, AlertTriangle, Target,
   Clock, DollarSign, Package, Calendar, Cpu
 } from 'lucide-react'
+import AIChatWidget from '@/features/chat/components/AIChatWidget'
 
 function Counter({ from = 0, to, suffix = '', decimals = 0 }: { from?: number; to: number; suffix?: string; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null)
@@ -886,6 +887,7 @@ export default function LandingPage() {
         </div>
       </footer>
       
+      <AIChatWidget />
     </div>
   )
 }

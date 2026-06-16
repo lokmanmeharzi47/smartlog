@@ -25,9 +25,11 @@ const navItems = [
   { href: '/inventory', label: 'Inventory', icon: Package },
   { href: '/scan', label: 'Scan / Move', icon: ScanLine },
   { href: '/predictive-ai', label: 'IA Prédictive', icon: BrainCircuit },
-  { href: '/alerts', label: 'Alerts', icon: AlertTriangle },
-  { href: '/ai-recommendations', label: 'AI Recommendations', icon: Activity },
-  { href: '/reports', label: 'Reports', icon: FileText },
+  { href: '/alerts', label: 'Alertes', icon: AlertTriangle },
+  { href: '/stock-alerts', label: 'Stock Alertes', icon: Zap },
+  { href: '/ai-recommendations', label: 'AI Recommandations', icon: Activity },
+  { href: '/reports', label: 'Rapports', icon: FileText },
+  { href: '/improvement', label: 'Amélioration', icon: Activity },
 ]
 
 interface SidebarProps {

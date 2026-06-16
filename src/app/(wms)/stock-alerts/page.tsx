@@ -39,29 +39,29 @@ export default function AlertsPage() {
 
   function AlertRow({ p, variant }: { p: Product; variant: 'critical' | 'overstock' | 'nearMin' }) {
     const config = {
-      critical:  { bg: 'bg-red-500/8 border-red-500/20',   text: 'text-red-400',    label: 'Stock critique',    icon: <AlertTriangle className="w-4 h-4 text-red-400" /> },
-      overstock: { bg: 'bg-amber-500/8 border-amber-500/20',text: 'text-amber-400',  label: 'Surstock',          icon: <Package className="w-4 h-4 text-amber-400" /> },
-      nearMin:   { bg: 'bg-orange-500/8 border-orange-500/20',text: 'text-orange-400',label: 'Proche du seuil', icon: <TrendingDown className="w-4 h-4 text-orange-400" /> },
+      critical:  { bg: 'bg-red-50 border-red-200',   text: 'text-red-600',    label: 'Stock critique',    icon: <AlertTriangle className="w-4 h-4 text-red-500" /> },
+      overstock: { bg: 'bg-amber-50 border-amber-200',text: 'text-amber-600',  label: 'Surstock',          icon: <Package className="w-4 h-4 text-amber-500" /> },
+      nearMin:   { bg: 'bg-orange-50 border-orange-200',text: 'text-orange-600',label: 'Proche du seuil', icon: <TrendingDown className="w-4 h-4 text-orange-500" /> },
     }[variant]
 
     const shortage = variant === 'critical' ? p.min_stock - p.stock : 0
 
     return (
-      <div className={`flex items-center gap-4 p-4 ${config.bg} border rounded-xl`}>
+      <div className={`flex items-center gap-3 p-3.5 ${config.bg} border rounded-xl`}>
         <div className="flex-shrink-0">{config.icon}</div>
         <div className="flex-1 min-w-0">
-          <div className="text-slate-200 font-medium text-sm truncate">{p.name}</div>
-          <div className="text-slate-500 text-xs font-mono">{p.barcode} · {p.category}</div>
+          <div className="text-slate-700 font-semibold text-xs truncate">{p.name}</div>
+          <div className="text-slate-400 text-[10px] font-mono">{p.barcode} · {p.category}</div>
         </div>
         <div className="text-right flex-shrink-0">
           <div className={`${config.text} font-mono font-bold text-sm`}>
             {p.stock} / {p.min_stock} min
           </div>
           {variant === 'critical' && (
-            <div className="text-red-500 text-xs font-mono">−{shortage} à commander</div>
+            <div className="text-red-500 text-[10px] font-mono">−{shortage} à commander</div>
           )}
           {variant === 'overstock' && (
-            <div className="text-amber-500 text-xs font-mono">+{p.stock - (p.max_stock ?? 0)} en excès</div>
+            <div className="text-amber-500 text-[10px] font-mono">+{p.stock - (p.max_stock ?? 0)} en excès</div>
           )}
         </div>
         <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${config.bg} ${config.text} flex-shrink-0`}>
@@ -82,34 +82,33 @@ export default function AlertsPage() {
     const paginatedItems = items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     const totalPages = Math.ceil(items.length / itemsPerPage)
 
-
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
+        <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${items.length > 0 ? (variant === 'critical' ? 'bg-red-400' : 'bg-amber-400') : 'bg-emerald-400'}`} />
-            <span className="text-white font-semibold text-sm">{title}</span>
+            <div className={`w-1.5 h-1.5 rounded-full ${items.length > 0 ? (variant === 'critical' ? 'bg-red-500' : 'bg-amber-500') : 'bg-emerald-500'}`} />
+            <span className="text-primary font-semibold text-sm">{title}</span>
           </div>
-          <span className={`text-xs font-mono px-2.5 py-1 rounded-lg border ${
+          <span className={`text-[10px] font-mono px-2.5 py-1 rounded-lg border flex-shrink-0 ${
             items.length > 0
-              ? variant === 'critical' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-              : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+              ? variant === 'critical' ? 'bg-red-50 border-red-200 text-red-500' : 'bg-amber-50 border-amber-200 text-amber-500'
+              : 'bg-emerald-50 border-emerald-200 text-emerald-500'
           }`}>
             {items.length} {items.length !== 1 ? 'articles' : 'article'}
           </span>
         </div>
         <div className="p-4 space-y-2">
           {loading ? (
-            [...Array(3)].map((_, i) => <div key={i} className="skeleton h-14 w-full" />)
+            [...Array(3)].map((_, i) => <div key={i} className="h-14 bg-slate-100 rounded-xl animate-pulse" />)
           ) : items.length === 0 ? (
-            <p className="text-slate-600 text-sm text-center py-4">{emptyMsg}</p>
+            <p className="text-slate-400 text-sm text-center py-4">{emptyMsg}</p>
           ) : (
             paginatedItems.map(p => <AlertRow key={p.id} p={p} variant={variant} />)
           )}
         </div>
         {!loading && items.length > 0 && totalPages > 1 && (
-          <div className="border-t border-slate-800 px-4 pb-2">
-            <Pagination 
+          <div className="border-t border-slate-100 px-4 py-2">
+            <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
@@ -122,27 +121,26 @@ export default function AlertsPage() {
 
   return (
     <>
-      <TopBar title="Alertes" subtitle="Surveillance automatique des niveaux de stock" />
+      <TopBar title="Alertes Stock" subtitle="Surveillance automatique des niveaux de stock" />
 
-      <main className="flex-1 p-6 space-y-5 fade-in">
-        {/* Summary */}
-        <div className="grid grid-cols-3 gap-4">
+      <main className="flex-1 p-4 md:p-6 space-y-4 fade-in max-w-[1600px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { label: 'Critiques',       count: critical.length,  color: 'red',    desc: 'À commander immédiatement' },
-            { label: 'Proches du seuil', count: nearMin.length,  color: 'orange', desc: 'Commander bientôt' },
-            { label: 'Surstock',         count: overstock.length, color: 'amber',  desc: 'Au-dessus du max' },
+            { label: 'Critiques', count: critical.length, color: 'text-red-500', desc: 'À commander immédiatement' },
+            { label: 'Proches du seuil', count: nearMin.length, color: 'text-orange-500', desc: 'Commander bientôt' },
+            { label: 'Surstock', count: overstock.length, color: 'text-amber-500', desc: 'Au-dessus du max' },
           ].map(({ label, count, color, desc }) => (
-            <div key={label} className={`bg-slate-900 border rounded-xl p-4 border-${color}-500/20`}>
-              <div className={`text-${color}-400 text-2xl font-extrabold font-mono`}>{count}</div>
-              <div className="text-white text-sm font-medium mt-0.5">{label}</div>
-              <div className="text-slate-500 text-xs">{desc}</div>
+            <div key={label} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4">
+              <div className={`${color} text-2xl font-bold font-mono`}>{count}</div>
+              <div className="text-slate-700 text-xs font-semibold mt-0.5">{label}</div>
+              <div className="text-slate-400 text-[10px]">{desc}</div>
             </div>
           ))}
         </div>
 
-        <Section title="🚨 Stock critique" items={critical} variant="critical" emptyMsg="✓ Aucun article en stock critique" />
-        <Section title="⚠ Proche du seuil minimum" items={nearMin} variant="nearMin" emptyMsg="✓ Aucun article proche du seuil" />
-        <Section title="📦 Surstock" items={overstock} variant="overstock" emptyMsg="✓ Aucun article en surstock" />
+        <Section title="Stock critique" items={critical} variant="critical" emptyMsg="✓ Aucun article en stock critique" />
+        <Section title="Proche du seuil minimum" items={nearMin} variant="nearMin" emptyMsg="✓ Aucun article proche du seuil" />
+        <Section title="Surstock" items={overstock} variant="overstock" emptyMsg="✓ Aucun article en surstock" />
       </main>
     </>
   )
