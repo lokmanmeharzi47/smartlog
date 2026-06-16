@@ -39,7 +39,7 @@ export default function PredictiveAIPage() {
               <BrainCircuit className="w-7 h-7 text-secondary" />
             </div>
             <div>
-              <h1 className="text-primary font-black text-2xl tracking-tight">Predictive AI</h1>
+              <h1 className="text-primary font-black text-2xl tracking-tight">IA Prédictive</h1>
               <p className="text-slate-500 text-sm mt-0.5">
                 Prévisions intelligentes et détection des ruptures en temps réel
               </p>

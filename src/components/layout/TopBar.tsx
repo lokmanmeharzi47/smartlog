@@ -20,6 +20,7 @@ export default function TopBar({
   period,
 }: TopBarProps) {
   const [time, setTime] = useState('')
+  const [language, setLanguage] = useState<'FR' | 'AR'>('FR')
 
   useEffect(() => {
     function update() {
@@ -32,6 +33,10 @@ export default function TopBar({
     const id = setInterval(update, 1000)
     return () => clearInterval(id)
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dir = language === 'AR' ? 'rtl' : 'ltr'
+  }, [language])
 
   return (
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center px-4 md:px-8 py-3 md:py-0 min-h-[5rem] gap-4 md:gap-6">
@@ -60,7 +65,7 @@ export default function TopBar({
         {showFilter && (
           <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-primary transition-all text-xs font-bold uppercase tracking-widest">
             <Filter className="w-4 h-4" />
-            Filter
+            Filtrer
           </button>
         )}
 
@@ -70,6 +75,14 @@ export default function TopBar({
             <PDFExportButton />
           </div>
         )}
+
+        {/* Language Toggle */}
+        <button
+          onClick={() => setLanguage(l => l === 'FR' ? 'AR' : 'FR')}
+          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-primary transition-all text-xs font-bold"
+        >
+          {language}
+        </button>
 
         {/* Notifications */}
         <button className="relative w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/30 transition-all shadow-sm group">

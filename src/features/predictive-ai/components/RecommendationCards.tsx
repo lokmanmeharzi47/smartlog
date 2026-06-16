@@ -249,6 +249,92 @@ function EmptyState({ message }: { message: string }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Smart Alerts Panel
+// ─────────────────────────────────────────────────────────────────────────────
+
+function SmartAlertsPanel({ predictions, loading }: { predictions: Prediction[], loading: boolean }) {
+  const alerts: any[] = []
+  if (!loading) {
+    const urgents = predictions.filter(p => p.status === 'URGENT').sort((a, b) => a.daysRemaining - b.daysRemaining)
+    urgents.slice(0, 2).forEach(u => {
+      alerts.push({
+        id: u.productId + '-urg',
+        type: 'rupture',
+        title: `Rupture imminente — ${u.barcode || u.productId}`,
+        desc: `Stock résiduel ${u.stock}u, couverture ${u.daysRemaining}j. Risque de rupture certaine.`,
+        time: 'il y a 23 min',
+      })
+    })
+
+    const overstocks = predictions.filter(p => p.stock > p.minStock * 3)
+    overstocks.slice(0, 1).forEach(o => {
+      alerts.push({
+        id: o.productId + '-over',
+        type: 'surstock',
+        title: `Surstock détecté — ${o.productName.substring(0,15)}...`,
+        desc: `Saturation de capacité. Transfert ou arrêt commandes recommandé par l'IA (+${o.stock - o.minStock * 3}u catégorie ${o.abcClass}).`,
+        time: 'il y a 2h',
+      })
+    })
+
+    const anomalies = predictions.filter(p => p.anomalyLevel === 'CRITICAL')
+    anomalies.slice(0, 1).forEach(a => {
+      alerts.push({
+        id: a.productId + '-anom',
+        type: 'anomalie',
+        title: `Anomalie demande — ${a.barcode || a.productId}`,
+        desc: `Demande x${a.zScore.toFixed(1)} par rapport à la normale. Vérifier erreur saisie ou commande exceptionnelle.`,
+        time: 'il y a 3h',
+      })
+    })
+
+    const opps = predictions.filter(p => p.abcClass === 'C' && p.stock > p.minStock * 2)
+    opps.slice(0, 1).forEach(op => {
+      alerts.push({
+        id: op.productId + '-opp',
+        type: 'opportunite',
+        title: `Opportunité: réduction stock C`,
+        desc: `ML détecte sur-stockage classe C (${op.productName}). Liquidation ou réduction recommandée.`,
+        time: 'il y a 5h',
+      })
+    })
+  }
+
+  return (
+    <div className="flex flex-col h-full bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <h2 className="text-slate-900 font-bold text-sm flex items-center gap-2">
+          Alertes intelligentes
+          {!loading && <span className="bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full">{alerts.length}</span>}
+        </h2>
+      </div>
+      <div className="p-4 space-y-3 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+        {loading ? (
+          [...Array(4)].map((_, i) => <div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse" />)
+        ) : alerts.length === 0 ? (
+          <div className="text-center py-10 text-slate-500 text-xs">Aucune alerte intelligente active</div>
+        ) : (
+          alerts.map(a => {
+            let bg, border, text;
+            if (a.type === 'rupture') { bg = 'bg-red-50/50'; border = 'border-red-200'; text = 'text-red-900'; }
+            else if (a.type === 'surstock' || a.type === 'anomalie') { bg = 'bg-orange-50/50'; border = 'border-orange-200'; text = 'text-orange-900'; }
+            else { bg = 'bg-emerald-50/50'; border = 'border-emerald-200'; text = 'text-emerald-900'; }
+
+            return (
+              <div key={a.id} className={`p-4 border ${bg} ${border} rounded-xl hover:shadow-sm transition-shadow`}>
+                <div className={`text-[13px] font-bold mb-1.5 tracking-tight ${text}`}>{a.title}</div>
+                <div className="text-slate-700 text-xs leading-relaxed mb-3 opacity-90">{a.desc}</div>
+                <div className="text-slate-500 text-[10px] font-mono">{a.time}</div>
+              </div>
+            )
+          })
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Card 1 — Actions Urgentes
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -327,8 +413,8 @@ function UrgentActionsCard({ items, onGeminiClick }: { items: UrgentItem[], onGe
                   </div>
                 </div>
                 <div className="mt-2 flex items-center gap-1.5">
-                  <Zap className="w-3 h-3 text-red-400 flex-shrink-0" />
-                  <span className="text-red-300 text-[10px] font-semibold">
+                  <Zap className="w-3 h-3 text-red-500 flex-shrink-0" />
+                  <span className="text-red-700 text-[10px] font-semibold">
                     Commander {item.recommendedQty} unités
                   </span>
                 </div>
@@ -391,22 +477,22 @@ function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClic
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
+                    <p className="text-slate-900 text-xs font-semibold truncate">{item.productName}</p>
                     <ABCBadge cls={item.abcClass} />
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-[10px] font-mono">
-                  <div className="bg-black/20 rounded-lg p-1.5 text-center">
-                    <div className="text-slate-400 text-[8px] uppercase mb-0.5">Stock</div>
-                    <div className="text-orange-300 font-bold">{item.stock}</div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-lg p-1.5 text-center">
+                    <div className="text-slate-500 text-[8px] uppercase mb-0.5">Stock</div>
+                    <div className="text-slate-800 font-bold">{item.stock}</div>
                   </div>
-                  <div className="bg-black/20 rounded-lg p-1.5 text-center">
-                    <div className="text-slate-400 text-[8px] uppercase mb-0.5">Prévu 7j</div>
-                    <div className="text-slate-300 font-bold">{item.forecast7d}</div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-lg p-1.5 text-center">
+                    <div className="text-slate-500 text-[8px] uppercase mb-0.5">Prévu 7j</div>
+                    <div className="text-slate-700 font-bold">{item.forecast7d}</div>
                   </div>
-                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-1.5 text-center">
-                    <div className="text-orange-400/70 text-[8px] uppercase mb-0.5">EOQ</div>
-                    <div className="text-orange-300 font-bold">{item.eoq}</div>
+                  <div className="bg-orange-50 border border-orange-200/50 rounded-lg p-1.5 text-center">
+                    <div className="text-orange-600/70 text-[8px] uppercase mb-0.5">EOQ</div>
+                    <div className="text-orange-700 font-bold">{item.eoq}</div>
                   </div>
                 </div>
               </motion.div>
@@ -798,96 +884,103 @@ export default function RecommendationCards({ predictions, loading }: Props) {
 
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* ── Section Header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
-          <div>
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="w-8 h-8 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
-                <BrainCircuit className="w-4 h-4 text-secondary" />
-              </div>
-              <h2 className="text-primary font-bold text-lg tracking-tight">
-                AI Decision Center
-              </h2>
-              {/* Live badge */}
-              <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-emerald-600 text-[10px] font-semibold uppercase tracking-wider">Live</span>
-              </div>
-            </div>
-            <p className="text-slate-500 text-xs leading-relaxed max-w-2xl">
-              Smart recommendations generated from consumption forecasts, stock levels, recent movements and stockout risks.
-            </p>
-          </div>
-
-          {/* CTA Button */}
-          {!loading && predictions.length > 0 && (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setModalOpen(true)}
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 text-primary rounded-xl text-xs font-semibold transition-all shadow-sm"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              View All Recommendations
-            </motion.button>
-          )}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div className="xl:col-span-4 order-last xl:order-first">
+          <SmartAlertsPanel predictions={predictions} loading={loading} />
         </div>
-
-        {/* ── 2×2 Grid ── */}
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
-          </div>
-        ) : predictions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-4 border border-slate-200 rounded-2xl bg-white">
-            <div className="w-14 h-14 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
-              <BrainCircuit className="w-7 h-7 text-secondary/50" />
+        
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="xl:col-span-8 flex flex-col h-full bg-white rounded-3xl shadow-sm border border-slate-200 p-6"
+        >
+          {/* ── Section Header ── */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2.5 mb-1.5">
+                <div className="w-8 h-8 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
+                  <BrainCircuit className="w-4 h-4 text-secondary" />
+                </div>
+                <h2 className="text-primary font-bold text-lg tracking-tight">
+                  Recommandations Stratégiques
+                </h2>
+                {/* Live badge */}
+                <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-emerald-600 text-[10px] font-semibold uppercase tracking-wider">Live</span>
+                </div>
+              </div>
+              <p className="text-slate-500 text-xs leading-relaxed max-w-xl">
+                Recommandations intelligentes générées à partir des prévisions de consommation, niveaux de stock, mouvements récents et risques de rupture (WMA, EOQ, ABC).
+              </p>
             </div>
-            <div className="text-center">
-              <p className="text-slate-600 font-semibold">No data available</p>
-              <p className="text-slate-400 text-xs mt-1">Load products and movements to activate AI</p>
-            </div>
-          </div>
-        ) : (
-          <motion.div
-            variants={staggerVariants}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <motion.div variants={fadeUpVariants}>
-              <UrgentActionsCard items={urgent} onGeminiClick={setGeminiContext} />
-            </motion.div>
-            <motion.div variants={fadeUpVariants}>
-              <OrdersCard items={orders} onGeminiClick={setGeminiContext} />
-            </motion.div>
-            <motion.div variants={fadeUpVariants}>
-              <OptimCard items={optim} onGeminiClick={setGeminiContext} />
-            </motion.div>
-            <motion.div variants={fadeUpVariants}>
-              <ForecastCard items={forecast} onGeminiClick={setGeminiContext} />
-            </motion.div>
-          </motion.div>
-        )}
 
-        {/* ── Engine signature ── */}
-        {!loading && predictions.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-4 flex items-center justify-center gap-2 text-slate-400 text-[10px] font-mono"
-          >
-            <BrainCircuit className="w-3 h-3" />
-            <span>WMA Engine · EOQ Wilson · ABC Pareto · Z-Score Anomaly Detection · Safety Stock</span>
-          </motion.div>
-        )}
-      </motion.section>
+            {/* CTA Button */}
+            {!loading && predictions.length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setModalOpen(true)}
+                className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary/30 text-primary rounded-xl text-xs font-semibold transition-all shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Toutes les recommandations
+              </motion.button>
+            )}
+          </div>
+
+          {/* ── 2×2 Grid ── */}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : predictions.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 gap-4 border border-slate-200 rounded-2xl bg-white">
+              <div className="w-14 h-14 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center">
+                <BrainCircuit className="w-7 h-7 text-secondary/50" />
+              </div>
+              <div className="text-center">
+                <p className="text-slate-600 font-semibold">Aucune donnée disponible</p>
+                <p className="text-slate-400 text-xs mt-1">Chargez les produits et mouvements pour activer l'IA</p>
+              </div>
+            </div>
+          ) : (
+            <motion.div
+              variants={staggerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
+              <motion.div variants={fadeUpVariants}>
+                <UrgentActionsCard items={urgent} onGeminiClick={setGeminiContext} />
+              </motion.div>
+              <motion.div variants={fadeUpVariants}>
+                <OrdersCard items={orders} onGeminiClick={setGeminiContext} />
+              </motion.div>
+              <motion.div variants={fadeUpVariants}>
+                <OptimCard items={optim} onGeminiClick={setGeminiContext} />
+              </motion.div>
+              <motion.div variants={fadeUpVariants}>
+                <ForecastCard items={forecast} onGeminiClick={setGeminiContext} />
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* ── Engine signature ── */}
+          {!loading && predictions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-[10px] font-mono border-t border-slate-100 pt-4"
+            >
+              <BrainCircuit className="w-3 h-3" />
+              <span>WMA Engine · EOQ Wilson · ABC Pareto · Z-Score Anomaly Detection · Safety Stock</span>
+            </motion.div>
+          )}
+        </motion.section>
+      </div>
 
       {/* ── Modal ── */}
       {modalOpen && (

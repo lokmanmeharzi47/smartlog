@@ -38,8 +38,8 @@ export async function fetchAlerts(): Promise<Alert[]> {
         severity: 'CRITICAL',
         currentStock: stock,
         threshold: minStock,
-        message: 'Stockout imminent.',
-        recommendedAction: 'Order immediately.',
+        message: 'Rupture imminente — Stock critique.',
+        recommendedAction: 'Commander immédiatement.',
         createdAt: now
       })
     } 
@@ -54,8 +54,8 @@ export async function fetchAlerts(): Promise<Alert[]> {
         severity: 'WARNING',
         currentStock: stock,
         threshold: minStock * 1.5,
-        message: 'Replenishment should be planned.',
-        recommendedAction: 'Prepare order.',
+        message: 'Stock faible — Réapprovisionnement à prévoir.',
+        recommendedAction: 'Planifier la commande.',
         createdAt: now
       })
     }
@@ -71,8 +71,8 @@ export async function fetchAlerts(): Promise<Alert[]> {
         severity: 'WARNING',
         currentStock: stock,
         threshold: 7, // days
-        message: `Predicted stockout in ${p.daysRemaining} days.`,
-        recommendedAction: 'Review forecast and order.',
+        message: `Rupture prévue dans ${p.daysRemaining} jours (WMA).`,
+        recommendedAction: 'Vérifier les prévisions et commander.',
         createdAt: now
       })
     }
@@ -88,8 +88,8 @@ export async function fetchAlerts(): Promise<Alert[]> {
         severity: 'INFO',
         currentStock: stock,
         threshold: maxStock,
-        message: 'Excess inventory detected.',
-        recommendedAction: 'Hold orders, consider discount.',
+        message: 'Surstock détecté — Inventaire excédentaire.',
+        recommendedAction: 'Suspendre les commandes, envisager une liquidation.',
         createdAt: now
       })
     }

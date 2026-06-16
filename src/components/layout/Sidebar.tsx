@@ -16,14 +16,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  Settings,
 } from 'lucide-react'
 import Image from 'next/image'
 
 const navItems = [
-  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/inventory', label: 'Inventory', icon: Package },
   { href: '/scan', label: 'Scan / Move', icon: ScanLine },
-  { href: '/predictive-ai', label: 'Predictive AI', icon: BrainCircuit },
+  { href: '/predictive-ai', label: 'IA Prédictive', icon: BrainCircuit },
   { href: '/alerts', label: 'Alerts', icon: AlertTriangle },
   { href: '/ai-recommendations', label: 'AI Recommendations', icon: Activity },
   { href: '/reports', label: 'Reports', icon: FileText },
@@ -162,14 +163,16 @@ export default function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed }: 
         {/* Footer */}
         <div className={`border-t border-white/10 py-4 ${isCollapsed ? 'px-2' : 'px-3'}`}>
           {!isCollapsed && (
-            <div className="flex items-center gap-2.5 px-2 mb-3">
-              <div className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0 border border-white/20">
-                AD
+            <div className="flex items-center gap-3 px-2 mb-3 bg-white/5 rounded-xl border border-white/10 p-2 cursor-pointer group">
+              <div className="relative">
+                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-[10px] font-bold text-white">AD</div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-primary rounded-full" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-xs font-semibold truncate">Admin User</p>
-                <p className="text-white/40 text-[10px] truncate">System Manager</p>
+                <p className="text-xs font-semibold text-white truncate">Administrateur</p>
+                <p className="text-[10px] text-white/40 font-mono truncate">SmartLog v2.0</p>
               </div>
+              <Settings className="w-4 h-4 text-white/30 group-hover:text-white transition-colors" />
             </div>
           )}
 

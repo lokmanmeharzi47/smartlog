@@ -126,12 +126,12 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
               </div>
               <div>
                 <h2 className="text-slate-900 font-semibold text-sm flex items-center gap-2">
-                  AI Analysis
+                  Analyse IA
                   <span className="bg-secondary/10 text-secondary text-[9px] font-semibold px-2 py-0.5 rounded-full border border-secondary/20 uppercase tracking-wider">
-                    Powered by Google
+                    Propulsé par Google
                   </span>
                 </h2>
-                <p className="text-slate-400 text-xs mt-0.5">Detailed recommendation analysis</p>
+                <p className="text-slate-400 text-xs mt-0.5">Analyse de recommandation détaillée</p>
               </div>
             </div>
             <button
@@ -145,7 +145,7 @@ export default function GeminiModal({ context, onClose }: GeminiModalProps) {
           {/* Context bar */}
           <div className="bg-slate-50 px-6 py-3 border-b border-slate-100 flex items-center gap-2.5 text-xs">
             <Bot className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-slate-400">Analysis for:</span>
+            <span className="text-slate-400">Analyse pour :</span>
             <span className="text-primary font-semibold">{context.productName}</span>
           </div>
 
