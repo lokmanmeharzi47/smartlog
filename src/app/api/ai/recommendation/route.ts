@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Context is required' }, { status: 400 });
     }
 
-    const apiKey = 'process.env.GEMINI_API_KEY';
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
         {
