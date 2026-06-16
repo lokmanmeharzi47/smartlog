@@ -16,18 +16,34 @@ export async function POST(request: Request) {
     const project = process.env.GOOGLE_CLOUD_PROJECT || 'gen-lang-client-0498601710';
     const location = process.env.GOOGLE_CLOUD_LOCATION || 'us-central1';
 
-    // Support for Vercel Deployment: Write credentials JSON to a temporary file if provided via env variable
+    // --- Vercel / Serverless credential handling ---
+    // Always prefer GOOGLE_CREDENTIALS_JSON (full JSON content as a string).
+    // This avoids the GOOGLE_APPLICATION_CREDENTIALS file-path env var pointing
+    // to a local Windows path that doesn't exist on Vercel's Linux servers.
     if (process.env.GOOGLE_CREDENTIALS_JSON) {
       const tmpKeyPath = path.join(os.tmpdir(), 'google-key.json');
-      fs.writeFileSync(tmpKeyPath, process.env.GOOGLE_CREDENTIALS_JSON);
+      fs.writeFileSync(tmpKeyPath, process.env.GOOGLE_CREDENTIALS_JSON, 'utf8');
+      // Override whatever GOOGLE_APPLICATION_CREDENTIALS was set to (e.g. a Windows path)
       process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpKeyPath;
+    } else if (
+      process.env.GOOGLE_APPLICATION_CREDENTIALS &&
+      !fs.existsSync(process.env.GOOGLE_APPLICATION_CREDENTIALS)
+    ) {
+      // The env var points to a non-existent file (e.g. a hardcoded Windows path).
+      // Clear it so the SDK doesn't crash trying to lstat a bad path.
+      delete process.env.GOOGLE_APPLICATION_CREDENTIALS;
+      throw new Error(
+        'Google credentials are not configured. ' +
+        'Please set the GOOGLE_CREDENTIALS_JSON environment variable in your Vercel project settings ' +
+        'with the full contents of your service account JSON file.'
+      );
     }
 
-    // Initialize the new Google Gen AI SDK for Vertex AI (Google Cloud)
+    // Initialize the Google Gen AI SDK for Vertex AI
     const ai = new GoogleGenAI({
-      project: project,
-      location: location,
-      vertexai: true
+      project,
+      location,
+      vertexai: true,
     });
 
     const prompt = `
@@ -52,10 +68,11 @@ Format your response in clean markdown, using bullet points or bold text where a
     });
 
     return NextResponse.json({ explanation: response.text || 'Aucune réponse générée.' });
-  } catch (error: any) {
-    console.error('Error generating AI recommendation with @google/genai:', error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('Error generating AI recommendation:', err);
     return NextResponse.json(
-      { error: 'Failed to generate recommendation', details: error.message },
+      { error: 'Failed to generate recommendation', details: err.message },
       { status: 500 }
     );
   }
