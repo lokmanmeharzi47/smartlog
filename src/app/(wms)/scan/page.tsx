@@ -7,7 +7,7 @@ import type { Product } from '@/types/database'
 import toast from 'react-hot-toast'
 import { 
   ScanLine, ArrowUp, ArrowDown, Plus, Minus, 
-  XCircle, Loader2, QrCode, CheckCircle 
+  XCircle, Loader2, QrCode, CheckCircle, Radio
 } from 'lucide-react'
 
 // Features
@@ -18,6 +18,9 @@ import { ProductPreview } from '@/features/scan/components/ProductPreview'
 type MovType = 'IN' | 'OUT'
 
 export default function ScanPage() {
+  const [activeTab, setActiveTab] = useState<'MANUAL' | 'RFID'>('MANUAL')
+  const [isRfidActive, setIsRfidActive] = useState(false)
+  const [rfidItems, setRfidItems] = useState<string[]>([])
   const [barcode, setBarcode]   = useState('')
   const [qty, setQty]           = useState(1)
   const [type, setType]         = useState<MovType>('IN')
@@ -102,8 +105,35 @@ export default function ScanPage() {
       <main className="flex-1 p-6 flex justify-center fade-in">
         <div className="w-full max-w-lg space-y-6">
 
-          {/* Step 1: Identification */}
-          <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          {/* Tabs */}
+          <div className="flex bg-slate-100 p-1 rounded-2xl shadow-inner">
+            <button
+              onClick={() => setActiveTab('MANUAL')}
+              className={`flex-1 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${
+                activeTab === 'MANUAL'
+                  ? 'bg-white text-primary shadow-sm'
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              Mode Manuel (Code-Barres)
+            </button>
+            <button
+              onClick={() => setActiveTab('RFID')}
+              className={`flex-1 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 ${
+                activeTab === 'RFID'
+                  ? 'bg-white text-primary shadow-sm'
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <Radio className="w-4 h-4 hidden sm:block" />
+              Portique RFID (UHF)
+            </button>
+          </div>
+
+          {activeTab === 'MANUAL' && (
+            <>
+              {/* Step 1: Identification */}
+              <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
             {/* Decoration */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-3xl rounded-full" />
 
@@ -291,6 +321,78 @@ export default function ScanPage() {
               </button>
             </div>
           )}
+          </>
+          )}
+
+          {activeTab === 'RFID' && (
+            <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-3xl rounded-full" />
+              
+              <div className="relative w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                <div className={`absolute inset-0 border-2 border-secondary/20 rounded-full transition-all duration-1000 ${isRfidActive ? 'animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]' : ''}`} />
+                <div className={`absolute inset-2 border-2 border-secondary/40 rounded-full transition-all duration-1000 delay-150 ${isRfidActive ? 'animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]' : ''}`} />
+                <Radio className={`w-16 h-16 relative z-10 transition-all duration-500 ${isRfidActive ? 'text-secondary scale-110' : 'text-slate-300'}`} />
+              </div>
+
+              <h2 className="text-primary font-bold text-xl mb-2">Lecteur Impinj R700</h2>
+              <p className="text-slate-500 text-sm mb-8">
+                Placez les articles dans la zone de lecture du portique.
+              </p>
+              
+              {!isRfidActive && rfidItems.length === 0 && (
+                <button
+                  onClick={() => {
+                    setIsRfidActive(true)
+                    setTimeout(() => {
+                      setIsRfidActive(false)
+                      setRfidItems(['P-0001 (Palette A)', 'P-0002 (Carton B)', 'P-0003 (Carton B)', 'P-0004 (Vrac)', 'P-0005 (Vrac)', 'P-0006 (Carton C)'])
+                      toast.success('6 articles détectés instantanément !')
+                    }, 2000)
+                  }}
+                  className="px-8 py-4 bg-secondary text-white font-bold rounded-2xl text-sm uppercase tracking-widest hover:bg-secondary/90 transition-all shadow-lg shadow-secondary/20 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Activer Portique RFID
+                </button>
+              )}
+
+              {isRfidActive && (
+                <div className="flex flex-col items-center animate-in fade-in">
+                  <p className="text-secondary font-bold mb-2">Scan des ondes UHF en cours...</p>
+                  <p className="text-slate-400 text-xs font-mono">FRQ: 865.6 MHz - PWR: 30.0 dBm</p>
+                </div>
+              )}
+
+              {rfidItems.length > 0 && (
+                <div className="text-left animate-in fade-in slide-in-from-bottom-4 mt-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-slate-700">{rfidItems.length} articles détectés en 0.2s</h3>
+                    <button 
+                      onClick={() => setRfidItems([])}
+                      className="text-xs text-rose-500 font-bold hover:text-rose-600 transition-colors"
+                    >
+                      Réinitialiser
+                    </button>
+                  </div>
+                  <div className="space-y-2 max-h-60 overflow-auto pr-2 custom-scrollbar">
+                    {rfidItems.map((id, i) => (
+                      <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between shadow-sm" style={{ animationDelay: `${i * 50}ms` }}>
+                        <div className="flex items-center gap-3">
+                            <Radio className="w-4 h-4 text-secondary/50" />
+                            <span className="font-mono text-sm text-slate-700 font-medium">{id}</span>
+                        </div>
+                        <CheckCircle className="w-5 h-5 text-emerald-500" />
+                      </div>
+                    ))}
+                  </div>
+                  <button className="w-full mt-6 py-4 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-2xl text-sm uppercase tracking-widest transition-all shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]">
+                    <CheckCircle className="w-5 h-5" />
+                    Valider le lot
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
       </main>
 
