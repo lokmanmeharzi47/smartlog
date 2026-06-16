@@ -4,15 +4,12 @@ import React, { useEffect, useState } from "react";
 import TopBar from "@/components/layout/TopBar";
 import { fetchReportDashboard, type ReportDashboardData } from "@/features/reports/services/reports.service";
 import ReportCharts from "@/features/reports/components/ReportCharts";
-import RecommendationCards from "@/features/predictive-ai/components/RecommendationCards";
-import { usePredictiveAI } from "@/features/predictive-ai/hooks/usePredictiveAI";
 import { Activity, Box, RefreshCw, Wallet, LayoutGrid, Package, ShieldAlert } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function ReportsPage() {
   const [data, setData] = useState<ReportDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { predictions, loading: predictionsLoading } = usePredictiveAI();
 
   useEffect(() => {
     fetchReportDashboard()
@@ -132,15 +129,6 @@ export default function ReportsPage() {
         {/* CHARTS */}
         <section>
           <ReportCharts data={data} />
-        </section>
-
-        {/* AI RECOMMENDATIONS */}
-        <section>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-1.5 h-6 bg-cyan-500 rounded-full" />
-            <h2 className="text-white font-bold text-lg">Recommandations IA</h2>
-          </div>
-          <RecommendationCards predictions={predictions} loading={predictionsLoading} />
         </section>
       </div>
     </div>

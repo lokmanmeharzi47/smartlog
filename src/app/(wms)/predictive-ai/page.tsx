@@ -6,7 +6,6 @@ import { usePredictiveAI } from '@/features/predictive-ai/hooks/usePredictiveAI'
 import KpiCard from '@/components/ui/KpiCard'
 import PredictionTable from '@/features/predictive-ai/components/PredictionTable'
 import StockoutCalendar from '@/features/predictive-ai/components/StockoutCalendar'
-import RecommendationCards from '@/features/predictive-ai/components/RecommendationCards'
 import ConfidenceGauge from '@/features/predictive-ai/components/ConfidenceGauge'
 import PredictiveCharts from '@/features/predictive-ai/components/PredictiveCharts'
 import RealtimeInsights from '@/features/predictive-ai/components/RealtimeInsights'
@@ -149,11 +148,6 @@ export default function PredictiveAIPage() {
             {/* ── CONFIDENCE GAUGE ─────────────────────────────────── */}
             <ConfidenceGauge confidence={kpis.avgConf} loading={loading} />
           </div>
-        </motion.div>
-
-        {/* ── RECOMMENDATION CARDS ───────────────────────────────── */}
-        <motion.div variants={fadeUp}>
-          <RecommendationCards predictions={predictions} loading={loading} />
         </motion.div>
 
         {/* ── ADVANCED AI ANALYTICS ──────────────────────────────── */}

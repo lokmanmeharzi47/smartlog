@@ -24,6 +24,7 @@ const navItems = [
   { href: '/scan', label: 'Scan / Move', icon: ScanLine },
   { href: '/predictive-ai', label: 'Predictive AI', icon: BrainCircuit },
   { href: '/alerts', label: 'Alerts', icon: AlertTriangle },
+  { href: '/ai-recommendations', label: 'AI Recommendations', icon: BrainCircuit },
   { href: '/reports', label: 'Reports', icon: FileText },
 ]
 

@@ -20,9 +20,9 @@ export async function POST(request: Request) {
 
     const location = process.env.GOOGLE_CLOUD_LOCATION || 'us-central1';
 
-    // Initialize the new Google Gen AI SDK for Vertex AI
-    const ai = new GoogleGenAI({ 
-      project: project, 
+    // Initialize the new Google Gen AI SDK for Vertex AI (Google Cloud)
+    const ai = new GoogleGenAI({
+      project: project,
       location: location,
       vertexai: true
     });
@@ -44,7 +44,7 @@ Format your response in clean markdown, using bullet points or bold text where a
 `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.1-pro-preview',
+      model: 'gemini-1.5-flash',
       contents: prompt,
     });
 
