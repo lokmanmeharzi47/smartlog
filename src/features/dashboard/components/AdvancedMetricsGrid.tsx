@@ -36,8 +36,8 @@ export function AdvancedMetricsGrid() {
     <section className="space-y-6">
       {/* Title Section */}
       <div className="flex items-center gap-3 mt-8">
-        <div className="w-1 h-6 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
-        <h2 className="text-slate-400 font-semibold uppercase tracking-[0.3em] text-sm">
+        <div className="w-1 h-6 bg-secondary rounded-full shadow-[0_0_8px_rgba(0,153,224,0.6)]" />
+        <h2 className="text-slate-500 font-semibold uppercase tracking-[0.3em] text-sm">
           Indicateurs avancés — calculés en temps réel
         </h2>
       </div>

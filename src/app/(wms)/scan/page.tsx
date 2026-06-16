@@ -103,16 +103,16 @@ export default function ScanPage() {
         <div className="w-full max-w-lg space-y-6">
 
           {/* Step 1: Identification */}
-          <div className="bg-slate-900 border border-slate-800 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
             {/* Decoration */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 blur-3xl rounded-full" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-3xl rounded-full" />
 
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-inner">
-                <ScanLine className="w-6 h-6 text-cyan-400" />
+              <div className="w-12 h-12 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-center justify-center shadow-sm">
+                <ScanLine className="w-6 h-6 text-secondary" />
               </div>
               <div>
-                <h2 className="text-white font-bold text-lg tracking-tight">Étape 1 — Identifier le produit</h2>
+                <h2 className="text-primary font-bold text-lg tracking-tight">Étape 1 — Identifier le produit</h2>
                 <p className="text-slate-500 text-xs font-medium">Saisissez ou scannez le code du produit</p>
               </div>
             </div>
@@ -125,15 +125,15 @@ export default function ScanPage() {
                   value={barcode}
                   onChange={e => setBarcode(e.target.value)}
                   placeholder="Ex: P-0001, SL-001..."
-                  className="flex-1 px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl text-white font-mono text-sm placeholder-slate-600 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 outline-none transition-all shadow-inner"
+                  className="flex-1 px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-mono text-sm placeholder-slate-400 focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all shadow-sm"
                 />
                 <button
                   type="submit"
                   disabled={searching || !barcode.trim()}
                   id="barcode-search"
-                  className="px-6 py-4 bg-slate-800 hover:bg-slate-750 border border-slate-700 disabled:bg-slate-900 text-white font-bold rounded-2xl text-xs uppercase tracking-widest transition-all flex items-center gap-2 disabled:cursor-not-allowed group shadow-lg"
+                  className="px-6 py-4 bg-primary hover:bg-primary/90 border border-transparent disabled:bg-slate-200 disabled:border-slate-200 disabled:text-slate-400 text-white font-bold rounded-2xl text-xs uppercase tracking-widest transition-all flex items-center gap-2 disabled:cursor-not-allowed group shadow-sm"
                 >
-                  {searching ? <Loader2 className="w-4 h-4 animate-spin text-cyan-400" /> : <ScanLine className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />}
+                  {searching ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : <ScanLine className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" />}
                   <span>Chercher</span>
                 </button>
               </form>
@@ -141,10 +141,10 @@ export default function ScanPage() {
               {/* QR Scan Button */}
               <button
                 onClick={openScanner}
-                className="w-full flex items-center justify-center gap-3 bg-cyan-500/15 border border-cyan-500/20 text-cyan-300 rounded-2xl px-6 py-5 backdrop-blur-xl hover:bg-cyan-500/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] group"
+                className="w-full flex items-center justify-center gap-3 bg-secondary/5 border border-secondary/20 text-secondary rounded-2xl px-6 py-5 backdrop-blur-xl hover:bg-secondary/10 hover:shadow-[0_0_20px_rgba(0,153,224,0.15)] transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] group"
               >
-                <div className="p-2 bg-cyan-400/10 rounded-lg group-hover:bg-cyan-400/20 transition-colors">
-                  <QrCode className="w-5 h-5 text-cyan-400" />
+                <div className="p-2 bg-secondary/10 rounded-lg group-hover:bg-secondary/20 transition-colors">
+                  <QrCode className="w-5 h-5 text-secondary" />
                 </div>
                 <span className="font-bold text-sm uppercase tracking-[0.2em]">
                   <span className="hidden md:inline">Scanner QR Code</span>
@@ -169,15 +169,15 @@ export default function ScanPage() {
 
           {/* Step 2: Movement details */}
           {product && (
-            <div className="bg-slate-900 border border-slate-800 rounded-[2rem] p-8 space-y-8 shadow-2xl relative overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-[2rem] p-8 space-y-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-3xl rounded-full" />
 
               <div className="flex items-center gap-4 mb-2">
-                <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shadow-inner">
-                  <ArrowUp className="w-6 h-6 text-orange-400" />
+                <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center shadow-sm">
+                  <ArrowUp className="w-6 h-6 text-orange-500" />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold text-lg tracking-tight">Étape 2 — Définir le mouvement</h2>
+                  <h2 className="text-primary font-bold text-lg tracking-tight">Étape 2 — Définir le mouvement</h2>
                   <p className="text-slate-500 text-xs font-medium">Choisissez l&apos;action et la quantité</p>
                 </div>
               </div>
@@ -192,12 +192,12 @@ export default function ScanPage() {
                     className={`flex flex-col items-center justify-center gap-3 py-5 rounded-[1.5rem] font-bold text-xs uppercase tracking-widest border-2 transition-all duration-300 ${
                       type === t
                         ? t === 'IN'
-                          ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)]'
-                          : 'bg-rose-500/10 border-rose-500/40 text-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.15)]'
-                        : 'border-slate-800 bg-slate-800/40 text-slate-500 hover:border-slate-700 hover:text-slate-400'
+                          ? 'bg-emerald-50 border-emerald-200 text-emerald-600 shadow-sm'
+                          : 'bg-rose-50 border-rose-200 text-rose-600 shadow-sm'
+                        : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:text-slate-700'
                     }`}
                   >
-                    <div className={`p-2.5 rounded-xl ${type === t ? 'bg-current opacity-20' : 'bg-slate-700'}`}>
+                    <div className={`p-2.5 rounded-xl ${type === t ? 'bg-current opacity-20' : 'bg-slate-200'}`}>
                       {t === 'IN' ? <ArrowUp className="w-5 h-5" /> : <ArrowDown className="w-5 h-5" />}
                     </div>
                     {t === 'IN' ? '📥 Entrée (IN)' : '📤 Sortie (OUT)'}
@@ -206,7 +206,7 @@ export default function ScanPage() {
               </div>
 
               {/* Quantity Selector */}
-              <div className="bg-slate-950/40 border border-slate-800 rounded-3xl p-6">
+              <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6">
                 <label className="block text-[10px] font-black uppercase tracking-[3px] text-slate-500 mb-6 text-center">
                   Quantité à enregistrer
                 </label>
@@ -214,18 +214,18 @@ export default function ScanPage() {
                   <button
                     id="qty-minus"
                     onClick={() => setQty(q => Math.max(1, q - 1))}
-                    className="w-14 h-14 rounded-2xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-600 flex items-center justify-center transition-all shadow-lg active:scale-90"
+                    className="w-14 h-14 rounded-2xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-700 flex items-center justify-center transition-all shadow-sm active:scale-90"
                   >
                     <Minus className="w-6 h-6" />
                   </button>
                   <div className="flex flex-col items-center">
-                    <span className="text-white text-5xl font-black font-mono tracking-tighter">{qty}</span>
-                    <span className="text-slate-600 text-[10px] font-bold uppercase tracking-widest mt-1">unités</span>
+                    <span className="text-primary text-5xl font-black font-mono tracking-tighter">{qty}</span>
+                    <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1">unités</span>
                   </div>
                   <button
                     id="qty-plus"
                     onClick={() => setQty(q => q + 1)}
-                    className="w-14 h-14 rounded-2xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-600 flex items-center justify-center transition-all shadow-lg active:scale-90"
+                    className="w-14 h-14 rounded-2xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-700 flex items-center justify-center transition-all shadow-sm active:scale-90"
                   >
                     <Plus className="w-6 h-6" />
                   </button>
@@ -242,7 +242,7 @@ export default function ScanPage() {
                   value={note}
                   onChange={e => setNote(e.target.value)}
                   placeholder="Ex: Commande #1234, retour fournisseur…"
-                  className="w-full px-6 py-4 bg-slate-800/60 border border-slate-800 rounded-2xl text-white text-sm placeholder-slate-600 focus:border-cyan-500/50 outline-none transition-all shadow-inner"
+                  className="w-full px-6 py-4 bg-white border border-slate-200 rounded-2xl text-slate-800 text-sm placeholder-slate-400 focus:border-secondary/50 outline-none transition-all shadow-sm"
                 />
               </div>
 
@@ -264,10 +264,10 @@ export default function ScanPage() {
                 
                 <div className="flex items-center justify-center gap-6">
                   <div className="text-center">
-                      <p className="text-slate-600 text-[9px] uppercase font-bold mb-1">Actuel</p>
-                      <span className="text-slate-400 font-mono text-xl">{product.stock}</span>
+                      <p className="text-slate-500 text-[9px] uppercase font-bold mb-1">Actuel</p>
+                      <span className="text-slate-600 font-mono text-xl">{product.stock}</span>
                   </div>
-                  <div className="text-slate-700">
+                  <div className="text-slate-300">
                     <ArrowRight className="w-6 h-6" />
                   </div>
                   <div className="text-center">
@@ -284,7 +284,7 @@ export default function ScanPage() {
                 id="submit-movement"
                 onClick={handleSubmit}
                 disabled={submitting || !stockAfterOk}
-                className="w-full py-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white font-black text-sm uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-cyan-500/20 disabled:shadow-none flex items-center justify-center gap-3 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full py-5 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white font-black text-sm uppercase tracking-[0.2em] rounded-2xl transition-all shadow-lg shadow-primary/20 disabled:shadow-none flex items-center justify-center gap-3 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
               >
                 {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle className="w-5 h-5" />}
                 Valider le mouvement

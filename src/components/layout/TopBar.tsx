@@ -34,31 +34,31 @@ export default function TopBar({
   }, [])
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800 flex items-center px-8 h-20 gap-6">
-      <div className="flex-1">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center px-4 md:px-8 py-3 md:py-0 min-h-[5rem] gap-4 md:gap-6">
+      <div className="flex-1 w-full">
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-          <h1 className="text-white font-bold text-xl tracking-tight">{title}</h1>
+          <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(0,153,224,0.5)] shrink-0" />
+          <h1 className="text-primary font-bold text-lg md:text-xl tracking-tight truncate">{title}</h1>
         </div>
         {subtitle && (
-          <p className="text-slate-500 text-xs mt-1 ml-5 font-medium uppercase tracking-[1px]">
+          <p className="text-slate-500 text-[10px] md:text-xs mt-1 ml-5 font-medium uppercase tracking-[1px] line-clamp-2 md:line-clamp-1">
             {subtitle} {period && <span className="ml-2 text-slate-600">| {period}</span>}
           </p>
         )}
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center w-full justify-between md:justify-end md:w-auto gap-2 md:gap-4 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
         {/* Real-time Clock */}
-        <div className="hidden lg:flex items-center gap-3 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 shadow-sm">
-          <Clock className="w-4 h-4 text-cyan-500" />
-          <span className="text-slate-300 text-xs font-mono font-medium tracking-tight">
+        <div className="hidden lg:flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
+          <Clock className="w-4 h-4 text-secondary" />
+          <span className="text-slate-600 text-xs font-mono font-medium tracking-tight">
             {time}
           </span>
         </div>
 
         {/* Global Filter */}
         {showFilter && (
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all text-xs font-bold uppercase tracking-widest">
+          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-primary transition-all text-xs font-bold uppercase tracking-widest">
             <Filter className="w-4 h-4" />
             Filter
           </button>
@@ -72,9 +72,9 @@ export default function TopBar({
         )}
 
         {/* Notifications */}
-        <button className="relative w-10 h-10 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all shadow-sm group">
+        <button className="relative w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/30 transition-all shadow-sm group">
           <Bell className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-slate-900" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
         </button>
       </div>
     </header>

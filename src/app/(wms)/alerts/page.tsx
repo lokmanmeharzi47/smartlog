@@ -94,7 +94,7 @@ export default function AlertsPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#020617' }}>
+    <div className="min-h-screen bg-slate-50">
       <TopBar title="Alertes & Notifications" subtitle="Centre de contrôle des anomalies et ruptures" />
 
       <main className="p-8 space-y-6 max-w-[1600px] mx-auto">
@@ -107,23 +107,23 @@ export default function AlertsPage() {
             { label: 'Prédictives', value: stats.predictive, color: 'text-purple-400', border: 'border-purple-500/20' },
             { label: 'Surstock', value: stats.overstock, color: 'text-emerald-400', border: 'border-emerald-500/20' },
           ].map(stat => (
-            <div key={stat.label} className={`bg-[#081225] border ${stat.border} rounded-2xl p-4 flex flex-col justify-center`}>
-              <p className={`text-3xl font-black font-mono ${stat.color}`}>{loading ? '-' : stat.value}</p>
-              <p className="text-slate-400 text-sm mt-1">{stat.label}</p>
+            <div key={stat.label} className={`bg-white shadow-sm border ${stat.border.replace('500/20', '200')} rounded-2xl p-4 flex flex-col justify-center`}>
+              <p className={`text-3xl font-black font-mono ${stat.color.replace('400', '600').replace('cyan-600', 'secondary')}`}>{loading ? '-' : stat.value}</p>
+              <p className="text-slate-500 text-sm mt-1">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {/* FILTERS & SEARCH */}
-        <div className="bg-[#081225] border border-white/10 rounded-2xl p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="relative w-full lg:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input 
               type="text" 
               placeholder="Rechercher par produit ou SKU..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-700/50 text-white text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-cyan-500/50 transition-colors"
+              className="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-colors"
             />
           </div>
           <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0">
@@ -132,7 +132,7 @@ export default function AlertsPage() {
               <button
                 key={type}
                 onClick={() => setFilterType(type)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${filterType === type ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-800'}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${filterType === type ? 'bg-secondary text-white border border-secondary shadow-sm' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'}`}
               >
                 {type === 'ALL' ? 'Toutes' : getAlertConfig(type as AlertType).label}
               </button>
@@ -141,46 +141,46 @@ export default function AlertsPage() {
         </div>
 
         {/* ALERTS TABLE */}
-        <div className="bg-[#081225] border border-white/10 rounded-2xl overflow-hidden flex flex-col">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col">
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-900/50 border-b border-white/5">
-                  <th className="p-4 text-slate-400 text-xs uppercase font-semibold">Produit & SKU</th>
-                  <th className="p-4 text-slate-400 text-xs uppercase font-semibold">Type</th>
-                  <th className="p-4 text-slate-400 text-xs uppercase font-semibold text-right">Stock / Seuil</th>
-                  <th className="p-4 text-slate-400 text-xs uppercase font-semibold">Message & Action</th>
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Produit & SKU</th>
+                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Type</th>
+                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider text-right">Stock / Seuil</th>
+                  <th className="p-4 text-slate-500 text-xs uppercase font-semibold tracking-wider">Message & Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-slate-200">
                 {loading ? (
                   <tr><td colSpan={4} className="p-8 text-center text-slate-500">Chargement des alertes...</td></tr>
                 ) : filteredAlerts.length === 0 ? (
-                  <tr><td colSpan={4} className="p-8 text-center text-emerald-500">✓ Aucune alerte trouvée</td></tr>
+                  <tr><td colSpan={4} className="p-8 text-center text-emerald-600 font-medium">✓ Aucune alerte trouvée</td></tr>
                 ) : (
                   paginatedAlerts.map(a => {
 
                     const cfg = getAlertConfig(a.type)
                     return (
-                      <tr key={a.id} className="hover:bg-white/[0.02] transition-colors">
+                      <tr key={a.id} className="hover:bg-slate-50 transition-colors">
                         <td className="p-4">
-                          <p className="text-white font-bold text-sm">{a.productName}</p>
+                          <p className="text-primary font-bold text-sm">{a.productName}</p>
                           <p className="text-slate-500 text-xs font-mono">{a.sku}</p>
                         </td>
                         <td className="p-4">
                           <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border ${cfg.bg} ${cfg.border}`}>
                             {cfg.icon}
-                            <span className={`text-[10px] font-bold uppercase ${cfg.color}`}>{cfg.label}</span>
+                            <span className={`text-[10px] font-bold uppercase ${cfg.color.replace('400', '600')}`}>{cfg.label}</span>
                           </div>
                         </td>
                         <td className="p-4 text-right">
-                          <p className="text-white font-mono font-bold">{a.currentStock}</p>
+                          <p className="text-primary font-mono font-bold">{a.currentStock}</p>
                           <p className="text-slate-500 text-xs font-mono">Seuil: {a.threshold}</p>
                         </td>
                         <td className="p-4 max-w-[300px]">
-                          <p className={`text-sm font-semibold ${cfg.color}`}>{a.message}</p>
-                          <p className="text-slate-400 text-xs mt-1">{a.recommendedAction}</p>
+                          <p className={`text-sm font-semibold ${cfg.color.replace('400', '600')}`}>{a.message}</p>
+                          <p className="text-slate-500 text-xs mt-1">{a.recommendedAction}</p>
                         </td>
                       </tr>
                     )
@@ -190,7 +190,7 @@ export default function AlertsPage() {
             </table>
           </div>
           {!loading && filteredAlerts.length > 0 && (
-            <div className="border-t border-white/5 px-4 pb-2">
+            <div className="border-t border-slate-200 px-4 pb-2 pt-2">
               <Pagination 
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -202,14 +202,14 @@ export default function AlertsPage() {
         </div>
 
         {/* Z-SCORE ANOMALIES */}
-        <div className="bg-[#081225] border border-white/10 rounded-2xl p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-              <Activity className="w-5 h-5 text-purple-400" />
+            <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center">
+              <Activity className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-lg">Détection d'Anomalies (Z-Score)</h2>
-              <p className="text-slate-400 text-xs">Détection des pics de consommation</p>
+              <h2 className="text-primary font-bold text-lg">Détection d'Anomalies (Z-Score)</h2>
+              <p className="text-slate-500 text-xs">Détection des pics de consommation</p>
             </div>
           </div>
 
@@ -224,16 +224,16 @@ export default function AlertsPage() {
           ) : (
             <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
               {anomalies.map(a => (
-                <div key={a.productId} className={`p-3 rounded-xl border ${a.anomalyLevel === 'CRITICAL' ? 'bg-red-500/5 border-red-500/20' : 'bg-orange-500/5 border-orange-500/20'} flex items-center justify-between`}>
+                <div key={a.productId} className={`p-3 rounded-xl border ${a.anomalyLevel === 'CRITICAL' ? 'bg-red-50 border-red-200' : 'bg-orange-50 border-orange-200'} flex items-center justify-between`}>
                   <div>
-                    <h3 className="text-white font-bold text-sm">{a.productName}</h3>
-                    <p className="text-slate-400 text-xs font-mono mt-0.5">{a.barcode}</p>
+                    <h3 className="text-primary font-bold text-sm">{a.productName}</h3>
+                    <p className="text-slate-500 text-xs font-mono mt-0.5">{a.barcode}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`text-xs font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`}>
+                    <p className={`text-xs font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-600' : 'text-orange-600'}`}>
                       {a.anomalyLevel === 'CRITICAL' ? 'Critique' : 'Modéré'}
                     </p>
-                    <p className="text-slate-300 text-xs font-mono mt-0.5">Z={a.zScore.toFixed(2)}</p>
+                    <p className="text-slate-500 text-xs font-mono mt-0.5">Z={a.zScore.toFixed(2)}</p>
                   </div>
                 </div>
               ))}

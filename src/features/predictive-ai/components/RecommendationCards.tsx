@@ -219,18 +219,18 @@ function ABCBadge({ cls }: { cls: 'A' | 'B' | 'C' }) {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-2xl border border-white/8 bg-white/3 p-5 animate-pulse">
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-5 animate-pulse">
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-xl bg-white/5" />
+        <div className="w-10 h-10 rounded-xl bg-slate-100" />
         <div className="flex-1 space-y-2">
-          <div className="h-3.5 bg-white/5 rounded w-40" />
-          <div className="h-2.5 bg-white/5 rounded w-24" />
+          <div className="h-3.5 bg-slate-100 rounded w-40" />
+          <div className="h-2.5 bg-slate-100 rounded w-24" />
         </div>
       </div>
       {[...Array(3)].map((_, i) => (
         <div key={i} className="mb-3 space-y-1.5">
-          <div className="h-3 bg-white/5 rounded w-full" />
-          <div className="h-2 bg-white/5 rounded w-3/4" />
+          <div className="h-3 bg-slate-100 rounded w-full" />
+          <div className="h-2 bg-slate-100 rounded w-3/4" />
         </div>
       ))}
     </div>
@@ -257,8 +257,7 @@ function UrgentActionsCard({ items, onGeminiClick }: { items: UrgentItem[], onGe
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="relative rounded-2xl overflow-hidden border border-red-500/20 bg-gradient-to-br from-red-950/40 via-[#0d0a0a] to-[#0a0510]"
-      style={{ boxShadow: '0 0 40px -10px rgba(239,68,68,0.15)' }}
+      className="relative rounded-2xl overflow-hidden border border-red-100 bg-white shadow-sm hover:shadow-md transition-shadow"
     >
       {/* Glow accent */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-red-400 to-rose-500" />
@@ -268,16 +267,16 @@ function UrgentActionsCard({ items, onGeminiClick }: { items: UrgentItem[], onGe
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/25 flex items-center justify-center flex-shrink-0">
-              <AlertTriangle className="w-5 h-5 text-red-400" />
+            <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center flex-shrink-0">
+              <AlertTriangle className="w-5 h-5 text-red-500" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-sm leading-tight">Actions Urgentes</h3>
-              <p className="text-red-400/70 text-[10px] font-mono mt-0.5">Ruptures imminentes · &lt; 7j</p>
+              <h3 className="text-slate-900 font-bold text-sm leading-tight">Actions Urgentes</h3>
+              <p className="text-slate-500 text-[10px] font-mono mt-0.5">Ruptures imminentes · &lt; 7j</p>
             </div>
           </div>
-          <span className="flex items-center gap-1 bg-red-500/15 border border-red-500/20 text-red-400 text-[10px] font-black px-2 py-1 rounded-full">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+          <span className="flex items-center gap-1 bg-red-50 border border-red-200 text-red-600 text-[10px] font-black px-2 py-1 rounded-full">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
             {items.length}
           </span>
         </div>
@@ -293,29 +292,29 @@ function UrgentActionsCard({ items, onGeminiClick }: { items: UrgentItem[], onGe
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group relative bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                className="group relative bg-red-50/50 hover:bg-red-50 border border-red-100 hover:border-red-200 rounded-xl p-3 transition-all cursor-pointer"
                 onClick={() => onGeminiClick({ ...item, type: 'URGENT' })}
               >
                 {/* AI badge */}
-                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Sparkles className="w-3 h-3 text-violet-400" />
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-50 rounded-full border border-violet-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-500" />
                 </div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-[8px] text-red-400/60 font-mono">{i + 1}.</span>
-                      <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
+                      <span className="text-[8px] text-slate-400 font-mono">{i + 1}.</span>
+                      <p className="text-slate-900 text-xs font-semibold truncate">{item.productName}</p>
                       <ABCBadge cls={item.abcClass} />
                     </div>
                     <div className="flex items-center gap-3 text-[10px] font-mono">
-                      <span className="text-slate-400">Stock: <span className="text-red-300 font-bold">{item.stock}</span></span>
-                      <span className="text-slate-600">|</span>
-                      <span className="text-slate-400">Seuil: <span className="text-slate-300">{item.minStock}</span></span>
+                      <span className="text-slate-500">Stock: <span className="text-red-600 font-bold">{item.stock}</span></span>
+                      <span className="text-slate-300">|</span>
+                      <span className="text-slate-500">Seuil: <span className="text-slate-600">{item.minStock}</span></span>
                     </div>
                     {/* Progress bar */}
-                    <div className="mt-1.5 w-full bg-slate-800 rounded-full h-1">
+                    <div className="mt-1.5 w-full bg-slate-200 rounded-full h-1">
                       <div
-                        className="h-1 rounded-full bg-gradient-to-r from-red-600 to-red-400 transition-all"
+                        className="h-1 rounded-full bg-gradient-to-r from-red-500 to-red-400 transition-all"
                         style={{ width: `${Math.min((item.stock / Math.max(item.minStock, 1)) * 100, 100)}%` }}
                       />
                     </div>
@@ -351,8 +350,7 @@ function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClic
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="relative rounded-2xl overflow-hidden border border-orange-500/20 bg-gradient-to-br from-orange-950/40 via-[#0d0a06] to-[#080508]"
-      style={{ boxShadow: '0 0 40px -10px rgba(249,115,22,0.15)' }}
+      className="relative rounded-2xl overflow-hidden border border-orange-200 bg-white shadow-sm hover:shadow-md transition-shadow"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-600 via-amber-400 to-yellow-500" />
       <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-3xl rounded-full pointer-events-none" />
@@ -360,15 +358,15 @@ function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClic
       <div className="p-5">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
-              <ShoppingCart className="w-5 h-5 text-orange-400" />
+            <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0">
+              <ShoppingCart className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-sm leading-tight">Commandes Recommandées</h3>
-              <p className="text-orange-400/70 text-[10px] font-mono mt-0.5">EOQ — Formule de Wilson</p>
+              <h3 className="text-slate-900 font-bold text-sm leading-tight">Commandes Recommandées</h3>
+              <p className="text-slate-500 text-[10px] font-mono mt-0.5">EOQ — Formule de Wilson</p>
             </div>
           </div>
-          <span className="flex items-center gap-1 bg-orange-500/15 border border-orange-500/20 text-orange-400 text-[10px] font-black px-2 py-1 rounded-full">
+          <span className="flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-600 text-[10px] font-black px-2 py-1 rounded-full">
             <Package className="w-3 h-3" />
             {items.length}
           </span>
@@ -384,16 +382,15 @@ function OrdersCard({ items, onGeminiClick }: { items: OrderItem[], onGeminiClic
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group relative bg-orange-500/5 hover:bg-orange-500/10 border border-orange-500/10 hover:border-orange-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                className="group relative bg-orange-50/50 hover:bg-orange-50 border border-orange-100 hover:border-orange-200 rounded-xl p-3 transition-all cursor-pointer"
                 onClick={() => onGeminiClick({ ...item, type: 'ORDER' })}
               >
                 {/* AI badge */}
-                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Sparkles className="w-3 h-3 text-violet-400" />
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-50 rounded-full border border-violet-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-500" />
                 </div>
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="text-[8px] text-orange-400/60 font-mono">{i + 1}.</span>
                     <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
                     <ABCBadge cls={item.abcClass} />
                   </div>
@@ -454,8 +451,7 @@ function OptimCard({ items, onGeminiClick }: { items: OptimItem[], onGeminiClick
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="relative rounded-2xl overflow-hidden border border-blue-500/20 bg-gradient-to-br from-blue-950/40 via-[#060812] to-[#060810]"
-      style={{ boxShadow: '0 0 40px -10px rgba(59,130,246,0.15)' }}
+      className="relative rounded-2xl overflow-hidden border border-blue-200 bg-white shadow-sm hover:shadow-md transition-shadow"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-sky-400 to-cyan-500" />
       <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full pointer-events-none" />
@@ -463,15 +459,15 @@ function OptimCard({ items, onGeminiClick }: { items: OptimItem[], onGeminiClick
       <div className="p-5">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
-              <BarChart3 className="w-5 h-5 text-blue-400" />
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
+              <BarChart3 className="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-sm leading-tight">Optimisation du Stock</h3>
-              <p className="text-blue-400/70 text-[10px] font-mono mt-0.5">Surstock · Rotation faible</p>
+              <h3 className="text-primary font-bold text-sm leading-tight">Optimisation du Stock</h3>
+              <p className="text-slate-500 text-[10px] font-mono mt-0.5">Surstock · Rotation faible</p>
             </div>
           </div>
-          <span className="flex items-center gap-1 bg-blue-500/15 border border-blue-500/20 text-blue-400 text-[10px] font-black px-2 py-1 rounded-full">
+          <span className="flex items-center gap-1 bg-blue-50 border border-blue-200 text-blue-600 text-[10px] font-black px-2 py-1 rounded-full">
             <BarChart3 className="w-3 h-3" />
             {items.length}
           </span>
@@ -489,23 +485,23 @@ function OptimCard({ items, onGeminiClick }: { items: OptimItem[], onGeminiClick
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className={`group relative ${cfg.bg} border ${cfg.border} hover:brightness-125 rounded-xl p-3 transition-all cursor-pointer`}
+                  className={`group relative ${cfg.bg} border ${cfg.border} hover:bg-opacity-50 rounded-xl p-3 transition-all cursor-pointer`}
                   onClick={() => onGeminiClick({ ...item, type: 'OPTIMIZATION' })}
                 >
                   {/* AI badge */}
-                  <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Sparkles className="w-3 h-3 text-violet-400" />
+                  <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-50 rounded-full border border-violet-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Sparkles className="w-3 h-3 text-violet-500" />
                   </div>
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
-                    <span className={`flex items-center gap-1 text-[9px] font-bold ${cfg.color} bg-black/20 rounded-full px-2 py-0.5`}>
+                    <p className="text-primary text-xs font-semibold truncate">{item.productName}</p>
+                    <span className={`flex items-center gap-1 text-[9px] font-bold ${cfg.color.replace('300','600')} bg-white/50 rounded-full px-2 py-0.5`}>
                       {cfg.icon}{cfg.label}
                     </span>
                   </div>
-                  <p className={`text-[10px] font-mono ${cfg.color} opacity-80`}>{item.detail}</p>
+                  <p className={`text-[10px] font-mono ${cfg.color.replace('300','600')} opacity-80`}>{item.detail}</p>
                   <div className="mt-1.5 flex items-center gap-1.5">
-                    <ChevronRight className="w-3 h-3 text-blue-400/60 flex-shrink-0" />
-                    <span className="text-slate-300 text-[10px]">{item.recommendation}</span>
+                    <ChevronRight className="w-3 h-3 text-blue-500 flex-shrink-0" />
+                    <span className="text-slate-600 text-[10px]">{item.recommendation}</span>
                   </div>
                 </motion.div>
               )
@@ -526,8 +522,7 @@ function ForecastCard({ items, onGeminiClick }: { items: ForecastItem[], onGemin
     <motion.div
       whileHover={{ y: -3, scale: 1.005 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="relative rounded-2xl overflow-hidden border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 via-[#060d09] to-[#060810]"
-      style={{ boxShadow: '0 0 40px -10px rgba(16,185,129,0.15)' }}
+      className="relative rounded-2xl overflow-hidden border border-emerald-200 bg-white shadow-sm hover:shadow-md transition-shadow"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-600 via-green-400 to-teal-500" />
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full pointer-events-none" />
@@ -535,15 +530,15 @@ function ForecastCard({ items, onGeminiClick }: { items: ForecastItem[], onGemin
       <div className="p-5">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0">
+              <TrendingUp className="w-5 h-5 text-emerald-500" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-sm leading-tight">Prévisions 7 Jours</h3>
-              <p className="text-emerald-400/70 text-[10px] font-mono mt-0.5">WMA · Demande prévue</p>
+              <h3 className="text-primary font-bold text-sm leading-tight">Prévisions 7 Jours</h3>
+              <p className="text-slate-500 text-[10px] font-mono mt-0.5">WMA · Demande prévue</p>
             </div>
           </div>
-          <span className="flex items-center gap-1 bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-1 rounded-full">
+          <span className="flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] font-black px-2 py-1 rounded-full">
             <TrendingUp className="w-3 h-3" />
             {items.length}
           </span>
@@ -559,26 +554,26 @@ function ForecastCard({ items, onGeminiClick }: { items: ForecastItem[], onGemin
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group relative bg-emerald-500/5 hover:bg-emerald-500/10 border border-emerald-500/10 hover:border-emerald-500/25 rounded-xl p-3 transition-all cursor-pointer"
+                className="group relative bg-emerald-50/50 hover:bg-emerald-50 border border-emerald-100 hover:border-emerald-200 rounded-xl p-3 transition-all cursor-pointer"
                 onClick={() => onGeminiClick({ ...item, type: 'FORECAST' })}
               >
                 {/* AI badge */}
-                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-500/20 rounded-full border border-violet-500/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Sparkles className="w-3 h-3 text-violet-400" />
+                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-violet-50 rounded-full border border-violet-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Sparkles className="w-3 h-3 text-violet-500" />
                 </div>
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <p className="text-white text-xs font-semibold truncate">{item.productName}</p>
+                    <p className="text-primary text-xs font-semibold truncate">{item.productName}</p>
                     <ABCBadge cls={item.abcClass} />
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <span className="text-emerald-400 font-black text-sm font-mono">{item.forecast7d}</span>
-                    <span className="text-emerald-400/50 text-[9px] ml-0.5">u</span>
+                    <span className="text-emerald-600 font-black text-sm font-mono">{item.forecast7d}</span>
+                    <span className="text-emerald-500 text-[9px] ml-0.5">u</span>
                   </div>
                 </div>
                 {/* Confidence bar */}
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-slate-800 rounded-full h-1.5">
+                  <div className="flex-1 bg-slate-200 rounded-full h-1.5">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${item.confidence}%` }}
@@ -586,7 +581,7 @@ function ForecastCard({ items, onGeminiClick }: { items: ForecastItem[], onGemin
                       className="h-1.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-400"
                     />
                   </div>
-                  <span className="text-emerald-400 text-[10px] font-mono font-bold w-8 text-right">
+                  <span className="text-emerald-600 text-[10px] font-mono font-bold w-8 text-right">
                     {item.confidence}%
                   </span>
                 </div>

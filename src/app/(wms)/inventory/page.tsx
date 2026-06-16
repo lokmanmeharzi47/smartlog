@@ -89,7 +89,7 @@ export default function InventoryPage() {
               placeholder="Rechercher par nom, code, catégorie…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-200 text-sm placeholder-slate-600 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+              className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all shadow-sm"
             />
           </div>
 
@@ -106,7 +106,7 @@ export default function InventoryPage() {
             </span>
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold rounded-lg transition-colors shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              className="flex items-center gap-2 px-3 py-1.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold rounded-lg transition-colors shadow-sm"
             >
               <Plus className="w-4 h-4" />
               Ajouter produit
@@ -116,11 +116,11 @@ export default function InventoryPage() {
         </div>
 
         {/* Table / Cards */}
-        <div className="bg-[#081225] border border-white/10 rounded-3xl overflow-hidden backdrop-blur-xl">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-3xl overflow-hidden backdrop-blur-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-sm block md:table">
               <thead className="hidden md:table-header-group">
-                <tr className="border-b border-white/5 bg-white/[0.02]">
+                <tr className="border-b border-slate-200 bg-slate-50">
                   {['Code', 'Désignation', 'Catégorie', 'Quantité', 'Seuil min', 'Zone', 'Statut', 'Actions'].map(h => (
                     <th key={h} className="text-left px-5 py-4 text-xs font-bold uppercase tracking-[0.25em] text-slate-400 whitespace-nowrap">
                       {h}
@@ -131,10 +131,10 @@ export default function InventoryPage() {
               <tbody className="block md:table-row-group">
                 {loading ? (
                   [...Array(8)].map((_, i) => (
-                    <tr key={i} className="block md:table-row border-b border-white/5 p-4 md:p-0">
+                    <tr key={i} className="block md:table-row border-b border-slate-200 p-4 md:p-0">
                       {[...Array(8)].map((_, j) => (
                         <td key={j} className="block md:table-cell px-2 py-2 md:px-5 md:py-4">
-                          <div className="skeleton h-4 w-full opacity-50" />
+                          <div className="h-4 w-full bg-slate-100 rounded animate-pulse" />
                         </td>
                       ))}
                     </tr>
@@ -152,32 +152,32 @@ export default function InventoryPage() {
                     const pct = p.max_stock
                       ? Math.min(100, Math.round((p.stock / p.max_stock) * 100))
                       : null
-                    const barColor = status === 'CRITICAL' ? 'bg-red-500' : status === 'LOW' ? 'bg-orange-400' : 'bg-cyan-400'
+                    const barColor = status === 'CRITICAL' ? 'bg-red-500' : status === 'LOW' ? 'bg-orange-400' : 'bg-secondary'
 
                     return (
-                      <tr key={p.id} className="block md:table-row border-b border-white/5 hover:bg-cyan-500/[0.03] transition-all duration-300 group p-4 md:p-0">
+                      <tr key={p.id} className="block md:table-row border-b border-slate-200 hover:bg-slate-50 transition-all duration-300 group p-4 md:p-0">
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Code</span>
-                          <span className="font-mono text-cyan-300">{p.barcode}</span>
+                          <span className="font-mono text-secondary">{p.barcode}</span>
                         </td>
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Désignation</span>
-                          <span className="font-semibold text-white line-clamp-2 md:line-clamp-none text-right md:text-left">{p.name}</span>
+                          <span className="font-semibold text-primary line-clamp-2 md:line-clamp-none text-right md:text-left">{p.name}</span>
                         </td>
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Catégorie</span>
-                          <span className="bg-slate-700/40 text-slate-300 rounded-lg px-3 py-1 whitespace-nowrap">
+                          <span className="bg-slate-100 text-slate-600 rounded-lg px-3 py-1 whitespace-nowrap">
                             {p.category ?? '—'}
                           </span>
                         </td>
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Quantité</span>
                           <div className="flex flex-col gap-1.5 items-end md:items-start">
-                            <span className={`font-mono text-sm ${status === 'CRITICAL' ? 'text-red-400' : status === 'LOW' ? 'text-orange-300' : 'text-white'}`}>
+                            <span className={`font-mono text-sm ${status === 'CRITICAL' ? 'text-red-500' : status === 'LOW' ? 'text-orange-500' : 'text-primary'}`}>
                               {p.stock}
                             </span>
                             {pct !== null && (
-                              <div className="w-16 bg-slate-800/50 rounded-full h-1 overflow-hidden">
+                              <div className="w-16 bg-slate-200 rounded-full h-1 overflow-hidden">
                                 <motion.div
                                   initial={{ width: 0 }}
                                   animate={{ width: `${pct}%` }}
@@ -190,11 +190,11 @@ export default function InventoryPage() {
                         </td>
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Seuil min</span>
-                          <span className="text-slate-400 font-mono">{p.min_stock}</span>
+                          <span className="text-slate-500 font-mono">{p.min_stock}</span>
                         </td>
                         <td className="flex justify-between items-center md:table-cell px-2 py-2 md:px-5 md:py-4">
                           <span className="md:hidden text-xs text-slate-500 uppercase font-bold tracking-wider">Zone</span>
-                          <span className="bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 rounded-lg px-2.5 py-1 text-xs whitespace-nowrap">
+                          <span className="bg-secondary/10 text-secondary border border-secondary/20 rounded-lg px-2.5 py-1 text-xs whitespace-nowrap">
                             {p.zone ?? 'A-01'}
                           </span>
                         </td>
@@ -225,7 +225,7 @@ export default function InventoryPage() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-5 py-3 border-t border-slate-800 flex items-center justify-between">
+            <div className="px-5 py-3 border-t border-slate-200 flex items-center justify-between">
               <span className="text-slate-500 text-xs font-mono">
                 {filtered.length} résultats
               </span>

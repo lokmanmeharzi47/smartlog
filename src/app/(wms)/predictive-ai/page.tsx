@@ -27,20 +27,20 @@ export default function PredictiveAIPage() {
   const { predictions, loading, kpis } = usePredictiveAI()
 
   return (
-    <div className="min-h-screen" style={{ background: '#020617' }}>
+    <div className="min-h-screen">
       {/* ══ PAGE HEADER ══════════════════════════════════════════ */}
-      <div className="relative px-8 pt-8 pb-6 border-b border-white/5 overflow-hidden">
+      <div className="relative px-8 pt-8 pb-6 border-b border-slate-200 bg-white shadow-sm overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-48 bg-cyan-500/5 blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-48 bg-secondary/10 blur-3xl rounded-full pointer-events-none" />
 
         <div className="relative flex items-start justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20">
-              <BrainCircuit className="w-7 h-7 text-cyan-300" />
+            <div className="p-3 rounded-2xl bg-secondary/10 border border-secondary/20">
+              <BrainCircuit className="w-7 h-7 text-secondary" />
             </div>
             <div>
-              <h1 className="text-white font-black text-2xl tracking-tight">Predictive AI</h1>
-              <p className="text-slate-400 text-sm mt-0.5">
+              <h1 className="text-primary font-black text-2xl tracking-tight">Predictive AI</h1>
+              <p className="text-slate-500 text-sm mt-0.5">
                 Prévisions intelligentes et détection des ruptures en temps réel
               </p>
             </div>
@@ -52,10 +52,10 @@ export default function PredictiveAIPage() {
             <motion.div
               animate={{ opacity: [0.8, 1, 0.8] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/25 rounded-full backdrop-blur-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full backdrop-blur-sm"
             >
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-cyan-300 text-xs font-bold tracking-wider uppercase">WMA Engine Active</span>
+              <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+              <span className="text-secondary text-xs font-bold tracking-wider uppercase">WMA Engine Active</span>
             </motion.div>
             <PDFExportButton />
           </div>
@@ -122,23 +122,23 @@ export default function PredictiveAIPage() {
         {/* ── DATE DE RUPTURE FORMULA ────────────────────────────── */}
         <motion.div variants={fadeUp}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="bg-[#081225] border border-white/10 rounded-2xl p-6">
+            <div className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-5 bg-orange-400 rounded-full" />
-                <h3 className="text-white font-bold text-sm">6.2 Date de Rupture</h3>
+                <h3 className="text-primary font-bold text-sm">6.2 Date de Rupture</h3>
               </div>
               <div className="space-y-3">
-                <div className="bg-slate-900/60 border border-slate-700/30 rounded-xl p-4 font-mono text-sm">
-                  <p className="text-slate-400 text-xs mb-2 uppercase tracking-wider">Formule</p>
-                  <p className="text-cyan-300 font-bold">jours_restants = floor(stock / WMA)</p>
-                  <p className="text-slate-300 mt-1">date_rupture = <span className="text-orange-300">aujourd&apos;hui + jours_restants</span></p>
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-sm">
+                  <p className="text-slate-500 text-xs mb-2 uppercase tracking-wider">Formule</p>
+                  <p className="text-primary font-bold">jours_restants = floor(stock / WMA)</p>
+                  <p className="text-slate-600 mt-1">date_rupture = <span className="text-orange-500 font-bold">aujourd&apos;hui + jours_restants</span></p>
                 </div>
-                <div className="bg-orange-500/8 border border-orange-500/20 rounded-xl p-4">
-                  <p className="text-slate-400 text-xs mb-2 uppercase tracking-wider">Exemple — SL-006</p>
+                <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
+                  <p className="text-slate-500 text-xs mb-2 uppercase tracking-wider">Exemple — SL-006</p>
                   <div className="space-y-1 font-mono text-xs">
-                    <p className="text-slate-300">Stock = <span className="text-white font-bold">1 250</span></p>
-                    <p className="text-slate-300">WMA = <span className="text-cyan-300 font-bold">95.5 u/jour</span></p>
-                    <p className="text-slate-300">1 250 ÷ 95.5 = <span className="text-orange-300 font-bold">13 jours</span></p>
+                    <p className="text-slate-600">Stock = <span className="text-primary font-bold">1 250</span></p>
+                    <p className="text-slate-600">WMA = <span className="text-primary font-bold">95.5 u/jour</span></p>
+                    <p className="text-slate-600">1 250 ÷ 95.5 = <span className="text-orange-500 font-bold">13 jours</span></p>
                     <p className="text-red-400 font-bold mt-2">→ Rupture estimée : 31 mars 2026</p>
                   </div>
                 </div>

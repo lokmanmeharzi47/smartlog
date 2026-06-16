@@ -31,14 +31,14 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
       {/* ── ABC CLASSIFICATION (PARETO) ──────────────────────────── */}
-      <div className="bg-[#081225] border border-white/10 rounded-2xl p-6">
+      <div className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-            <PieChart className="w-5 h-5 text-emerald-400" />
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+            <PieChart className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
-            <h2 className="text-white font-bold text-lg">Classification ABC (Pareto)</h2>
-            <p className="text-slate-400 text-xs">Répartition par valeur annuelle estimée</p>
+            <h2 className="text-primary font-bold text-lg">Classification ABC (Pareto)</h2>
+            <p className="text-slate-500 text-xs">Répartition par valeur annuelle estimée</p>
           </div>
         </div>
 
@@ -61,8 +61,8 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
                   ))}
                 </Pie>
                 <RechartsTooltip 
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#fff' }}
-                  itemStyle={{ color: '#fff' }}
+                  contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', color: '#334155', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', borderRadius: '12px' }}
+                  itemStyle={{ color: '#334155', fontSize: '12px' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -72,8 +72,8 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
               <div key={d.name} className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
                 <div>
-                  <p className="text-slate-300 text-sm font-bold">{d.name}</p>
-                  <p className="text-slate-400 text-xs">{d.value} articles</p>
+                  <p className="text-slate-700 text-sm font-bold">{d.name}</p>
+                  <p className="text-slate-500 text-xs">{d.value} articles</p>
                 </div>
               </div>
             ))}

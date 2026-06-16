@@ -104,7 +104,7 @@ export default function DashboardPage() {
 
       <main className="flex-1 p-6 space-y-6 fade-in">
         {/* KPI Grid */}
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 fade-up">
           <KpiCard
             label="Total articles en stock"
             value={loading ? '—' : fmt(stats?.totalStock ?? 0)}
@@ -151,15 +151,15 @@ export default function DashboardPage() {
         <AdvancedMetricsGrid />
 
         {/* Charts Row */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 fade-up" style={{ animationDelay: '100ms' }}>
           {/* Movement trend chart */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.7)]" />
-                <span className="text-white text-sm font-semibold">Mouvements (7 derniers jours)</span>
+                <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+                <span className="text-primary text-sm font-semibold">Mouvements (7 derniers jours)</span>
               </div>
-              <span className="text-slate-500 text-xs font-mono bg-slate-800 px-2 py-1 rounded-lg">Entrées / Sorties</span>
+              <span className="text-slate-600 text-xs font-mono bg-slate-100 px-2 py-1 rounded-lg">Entrées / Sorties</span>
             </div>
             <div className="p-4">
               <ResponsiveContainer width="100%" height={200}>
@@ -186,10 +186,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Category donut chart */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.7)]" />
-              <span className="text-white text-sm font-semibold">Répartition par catégorie</span>
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="px-5 py-4 border-b border-slate-200 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+              <span className="text-primary text-sm font-semibold">Répartition par catégorie</span>
             </div>
             <div className="p-4 flex items-center justify-center gap-6">
               <ResponsiveContainer width="50%" height={200}>
@@ -204,8 +204,8 @@ export default function DashboardPage() {
                 {categoryData.map(c => (
                   <div key={c.name} className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: c.fill }} />
-                    <span className="text-slate-400 text-xs">{c.name}</span>
-                    <span className="text-slate-300 text-xs font-mono ml-auto pl-4">{c.value}</span>
+                    <span className="text-slate-500 text-xs">{c.name}</span>
+                    <span className="text-slate-700 text-xs font-mono ml-auto pl-4">{c.value}</span>
                   </div>
                 ))}
               </div>
@@ -214,13 +214,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Movements Table */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow fade-up" style={{ animationDelay: '200ms' }}>
+          <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.7)]" />
-              <span className="text-white text-sm font-semibold">Derniers mouvements</span>
+              <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(0,153,224,0.7)]" />
+              <span className="text-primary text-sm font-semibold">Derniers mouvements</span>
             </div>
-            <span className="text-slate-500 text-xs font-mono bg-slate-800 px-2 py-1 rounded-lg">
+            <span className="text-slate-600 text-xs font-mono bg-slate-100 px-2 py-1 rounded-lg">
               {stats?.todayMovements ?? 0} aujourd&apos;hui
             </span>
           </div>
@@ -239,7 +239,7 @@ export default function DashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-800 bg-slate-950/40">
+                  <tr className="border-b border-slate-200 bg-slate-50/50">
                     {['Produit', 'Catégorie', 'Type', 'Quantité', 'Date'].map(h => (
                       <th key={h} className="text-left px-5 py-3 text-[10px] font-bold uppercase tracking-[1.5px] text-slate-500">
                         {h}
@@ -249,10 +249,10 @@ export default function DashboardPage() {
                 </thead>
                 <tbody>
                   {moves.map((m) => (
-                    <tr key={m.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
-                      <td className="px-5 py-3 text-slate-200 font-medium">{m.products?.name}</td>
+                    <tr key={m.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                      <td className="px-5 py-3 text-slate-700 font-medium">{m.products?.name}</td>
                       <td className="px-5 py-3">
-                        <span className="bg-slate-800 text-slate-400 text-xs px-2 py-1 rounded-lg font-mono">
+                        <span className="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-lg font-mono">
                           {m.products?.category ?? '—'}
                         </span>
                       </td>
@@ -266,7 +266,7 @@ export default function DashboardPage() {
                           {m.type}
                         </span>
                       </td>
-                      <td className="px-5 py-3 text-slate-300 font-mono font-semibold">+{m.quantity}</td>
+                      <td className="px-5 py-3 text-primary font-mono font-semibold">+{m.quantity}</td>
                       <td className="px-5 py-3 text-slate-500 font-mono text-xs">
                         {m.created_at
                           ? new Date(m.created_at).toLocaleString('fr-FR', {

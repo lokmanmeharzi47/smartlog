@@ -42,18 +42,19 @@ export default function PredictiveCharts({ predictions, loading }: Props) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {[...Array(2)].map((_, i) => (
-          <div key={i} className="bg-[#081225] border border-white/10 rounded-2xl h-64 animate-pulse" />
+          <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-2xl h-64 animate-pulse" />
         ))}
       </div>
     )
   }
 
   const tooltipStyle = {
-    backgroundColor: '#0f1e38',
-    border: '1px solid rgba(255,255,255,0.1)',
+    backgroundColor: '#ffffff',
+    border: '1px solid #e2e8f0',
     borderRadius: '12px',
-    color: '#e2e8f0',
+    color: '#334155',
     fontSize: '12px',
+    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
   }
 
   return (
@@ -63,13 +64,13 @@ export default function PredictiveCharts({ predictions, loading }: Props) {
       transition={{ delay: 0.7 }}
     >
       <div className="flex items-center gap-2 mb-4">
-        <BarChart2 className="w-4 h-4 text-cyan-400" />
-        <h2 className="text-white font-bold text-sm">Graphiques Prédictifs IA</h2>
+        <BarChart2 className="w-4 h-4 text-secondary" />
+        <h2 className="text-primary font-bold text-sm">Graphiques Prédictifs IA</h2>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Jours restants par article */}
-        <div className="bg-[#081225] border border-white/10 rounded-2xl p-5">
-          <p className="text-slate-300 font-semibold text-xs mb-4">Top ruptures imminentes — Jours restants</p>
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 hover:shadow-md transition-shadow">
+          <p className="text-slate-700 font-semibold text-xs mb-4">Top ruptures imminentes — Jours restants</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={topUrgent} barSize={24}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
@@ -86,8 +87,8 @@ export default function PredictiveCharts({ predictions, loading }: Props) {
         </div>
 
         {/* Prévisions 7j vs 14j */}
-        <div className="bg-[#081225] border border-white/10 rounded-2xl p-5">
-          <p className="text-slate-300 font-semibold text-xs mb-4">Prévisions de consommation 7j / 14j</p>
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 hover:shadow-md transition-shadow">
+          <p className="text-slate-700 font-semibold text-xs mb-4">Prévisions de consommation 7j / 14j</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={forecastData} barSize={14}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />

@@ -72,14 +72,14 @@ export default function RealtimeInsights({ predictions }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8 }}
-      className="bg-[#081225] border border-white/10 rounded-2xl p-6"
+      className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6"
     >
       <div className="flex items-center gap-2 mb-5">
-        <Activity className="w-4 h-4 text-cyan-400" />
-        <h2 className="text-white font-bold text-sm">Realtime Insights</h2>
+        <Activity className="w-4 h-4 text-secondary" />
+        <h2 className="text-primary font-bold text-sm">Realtime Insights</h2>
         <div className="flex items-center gap-1.5 ml-auto">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-cyan-400 text-xs font-mono">LIVE</span>
+          <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+          <span className="text-secondary text-xs font-bold tracking-wider">LIVE</span>
         </div>
       </div>
 

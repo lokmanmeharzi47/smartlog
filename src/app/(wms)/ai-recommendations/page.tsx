@@ -10,7 +10,7 @@ export default function AIRecommendationsPage() {
   const { predictions, loading } = usePredictiveAI();
 
   return (
-    <div className="min-h-full" style={{ background: '#020617' }}>
+    <div className="min-h-full bg-slate-50">
       <TopBar
         title="Recommandations IA"
         subtitle="Centre de décision et actions urgentes générées par l'IA"

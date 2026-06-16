@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], variable: '--font-poppins' })
 
 export const metadata: Metadata = {
   title: 'SmartLog WMS',
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={inter.variable}>
-      <body className="antialiased bg-slate-950">
+    <html lang="fr" className={poppins.variable}>
+      <body className="antialiased bg-slate-50 font-poppins">
         {children}
         <Toaster
           position="bottom-right"

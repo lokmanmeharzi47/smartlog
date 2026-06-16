@@ -11,15 +11,15 @@ const config: Config = {
       colors: {
         // Primary — Deep Navy
         primary: {
-          DEFAULT: "#031635",
-          container: "#1A2B4B",
+          DEFAULT: "#00509d",
+          container: "#003b73",
           fixed: "#D8E2FF",
           "fixed-dim": "#B6C6EF",
         },
         // Secondary
         secondary: {
-          DEFAULT: "#585E6D",
-          container: "#DADFF1",
+          DEFAULT: "#0099e0",
+          container: "#007bb5",
           fixed: "#DDE2F4",
           "fixed-dim": "#C1C6D8",
         },
@@ -77,6 +77,7 @@ const config: Config = {
         "inverse-primary": "#B6C6EF",
       },
       fontFamily: {
+        poppins: ["var(--font-poppins)", "sans-serif"],
         manrope: ["Manrope", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },

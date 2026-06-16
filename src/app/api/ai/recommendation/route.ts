@@ -41,7 +41,7 @@ Format your response in clean markdown, using bullet points or bold text where a
 `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemma-4-31b-it',
       contents: prompt,
     });
 
