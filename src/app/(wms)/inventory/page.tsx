@@ -90,13 +90,13 @@ export default function InventoryPage() {
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <span className="bg-red-50 border border-red-200 text-red-500 text-[10px] font-mono px-2.5 py-1 rounded-lg">
-              ⚠ {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'CRITICAL').length} critiques
+              {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'CRITICAL').length} critiques
             </span>
             <span className="bg-orange-50 border border-orange-200 text-orange-500 text-[10px] font-mono px-2.5 py-1 rounded-lg">
-              ⚡ {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'LOW').length} faibles
+              {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'LOW').length} faibles
             </span>
             <span className="bg-emerald-50 border border-emerald-200 text-emerald-500 text-[10px] font-mono px-2.5 py-1 rounded-lg">
-              ✓ {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'OK').length} OK
+              {products.filter(p => getStockStatus(p.stock, p.min_stock) === 'OK').length} OK
             </span>
             <button
               onClick={() => setIsAddModalOpen(true)}

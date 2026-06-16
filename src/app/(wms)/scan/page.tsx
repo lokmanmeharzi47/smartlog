@@ -230,7 +230,7 @@ export default function ScanPage() {
                     <div className={`p-2.5 rounded-xl ${type === t ? 'bg-current opacity-20' : 'bg-slate-200'}`}>
                       {t === 'IN' ? <ArrowUp className="w-5 h-5" /> : <ArrowDown className="w-5 h-5" />}
                     </div>
-                    {t === 'IN' ? '📥 Entrée (IN)' : '📤 Sortie (OUT)'}
+                    {t === 'IN' ? 'Entrée (IN)' : 'Sortie (OUT)'}
                   </button>
                 ))}
               </div>

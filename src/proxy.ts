@@ -23,19 +23,16 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Refresh session
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
 
-  // Redirect unauthenticated users away from protected routes
   if (!user && path !== '/login') {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Redirect authenticated users away from login
   if (user && path === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }

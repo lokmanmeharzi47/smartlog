@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import {
   LayoutDashboard, Package, ScanLine, AlertTriangle,
   LogOut, FileText, BrainCircuit, ChevronLeft,
-  ChevronRight, Settings, BarChart4,
+  ChevronRight, Settings,
 } from 'lucide-react'
 import Image from 'next/image'
 
@@ -17,7 +17,6 @@ const navItems = [
   { href: '/scan', label: 'Scan', icon: ScanLine },
   { href: '/predictive-ai', label: 'IA Prédictive', icon: BrainCircuit },
   { href: '/alerts', label: 'Alertes', icon: AlertTriangle },
-  { href: '/stock-alerts', label: 'Stock Alertes', icon: BarChart4 },
   { href: '/reports', label: 'Rapports', icon: FileText },
 ]
 

@@ -5,56 +5,24 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'fra
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  Radio, BrainCircuit, Activity, BarChart4, Box,
-  ShieldCheck, Zap, ChevronRight, Lock,
-  Globe, Cloud, Eye, TrendingUp,
-  ScanLine, Menu, X, Check,
-  Sparkles, Layers, Bell, Database,
-  PieChart, LineChart, AlertTriangle, Target,
-  Clock, DollarSign, Package, Calendar, Cpu,
-  ArrowUpRight, Quote, ChevronDown
+  Radio, BrainCircuit, BarChart4, ShieldCheck, Zap,
+  ChevronRight, Lock, Globe, TrendingUp, ScanLine,
+  Menu, X, Check, Bell, PieChart, Target,
+  ArrowUpRight, ChevronDown, Cpu, Activity, Warehouse,
+  Sparkles, Send
 } from 'lucide-react'
 import AIChatWidget from '@/features/chat/components/AIChatWidget'
 
 const team = [
-  { name: 'Bellili Mohammed', role: 'Chef de Projet', initials: 'BM', color: 'bg-sky-500' },
-  { name: 'Daabi Imad', role: 'Développeur Fullstack', initials: 'DI', color: 'bg-indigo-500' },
-  { name: 'Otmane Abdelmoudjib', role: 'Data Scientist', initials: 'OA', color: 'bg-emerald-500' },
-  { name: 'Ghezali Hani', role: 'DevOps & Infrastructure', initials: 'GH', color: 'bg-amber-500' },
-]
-
-const features = [
-  { icon: Radio, title: 'Scan RFID UHF', desc: 'Portiques Impinj R700 et lecteurs Zebra. 700 tags/seconde, sans contact, sans visibilité directe.', color: 'text-sky-600', bg: 'bg-sky-50', border: 'border-sky-200' },
-  { icon: BrainCircuit, title: 'IA Prédictive', desc: 'Anticipez la demande avec WMA, Prophet et LSTM. Détection anomalies Z-Score en temps réel.', color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
-  { icon: BarChart4, title: 'Dashboard KPIs', desc: 'KPIs temps réel: rotation, couverture, valeur stock, score santé. Rafraîchissement toutes les 5 secondes.', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-  { icon: Bell, title: 'Alertes 2 Niveaux', desc: 'Seuils simples (min/max) + Z-Score statistique. Détection ML avancée des anomalies.', color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-200' },
-  { icon: Target, title: 'EOQ — Formule Wilson', desc: 'Quantité optimale de commande. Stock sécurité intégré. Minimise coût commande + stockage.', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-200' },
-  { icon: PieChart, title: 'Pareto ABC', desc: 'Classification 80/20 des articles par valeur. Stratégies différenciées A (strict), B (modéré), C (lot).', color: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-200' },
-  { icon: Layers, title: 'Clustering Dynamique', desc: 'Profils: Stable (WMA), Saisonnier (Holt-Winters), Irrégulier (stock sécurité élevé), Faible (contrôle allégé).', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' },
-  { icon: ShieldCheck, title: 'Traçabilité Totale', desc: 'Conforme HACCP/GDP. Chaque mouvement horodaté et attribué. Audit prêt à tout moment.', color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200' },
-]
-
-const kpiMain = [
-  { label: 'Total articles en stock', formula: 'Σ Quantité de tous les articles', example: '4 928 unités', icon: Package, color: 'text-sky-600', bg: 'bg-sky-50' },
-  { label: 'Articles stock critique', formula: 'Quantité ≤ Seuil Minimum', example: '1 article (SL-003: 28 ≤ 30)', icon: AlertTriangle, color: 'text-rose-600', bg: 'bg-rose-50' },
-  { label: 'Articles stock OK', formula: 'Total - Articles critiques', example: '19 articles sur 20', icon: Check, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-  { label: 'Taux de couverture', formula: '(N_OK / N_total) × 100', example: '95%', icon: BarChart4, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-]
-
-const advancedIndicators = [
-  { label: 'Taux de rotation', formula: 'Sorties 30j / Stock total', example: '0.58x', icon: TrendingUp },
-  { label: 'Valeur totale stock', formula: 'Σ (Qté × Prix unitaire)', example: '2 464 000 DZD', icon: DollarSign },
-  { label: "Mouvements aujourd'hui", formula: 'Count(Mouvements date=ajd)', example: '47 scans', icon: Activity },
-  { label: 'Coût de stockage', formula: 'Articles + Surface + Salaires', example: '38 056 DZD/mois', icon: Clock },
-  { label: 'Articles en surstock', formula: 'Qté > Stock max (ou > 3×Seuil)', example: '0 article', icon: TrendingUp },
-  { label: 'Commandes en attente', formula: 'Count(EN_ATTENTE ou EN_COURS)', example: '3 commandes', icon: Database },
-  { label: 'Score santé stock', formula: '100 - (Critique×12) - (Faible×4) - (Surstock×3) + Bonus', example: '90/100', icon: Target },
+  { name: 'Bellili Mohammed', role: 'Chef de Projet', initials: 'BM' },
+  { name: 'Daabi Imad', role: 'Développeur Fullstack', initials: 'DI' },
+  { name: 'Otmane Abdelmoudjib', role: 'Data Scientist', initials: 'OA' },
+  { name: 'Ghezali Hani', role: 'DevOps & Infrastructure', initials: 'GH' },
 ]
 
 export default function LandingPage() {
   const { scrollYProgress } = useScroll()
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98])
   const statsRef = useRef<HTMLDivElement>(null)
   const statsInView = useInView(statsRef, { once: true })
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -66,7 +34,6 @@ export default function LandingPage() {
       {/* ── NAVBAR ── */}
       <motion.nav
         initial={{ y: -60 }} animate={{ y: 0 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
         className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60"
       >
         <div className="max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
@@ -82,11 +49,10 @@ export default function LandingPage() {
 
           <div className="hidden lg:flex items-center gap-1">
             {[
-              { href: '#features', label: 'Fonctionnalités' },
+              { href: '#features', label: 'Produit' },
               { href: '#dashboard', label: 'Dashboard' },
-              { href: '#ai', label: 'IA Prédictive' },
-              { href: '#alerts', label: 'Alertes' },
-              { href: '#architecture', label: 'Architecture' },
+              { href: '#ai', label: 'IA' },
+              { href: '#platform', label: 'Plateforme' },
               { href: '#equipe', label: 'Équipe' },
             ].map(item => (
               <a key={item.href} href={item.href} className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-50 rounded-lg transition-colors">{item.label}</a>
@@ -111,11 +77,10 @@ export default function LandingPage() {
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="lg:hidden border-t border-slate-100 bg-white overflow-hidden">
               <div className="px-6 py-4 space-y-2">
                 {[
-                  { href: '#features', label: 'Fonctionnalités' },
+                  { href: '#features', label: 'Produit' },
                   { href: '#dashboard', label: 'Dashboard' },
-                  { href: '#ai', label: 'IA Prédictive' },
-                  { href: '#alerts', label: 'Alertes' },
-                  { href: '#architecture', label: 'Architecture' },
+                  { href: '#ai', label: 'IA' },
+                  { href: '#platform', label: 'Plateforme' },
                   { href: '#equipe', label: 'Équipe' },
                 ].map(item => (
                   <a key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-lg">{item.label}</a>
@@ -128,32 +93,23 @@ export default function LandingPage() {
       </motion.nav>
 
       {/* ── HERO ── */}
-      <motion.section style={{ opacity: heroOpacity, scale: heroScale }} className="relative pt-32 md:pt-40 pb-20 md:pb-28 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-50/30 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-1/3 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+      <motion.section style={{ opacity: heroOpacity }} className="relative pt-32 md:pt-40 pb-24 md:pb-32 px-6 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-to-b from-secondary/5 via-primary/5 to-transparent rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-6xl mx-auto text-center relative">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold tracking-wider mb-8"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-secondary" />
-            Startup Algérienne — Smart Warehousing
-          </motion.div>
-
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.05] mb-6"
           >
-            La fin de l'inventaire manuel.<br />
+            La fin de l&apos;inventaire manuel.<br />
             <span className="text-gradient">Le début de la visibilité absolue.</span>
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
             className="text-base md:text-lg text-slate-500 max-w-3xl mx-auto mb-10 leading-relaxed"
           >
-            SmartLog est la première solution SaaS algérienne qui combine la traçabilité RFID UHF et l'intelligence artificielle prédictive. Un WMS complet qui élimine Excel, réduit les erreurs de 30% à 1%, et anticipe vos ruptures de stock.
+            SmartLog est la première solution SaaS algérienne qui combine traçabilité RFID UHF et intelligence artificielle prédictive. Un WMS complet qui élimine Excel, réduit les erreurs de 30% à 1%, et anticipe vos ruptures de stock.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/dashboard" className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-white px-8 py-3.5 rounded-xl text-sm font-semibold shadow-sm hover:shadow-lg transition-all flex items-center justify-center gap-2 group">
@@ -164,73 +120,65 @@ export default function LandingPage() {
             </a>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
-            className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-xs text-slate-400"
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+            className="mt-16 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400"
           >
-            {[
-              { icon: Radio, label: 'RFID UHF 865-868 MHz' },
-              { icon: Zap, label: '700 tags/seconde' },
-              { icon: Check, label: 'Précision 99%' },
-              { icon: BarChart4, label: 'Dashboard Temps Réel' },
-              { icon: BrainCircuit, label: 'IA Prédictive WMA→LSTM' },
-              { icon: Globe, label: 'Bilingue FR/AR' },
-            ].map((badge, i) => (
-              <span key={i} className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100">
-                <badge.icon className="w-3.5 h-3.5 text-secondary" />
-                {badge.label}
-              </span>
-            ))}
+            <span className="flex items-center gap-2"><Zap className="w-3.5 h-3.5 text-secondary" /> RFID UHF 700 tags/s</span>
+            <span className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-secondary" /> Précision 99%</span>
+            <span className="flex items-center gap-2"><BrainCircuit className="w-3.5 h-3.5 text-secondary" /> IA Prédictive WMA→LSTM</span>
+            <span className="flex items-center gap-2"><Globe className="w-3.5 h-3.5 text-secondary" /> Bilingue FR/AR</span>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* ── STATS BANNER ── */}
-      <section id="stats" ref={statsRef} className="py-16 md:py-20 bg-slate-50 border-t border-slate-100">
+      {/* ── STATS ── */}
+      <section ref={statsRef} className="py-16 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-slate-500 text-xs font-semibold uppercase tracking-widest border border-slate-200 mb-5">Chiffres clés</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight">Des résultats mesurables</h2>
-          </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Zap, value: 99, suffix: '%', label: 'Précision inventaire', from: 0, color: 'from-sky-500 to-blue-600' },
-              { icon: TrendingUp, value: 50, suffix: '%', label: "Gain d'efficacité", from: 0, color: 'from-emerald-500 to-emerald-600' },
-              { icon: Activity, value: 10, suffix: 'x', label: 'Inventaire plus rapide', from: 0, color: 'from-indigo-500 to-indigo-600' },
-              { icon: ShieldCheck, value: 20, suffix: '%', label: 'Réduction des coûts', from: 0, color: 'from-amber-500 to-amber-600' },
+              { value: 99, suffix: '%', label: 'Précision inventaire' },
+              { value: 50, suffix: '%', label: "Gain d'efficacité" },
+              { value: 10, suffix: 'x', label: 'Inventaire plus rapide' },
+              { value: 20, suffix: '%', label: 'Réduction des coûts' },
             ].map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="bg-white rounded-2xl p-7 text-center border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
+                className="text-center"
               >
-                <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} text-white mb-4 shadow-sm`}>
-                  <stat.icon className="w-5 h-5" />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold text-slate-800 mb-1 tracking-tight">
+                <div className="text-4xl md:text-5xl font-bold text-white mb-1 tracking-tight">
                   {statsInView && <Counter to={stat.value} from={0} suffix={stat.suffix} />}
                 </div>
-                <div className="text-sm text-slate-500">{stat.label}</div>
+                <div className="text-slate-400 text-sm">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── FEATURES GRID ── */}
-      <section id="features" className="py-20 md:py-28">
+      {/* ── FEATURES ── */}
+      <section id="features" className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">Fonctionnalités</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">8 modules clés pour votre entrepôt</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">De la réception RFID à la prévision IA, SmartLog couvre l'ensemble des processus logistiques.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">L&apos;essentiel de votre entrepôt, en un coup d&apos;oeil.</h2>
+            <p className="text-lg text-slate-500">De la réception RFID à la prévision IA, SmartLog couvre l&apos;ensemble de vos processus logistiques.</p>
           </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {features.map((f, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Radio, title: 'Scan RFID UHF', desc: 'Portiques Impinj R700. 700 tags/seconde, sans contact, sans visibilité directe.' },
+              { icon: BrainCircuit, title: 'IA Prédictive', desc: 'Anticipez la demande avec WMA, Prophet et LSTM. Détection anomalies Z-Score.' },
+              { icon: BarChart4, title: 'Dashboard KPIs', desc: 'KPIs temps réel : rotation, couverture, valeur stock, score santé. Rafraîchi toutes les 5s.' },
+              { icon: Bell, title: 'Alertes Intelligentes', desc: 'Seuils min/max, détection Z-Score et ML avancé (Isolation Forest) des anomalies.' },
+              { icon: Target, title: 'EOQ — Wilson', desc: 'Quantité optimale de commande. Stock sécurité intégré. Minimise coût commande + stockage.' },
+              { icon: PieChart, title: 'Classification ABC', desc: 'Pareto 80/20. Stratégies A (strict), B (modéré), C (lot) par valeur de consommation.' },
+              { icon: ShieldCheck, title: 'Traçabilité Totale', desc: 'Conforme HACCP/GDP. Chaque mouvement horodaté et attribué. Audit prêt.' },
+              { icon: ScanLine, title: 'Scan & Mouvements', desc: 'Entrées/sorties par QR code ou RFID. Mise à jour temps réel du stock.' },
+            ].map((f, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                className="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 transition-all hover:shadow-lg hover:-translate-y-0.5"
+                className="group"
               >
-                <div className={`w-12 h-12 rounded-xl ${f.bg} ${f.border} border flex items-center justify-center mb-4 group-hover:scale-105 transition-transform`}>
-                  <f.icon className={`w-5 h-5 ${f.color}`} />
+                <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-slate-800 transition-colors">
+                  <f.icon className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-slate-800 font-bold text-base mb-2">{f.title}</h3>
+                <h3 className="text-slate-800 font-semibold text-sm mb-1.5">{f.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
@@ -238,585 +186,331 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── DASHBOARD KPIS ── */}
-      <section id="dashboard" className="py-20 md:py-28 bg-slate-50 border-t border-slate-100">
+      {/* ── DASHBOARD ── */}
+      <section id="dashboard" className="py-24 md:py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-slate-500 text-xs font-semibold uppercase tracking-widest border border-slate-200 mb-5">Dashboard Principal</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">KPIs en temps réel</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Page d'accueil de SmartLog. Rafraîchissement automatique toutes les 5 secondes.</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-            {kpiMain.map((kpi, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-xl ${kpi.bg} flex items-center justify-center`}>
-                    <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Un tableau de bord qui parle.</h2>
+              <p className="text-lg text-slate-500 mb-8">KPIs temps réel, graphiques dynamiques et fil d&apos;événements live. Rafraîchissement automatique toutes les 5 secondes.</p>
+              <div className="space-y-4">
+                {[
+                  { label: 'Total stock', value: '4 928 unités', desc: 'Σ Quantité de tous les articles' },
+                  { label: 'Taux de couverture', value: '95%', desc: '19 articles OK sur 20' },
+                  { label: 'Score santé', value: '90/100', desc: 'Basé sur critiques, faibles, surstock et rotation' },
+                ].map((kpi, i) => (
+                  <div key={i} className="flex items-center justify-between bg-white rounded-xl px-5 py-4 border border-slate-200 shadow-sm">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-800">{kpi.label}</p>
+                      <p className="text-xs text-slate-400">{kpi.desc}</p>
+                    </div>
+                    <span className="text-lg font-bold text-primary font-mono">{kpi.value}</span>
                   </div>
-                  <span className="text-sm font-semibold text-slate-700">{kpi.label}</span>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="bg-white rounded-2xl border border-slate-200 shadow-lg p-6 space-y-4"
+            >
+              <div className="flex items-center gap-2 pb-4 border-b border-slate-100">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-amber-400" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-400" />
                 </div>
-                <p className="text-xs text-slate-400 font-mono mb-1">{kpi.formula}</p>
-                <p className="text-lg font-bold text-slate-800">{kpi.example}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-slate-500 text-xs font-semibold uppercase tracking-widest border border-slate-200 mb-5">Indicateurs Avancés</span>
-            <h2 className="text-slate-900 font-bold text-2xl md:text-3xl tracking-tight">7 métriques pour une visibilité totale</h2>
-          </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {advancedIndicators.map((ind, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <ind.icon className="w-5 h-5 text-slate-400" />
-                  <span className="text-sm font-semibold text-slate-700">{ind.label}</span>
-                </div>
-                <p className="text-xs text-slate-400 font-mono mb-1">{ind.formula}</p>
-                <p className="text-base font-bold text-slate-800">{ind.example}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CHARTS SECTION ── */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">Analytics</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">4 visualisations clés</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Graphiques dynamiques pour une compréhension instantanée de votre entrepôt.</p>
-          </motion.div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              { icon: BarChart4, title: 'Niveau de stock par article', desc: 'Barres colorées : Cyan (OK), Orange (Faible), Rouge (Critique) vs seuil minimum.', color: 'text-sky-600', bg: 'bg-sky-50' },
-              { icon: PieChart, title: 'Répartition par catégorie', desc: 'Donut montrant la distribution : Chimie, Emballage, Logistique, Sécurité.', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-              { icon: Activity, title: 'Remplissage des zones', desc: 'Barres de progression par emplacement. 100% = capacité max théorique (Seuil×3).', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-              { icon: Database, title: "Fil d'événements temps réel", desc: 'Journal des scans, connexions et alertes. Entrées les plus récentes en premier.', color: 'text-amber-600', bg: 'bg-amber-50' },
-            ].map((chart, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
-              >
-                <div className={`w-12 h-12 rounded-xl ${chart.bg} flex items-center justify-center shrink-0`}>
-                  <chart.icon className={`w-6 h-6 ${chart.color}`} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-800 mb-1">{chart.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{chart.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+                <span className="text-xs text-slate-400 font-mono ml-2">Dashboard — Temps réel</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: 'Stock total', value: '4 928u' },
+                  { label: 'Critiques', value: '1', accent: 'text-red-500' },
+                  { label: 'Taux couv.', value: '95%' },
+                  { label: 'Rotation', value: '0.58x' },
+                ].map((s, i) => (
+                  <div key={i} className="bg-slate-50 rounded-lg p-3">
+                    <p className="text-xs text-slate-400">{s.label}</p>
+                    <p className={`text-lg font-bold font-mono ${s.accent || 'text-primary'}`}>{s.value}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="h-32 bg-slate-50 rounded-lg flex items-center justify-center">
+                <BarChart4 className="w-8 h-8 text-slate-300" />
+                <span className="text-xs text-slate-300 ml-2">Graphique stock par article</span>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── AI PREDICTION MODULE ── */}
-      <section id="ai" className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-slate-800 text-white border-t border-slate-700">
+      {/* ── AI ── */}
+      <section id="ai" className="py-24 md:py-32 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-white/50 text-xs font-semibold uppercase tracking-widest mb-5">
-              <BrainCircuit className="w-3.5 h-3.5 text-sky-400" /> Intelligence Artificielle
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Module Prédiction IA</h2>
-            <p className="text-white/50 text-lg max-w-2xl mx-auto">Trois phases de maturité : du WMA classique au Deep Learning LSTM.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-16">
+            <span className="text-xs font-semibold text-sky-400 uppercase tracking-widest mb-4 block">Intelligence Artificielle</span>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Des prévisions qui anticipent vos ruptures.</h2>
+            <p className="text-lg text-slate-400">Trois phases de maturité : du WMA classique au Deep Learning LSTM. Plus vos données murissent, plus les prédictions sont précises.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-5 mb-16">
             {[
-              { phase: '0-6 mois', method: 'WMA — Weighted Moving Average', desc: 'Poids [1,2,3,4,5,6,7] sur 7 jours. Le jour le plus récent a le poids le plus fort.', mape: '15-20%', color: 'border-sky-500/20' },
-              { phase: '6-12 mois', method: 'Prophet (Meta)', desc: 'Capture les tendances et la saisonnalité. Idéal pour les données à moyen terme.', mape: '10-15%', color: 'border-indigo-500/20' },
-              { phase: '12+ mois', method: 'LSTM — Deep Learning', desc: 'Réseau de neurones récurrent. Apprend les patterns complexes sur le long terme.', mape: '< 10%', color: 'border-purple-500/20' },
+              { phase: '0-6 mois', method: 'WMA — Moyenne Pondérée', desc: 'Poids [1,2,3,4,5,6,7] sur 7 jours. Le jour récent a le poids le plus fort.', mape: '15-20%' },
+              { phase: '6-12 mois', method: 'Prophet (Meta)', desc: 'Capture les tendances et la saisonnalité. Idéal pour données à moyen terme.', mape: '10-15%' },
+              { phase: '12+ mois', method: 'LSTM — Deep Learning', desc: 'Réseau de neurones récurrent. Apprend les patterns complexes long terme.', mape: '< 10%' },
             ].map((m, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`rounded-2xl p-6 border ${m.color} bg-white/5 hover:bg-white/10 transition-colors`}
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">{m.phase}</span>
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-0.5 rounded-full">{m.mape}</span>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs text-slate-500 uppercase tracking-wider">{m.phase}</span>
+                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">{m.mape}</span>
                 </div>
-                <h3 className="font-bold text-white text-base mb-2">{m.method}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{m.desc}</p>
+                <h3 className="font-semibold text-white mb-1.5">{m.method}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{m.desc}</p>
               </motion.div>
             ))}
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="bg-white/5 rounded-2xl p-6 border border-white/10"
             >
-              <h3 className="font-bold text-white text-base mb-4 flex items-center gap-2">
-                <LineChart className="w-5 h-5 text-sky-400" /> Algorithme WMA
-              </h3>
-              <div className="space-y-3 text-sm">
-                <p className="text-white/60"><span className="text-white font-semibold">Formule :</span> WMA = Σ(wᵢ × xᵢ) / Σwᵢ avec poids [1,2,3,4,5,6,7]</p>
-                <div className="bg-white/5 rounded-xl p-4 font-mono text-xs text-white/60">
-                  <p className="text-white/80 mb-2">Exemple SL-006 :</p>
-                  <p>WMA = (66×1 + 83×2 + 87×3 + 75×4 + 94×5 + 74×6 + 138×7) / 28</p>
-                  <p className="text-sky-400 mt-1">WMA = 95.5 u/jour → Prévision 7j = 668u · 14j = 1 337u</p>
-                </div>
-                <p className="text-white/60"><span className="text-white font-semibold">Date de rupture :</span> Jours_restants = floor(Stock / WMA)</p>
-                <p className="text-white/60"><span className="text-white font-semibold">Taux de confiance :</span> CV = σ/μ · Confiance = max(60%, min(97%, (1-CV×0.8)×100%))</p>
+              <h3 className="font-semibold text-white mb-3">Algorithme WMA</h3>
+              <p className="text-sm text-slate-400 mb-3">WMA = Σ(wᵢ × xᵢ) / Σwᵢ avec poids [1,2,3,4,5,6,7]</p>
+              <div className="bg-white/5 rounded-xl p-4 text-xs text-slate-400 font-mono space-y-1">
+                <p>Exemple SL-006 : WMA = 95.5 u/jour</p>
+                <p>Prévision 7j = 668u · 14j = 1 337u</p>
+                <p className="text-emerald-400">Stock restant : 13 jours → Rupture le 31 mars 2026</p>
               </div>
             </motion.div>
-
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="bg-white/5 rounded-2xl p-6 border border-white/10"
             >
-              <h3 className="font-bold text-white text-base mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-emerald-400" /> Recommandations automatiques
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { status: '🔴 Urgent', cond: 'Jours < 7', action: 'Commander maintenant', color: 'text-rose-300' },
-                  { status: '🟠 Cette semaine', cond: '7 ≤ Jours < 14', action: 'Planifier commande', color: 'text-amber-300' },
-                  { status: '🟢 OK', cond: 'Jours ≥ 14', action: 'Stock suffisant', color: 'text-emerald-300' },
-                ].map((r, i) => (
-                  <div key={i} className="bg-white/5 rounded-xl p-4 flex items-center justify-between hover:bg-white/10 transition-colors">
-                    <div>
-                      <p className={`font-semibold text-sm ${r.color}`}>{r.status}</p>
-                      <p className="text-xs text-white/40">{r.cond}</p>
-                    </div>
-                    <span className="text-xs text-white/60">{r.action}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── ADVANCED AI MODULES ── */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">Modules IA Avancés</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">Détection d'anomalies, Pareto ABC &amp; EOQ</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Des algorithmes de classe enterprise pour une gestion scientifique des stocks.</p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: AlertTriangle, title: 'Z-Score — Anomalies', formula: 'Z = |x - μ| / σ',
-                desc: 'Détecte les comportements anormaux dans les sorties de stock. Anomalie si Z > 1.5σ, Critique si Z > 2.5σ.',
-                example: 'SL-003 : μ=4u/j, σ=2, valeur=8 → Z=(8-4)/2=2.0 → HAUSSE MODÉRÉE',
-                color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-200', iconBg: 'bg-rose-50', iconBorder: 'border-rose-200', exampleBg: 'bg-rose-50'
-              },
-              {
-                icon: PieChart, title: 'Pareto — Classification ABC', formula: 'Valeur_i = Demande_annuelle × Prix_unitaire',
-                desc: 'Classe les articles par valeur de consommation selon la loi 80/20.',
-                classes: [
-                  { cls: 'A', part: '0→70%', strategy: 'Contrôle strict · Réappro fréquent', color: 'bg-cyan-500' },
-                  { cls: 'B', part: '70→90%', strategy: 'Contrôle modéré · Réappro mensuel', color: 'bg-emerald-500' },
-                  { cls: 'C', part: '90→100%', strategy: 'Contrôle allégé · Commande en lot', color: 'bg-slate-400' },
-                ],
-                color: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-200', iconBg: 'bg-cyan-50', iconBorder: 'border-cyan-200'
-              },
-              {
-                icon: Target, title: 'EOQ — Formule Wilson', formula: 'EOQ = √(2 × D × K / h)',
-                desc: "Quantité optimale à commander. Minimise coût de commande + coût de stockage.",
-                exampleLines: [
-                  'SL-001 : D=1825u/an, K=1500DZD, h=12DZD/u/an',
-                  'EOQ = √(2×1825×1500/12) = 675 unités',
-                  'Stock sécurité (95%) = 1.65 × σ × √délai = 35u',
-                ],
-                color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-200', iconBg: 'bg-purple-50', iconBorder: 'border-purple-200', exampleBg: 'bg-purple-50'
-              },
-            ].map((card: any, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all"
-              >
-                <div className={`w-11 h-11 rounded-xl ${card.iconBg} ${card.iconBorder || card.border} border flex items-center justify-center mb-4`}>
-                  <card.icon className={`w-5 h-5 ${card.color}`} />
-                </div>
-                <h3 className="font-bold text-slate-800 mb-3">{card.title}</h3>
-                <p className="text-xs text-slate-400 font-mono mb-3">{card.formula}</p>
-                <p className="text-sm text-slate-500 leading-relaxed mb-4">{card.desc}</p>
-                {card.example && (
-                  <div className={`${card.exampleBg || 'bg-slate-50'} rounded-xl p-4`}>
-                    <p className="text-xs font-semibold text-slate-600 mb-1">Exemple :</p>
-                    <p className="text-xs text-slate-500 font-mono">{card.example}</p>
-                  </div>
-                )}
-                {card.exampleLines && (
-                  <div className={`${card.exampleBg || 'bg-slate-50'} rounded-xl p-4 space-y-1`}>
-                    <p className="text-xs font-semibold text-slate-600 mb-1">Exemple SL-001 :</p>
-                    {card.exampleLines.map((line: string, j: number) => (
-                      <p key={j} className="text-xs text-slate-500 font-mono">{line}</p>
-                    ))}
-                  </div>
-                )}
-                {card.classes && (
-                  <div className="space-y-2">
-                    {card.classes.map((c: any, j: number) => (
-                      <div key={j} className="flex items-center gap-3 text-xs">
-                        <span className={`w-6 h-6 rounded ${c.color} text-white font-bold flex items-center justify-center text-[10px]`}>{c.cls}</span>
-                        <span className="text-slate-500">{c.part}</span>
-                        <span className="text-slate-400">— {c.strategy}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CLUSTERING + RUPTURE ── */}
-      <section className="py-20 md:py-28 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="w-11 h-11 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center mb-4">
-                <Layers className="w-5 h-5 text-orange-600" />
-              </div>
-              <h3 className="font-bold text-slate-800 mb-2">Clustering — Profils de demande</h3>
-              <p className="text-sm text-slate-500 mb-5">Regroupe les articles par comportement pour adapter la stratégie de prédiction.</p>
-              <div className="space-y-3">
-                {[
-                  { profile: 'Stable', criterion: 'CV < 0.5', model: 'WMA', color: 'bg-sky-50 text-sky-700 border-sky-200' },
-                  { profile: 'Saisonnier', criterion: 'Ratio max/min > 1.8', model: 'Holt-Winters', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
-                  { profile: 'Irrégulier', criterion: 'CV > 0.5', model: 'WMA + Stock sécu. élevé', color: 'bg-amber-50 text-amber-700 border-amber-200' },
-                  { profile: 'Faible', criterion: 'Moyenne < 2u/j', model: 'Contrôle allégé', color: 'bg-slate-100 text-slate-600 border-slate-200' },
-                ].map((p, i) => (
-                  <div key={i} className={`rounded-xl p-4 border ${p.color}`}>
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-sm">{p.profile}</span>
-                      <span className="text-xs font-mono">{p.criterion}</span>
-                    </div>
-                    <p className="text-xs opacity-70">Modèle : {p.model}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="w-11 h-11 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center mb-4">
-                <Calendar className="w-5 h-5 text-rose-600" />
-              </div>
-              <h3 className="font-bold text-slate-800 mb-2">Calendrier des ruptures</h3>
-              <p className="text-sm text-slate-500 mb-5">Tableau trié par urgence avec date exacte de rupture prévue.</p>
+              <h3 className="font-semibold text-white mb-3">Recommandations automatiques</h3>
               <div className="space-y-2">
                 {[
-                  { status: 'Rupture imminente', jours: '< 7j', action: 'Commander immédiatement', color: 'text-rose-600', bg: 'bg-rose-50' },
-                  { status: 'Urgent', jours: '7-14j', action: 'Commander cette semaine', color: 'text-orange-600', bg: 'bg-orange-50' },
-                  { status: 'Surveiller', jours: '14-30j', action: 'Planifier', color: 'text-sky-600', bg: 'bg-sky-50' },
-                  { status: 'OK', jours: '> 30j', action: 'Aucune action', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                  { status: 'Urgent', cond: 'Jours < 7', action: 'Commander maintenant', color: 'text-red-300' },
+                  { status: 'Cette semaine', cond: '7 ≤ Jours < 14', action: 'Planifier commande', color: 'text-amber-300' },
+                  { status: 'OK', cond: 'Jours ≥ 14', action: 'Stock suffisant', color: 'text-emerald-300' },
                 ].map((r, i) => (
-                  <div key={i} className={`${r.bg} rounded-xl px-4 py-3 flex items-center justify-between`}>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-sm font-semibold ${r.color}`}>{r.status}</span>
-                      <span className="text-xs text-slate-400 font-mono">{r.jours}</span>
+                  <div key={i} className="bg-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
+                    <div>
+                      <p className={`text-sm font-medium ${r.color}`}>{r.status}</p>
+                      <p className="text-xs text-slate-500">{r.cond}</p>
                     </div>
-                    <span className={`text-xs font-semibold ${r.color}`}>{r.action}</span>
+                    <span className="text-xs text-slate-400">{r.action}</span>
                   </div>
                 ))}
               </div>
             </motion.div>
           </div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-8">
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-11 h-11 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center">
-                  <ScanLine className="w-5 h-5 text-sky-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-800">Module Scan — Mouvements de stock</h3>
-                  <p className="text-sm text-slate-500">Enregistrement des entrées/sorties via scan QR ou saisie manuelle. Mise à jour temps réel.</p>
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-4 gap-4">
-                {[
-                  { step: '1', label: 'Choisir', desc: 'Sortie ou Entrée' },
-                  { step: '2', label: 'Définir', desc: 'Quantité (+/-)' },
-                  { step: '3', label: 'Scanner', desc: 'QR code ou saisie manuelle' },
-                  { step: '4', label: 'Valider', desc: 'Mise à jour temps réel' },
-                ].map((s, i) => (
-                  <div key={i} className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-                    <span className="text-2xl font-bold text-slate-200 block mb-1">{s.step}</span>
-                    <p className="text-xs font-semibold text-slate-600 mb-0.5">{s.label}</p>
-                    <p className="text-xs text-slate-400">{s.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      {/* ── ALERTS ── */}
-      <section id="alerts" className="py-20 md:py-28 bg-white border-t border-slate-100">
+      {/* ── LLM / ASSISTANT ── */}
+      <section className="py-24 md:py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">Alertes & Notifications</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">Système d'alerte à deux niveaux</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Des notifications proactives pour ne jamais être pris au dépourvu.</p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center">
-                  <Bell className="w-5 h-5 text-amber-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-800">Alertes Simples</h3>
-                  <p className="text-xs text-slate-400">Opérationnelles dès le Jour 1</p>
-                </div>
-                <span className="ml-auto bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">ACTIF</span>
-              </div>
-              <ul className="space-y-3 text-sm text-slate-500">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest mb-4 block">Assistant IA</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Un LLM qui parle logistique.</h2>
+              <p className="text-lg text-slate-500 mb-8">
+                Posez une question en langage naturel. L&apos;assistant SmartLog comprend votre contexte, analyse vos données et vous répond comme un consultant supply chain.
+              </p>
+              <div className="space-y-4">
                 {[
-                  'Seuils min/max personnalisables',
-                  'Détection Z-Score (|Z| > 3)',
-                  'Alertes de rupture et surstock',
-                  'Notifications Toast (Succès/Erreur/Info)',
+                  { q: 'Quels sont mes articles en stock critique ?', tag: 'Stock' },
+                  { q: 'Quand dois-je commander le SL-006 ?', tag: 'Prévision' },
+                  { q: 'Explique-moi le score santé du stock', tag: 'KPI' },
+                  { q: 'Quelle est la formule EOQ pour la catégorie A ?', tag: 'Optimisation' },
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 shrink-0" />{item}</li>
+                  <div key={i} className="flex items-center gap-3 bg-white rounded-xl px-5 py-4 border border-slate-200 shadow-sm">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2 py-1 rounded-md">{item.tag}</span>
+                    <span className="text-sm text-slate-600 flex-1">{item.q}</span>
+                    <ChevronRight className="w-4 h-4 text-slate-300" />
+                  </div>
                 ))}
-              </ul>
+              </div>
+              <div className="mt-6 flex items-center gap-3 text-xs text-slate-400">
+                <Sparkles className="w-4 h-4 text-secondary" />
+                Propulsé par Google Gemma 4 31B — Contexte WMA, Z-Score, EOQ, Pareto ABC
+              </div>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl p-6 text-white shadow-lg"
+              className="bg-slate-900 rounded-2xl border border-slate-700 shadow-xl overflow-hidden"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center">
-                  <BrainCircuit className="w-5 h-5 text-sky-400" />
+              <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-700 bg-slate-800">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-amber-400" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-400" />
                 </div>
-                <div>
-                  <h3 className="font-bold">Alertes IA Avancées</h3>
-                  <p className="text-xs text-white/40">Activation progressive (6-12 mois)</p>
-                </div>
-                <span className="ml-auto bg-amber-400/10 text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/20">PROGRESSIF</span>
+                <span className="text-xs text-slate-500 font-mono ml-2">Assistant SmartLog</span>
+                <span className="ml-auto text-[10px] text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Gemini 4
+                </span>
               </div>
-              <ul className="space-y-3 text-sm text-white/70">
-                {[
-                  'Détection ML (Isolation Forest)',
-                  'Apprentissage des patterns normaux',
-                  'Drape les déviations avant rupture',
-                  'Recommandations contextualisées',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-sky-400 shrink-0" />{item}</li>
-                ))}
-              </ul>
+              <div className="p-5 space-y-4">
+                <div className="flex justify-start">
+                  <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 max-w-[85%]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">SmartLog IA</p>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Bonjour ! Je suis votre assistant logistique. Je peux analyser vos stocks, anticiper les ruptures et recommander des commandes. Que souhaitez-vous savoir ?
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <div className="bg-secondary/20 border border-secondary/30 rounded-xl px-4 py-3 max-w-[85%]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-secondary/60 mb-1">Vous</p>
+                    <p className="text-xs text-white">Quels sont les articles en stock critique aujourd'hui ?</p>
+                  </div>
+                </div>
+                <div className="flex justify-start">
+                  <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 max-w-[90%]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">SmartLog IA</p>
+                    <div className="text-xs text-slate-300 leading-relaxed space-y-1">
+                      <p className="font-semibold text-white">3 articles critiques détectés :</p>
+                      <p>• <strong>SL-003</strong> — 12 u (seuil 50) → <span className="text-red-400">Commander 38 u</span></p>
+                      <p>• <strong>SL-008</strong> — 5 u (seuil 30) → <span className="text-red-400">Commander 25 u</span></p>
+                      <p>• <strong>SL-012</strong> — 0 u (seuil 20) → <span className="text-red-400">Rupture, commander 20 u</span></p>
+                      <p className="text-amber-400 mt-2">Risque : perte de 340 000 DZD de CA si non réapprovisionné sous 48h.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 px-1">
+                  <div className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-500">
+                    Posez votre question...
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center">
+                    <Send className="w-4 h-4 text-white" />
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── ARCHITECTURE ── */}
-      <section id="architecture" className="py-20 md:py-28 bg-slate-50 border-t border-slate-100">
+      {/* ── PLATFORM ── */}
+      <section id="platform" className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-slate-500 text-xs font-semibold uppercase tracking-widest border border-slate-200 mb-5">Architecture</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">Hardware + Software, une synergie complète</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Du portique RFID au dashboard IA, chaque couche est conçue pour fonctionner ensemble.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-16">
+            <span className="text-xs font-semibold text-primary uppercase tracking-widest mb-4 block">Architecture</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Hardware + Software, une synergie complète.</h2>
+            <p className="text-lg text-slate-500">Du portique RFID au dashboard IA, chaque couche est conçue pour fonctionner ensemble.</p>
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm hover:shadow-md transition-all"
+              className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-sky-50 rounded-xl border border-sky-200 flex items-center justify-center">
-                  <Radio className="w-7 h-7 text-sky-600" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Hardware</p>
-                  <h3 className="text-xl font-bold text-slate-800">Kit RFID UHF</h3>
-                </div>
+              <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center mb-5">
+                <Radio className="w-6 h-6 text-sky-600" />
               </div>
-              <p className="text-slate-500 text-sm leading-relaxed mb-6">Remplacement complet du scan code-barres. Portiques Impinj R700 et lecteurs mobiles Zebra. Élimine 8-12h d'inventaire manuel en 10-15 minutes.</p>
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <h3 className="text-lg font-bold text-slate-800 mb-1">Kit RFID UHF</h3>
+              <p className="text-sm text-slate-500 mb-5">Remplace le scan code-barres. Portiques Impinj R700 et lecteurs Zebra. 8-12h d'inventaire réduits à 10-15 min.</p>
+              <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
                   { label: 'Fréquence', value: 'UHF 865-868 MHz' },
-                  { label: 'Portée max', value: '10 mètres' },
                   { label: 'Débit', value: '700 tags/s' },
+                  { label: 'Portée', value: '10 mètres' },
                   { label: 'Standard', value: 'EPC Gen2' },
-                ].map((spec, i) => (
-                  <div key={i} className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">{spec.label}</p>
-                    <p className="text-sm font-semibold text-slate-700">{spec.value}</p>
+                ].map((s, i) => (
+                  <div key={i} className="bg-slate-50 rounded-lg px-3 py-2 text-xs">
+                    <span className="text-slate-400 block">{s.label}</span>
+                    <span className="text-slate-700 font-semibold">{s.value}</span>
                   </div>
                 ))}
               </div>
-              <ul className="space-y-2.5">
-                {[
-                  'Lecteurs fixes aux quais (Entrées/Sorties)',
-                  'Antennes directionnelles (couverture 70m²)',
-                  'Middleware RFID anti-redondance',
-                  'Tags UHF passifs EPC Gen2',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-4 h-4 text-sky-500 shrink-0" />{item}</li>
+              <ul className="space-y-2 text-sm text-slate-600">
+                {['Lecteurs fixes aux quais', 'Antennes directionnelles 70m²', 'Middleware RFID anti-redondance', 'Tags UHF passifs EPC Gen2'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-sky-500 shrink-0" />{item}</li>
                 ))}
               </ul>
-              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-                <p className="text-xs font-semibold text-amber-700">Ce qu'il remplace :</p>
-                <p className="text-xs text-amber-600 mt-1">Scan code-barres manuel · Visibilité directe · Comptage unitaire → 8-12h réduits à 10-15 min</p>
-              </div>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl p-8 md:p-10 text-white shadow-lg"
+              className="bg-slate-800 rounded-2xl p-8 text-white shadow-sm"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-white/10 rounded-xl border border-white/20 flex items-center justify-center">
-                  <Cloud className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-white/40 uppercase tracking-wider">Software</p>
-                  <h3 className="text-xl font-bold">WMS SaaS + IA</h3>
-                </div>
+              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-5">
+                <BarChart4 className="w-6 h-6 text-white" />
               </div>
-              <p className="text-white/70 text-sm leading-relaxed mb-6">Plateforme Cloud centralisée accessible depuis n'importe où. Dashboard en temps réel, alertes Z-Score, prévision de la demande par IA progressive.</p>
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <h3 className="text-lg font-bold mb-1">WMS SaaS + IA</h3>
+              <p className="text-sm text-slate-400 mb-5">Plateforme cloud centralisée. Dashboard temps réel, alertes Z-Score, prévisions IA progressives.</p>
+              <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
-                  { label: 'Disponibilité', value: '99.9% SLA' },
-                  { label: 'Sécurité', value: 'HACCP / GDPR' },
+                  { label: 'Disponibilité', value: '99.9%' },
+                  { label: 'Sécurité', value: 'HACCP/GDP' },
                   { label: 'Données', value: 'Temps réel' },
-                  { label: 'Déploiement', value: 'Cloud / Hybride' },
-                ].map((spec, i) => (
-                  <div key={i} className="bg-white/5 rounded-xl p-3 border border-white/10">
-                    <p className="text-[10px] font-semibold text-white/40 uppercase tracking-wider mb-0.5">{spec.label}</p>
-                    <p className="text-sm font-semibold text-white">{spec.value}</p>
+                  { label: 'Déploiement', value: 'Cloud/Hybride' },
+                ].map((s, i) => (
+                  <div key={i} className="bg-white/5 rounded-lg px-3 py-2 text-xs border border-white/10">
+                    <span className="text-slate-500 block">{s.label}</span>
+                    <span className="text-white font-semibold">{s.value}</span>
                   </div>
                 ))}
               </div>
-              <ul className="space-y-2.5">
-                {[
-                  'Dashboard KPIs (rafraîchi toutes les 5s)',
-                  'Alertes anomalies Z-Score',
-                  'Prévisions WMA → Prophet → LSTM',
-                  'Assistant IA conversationnel',
-                  'Bilingue Français / Arabe',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-emerald-400 shrink-0" />{item}</li>
+              <ul className="space-y-2 text-sm text-slate-300">
+                {['Dashboard KPIs (5s refresh)', 'Alertes anomalies Z-Score', 'Prévisions WMA → Prophet → LSTM', 'Assistant IA conversationnel', 'Bilingue Français/Arabe'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />{item}</li>
                 ))}
               </ul>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* ── VALUES ── */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-white/50 text-xs font-semibold uppercase tracking-widest mb-5">Notre vision</span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Les 4 piliers stratégiques</h2>
-            <p className="text-white/50 text-lg max-w-2xl mx-auto">Pourquoi les PME algériennes nous font confiance.</p>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { icon: Cpu, title: 'Modernité', desc: 'Premier WMS en Algérie unifiant matériel RFID et IA Cloud.' },
-              { icon: Activity, title: 'Performance', desc: 'Précision stocks 60%→99%. Opérations 50% plus rapides.' },
-              { icon: TrendingUp, title: 'Réduction coûts', desc: 'Inventaire divisé par 10. Baisse de 20% des charges logistiques.' },
-              { icon: ShieldCheck, title: 'Sécurité', desc: 'Traçabilité HACCP/GDP. Alertes proactives avant rupture.' },
-            ].map((v, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all"
-              >
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4">
-                  <v.icon className="w-6 h-6 text-sky-400" />
-                </div>
-                <h3 className="font-bold text-base mb-2">{v.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{v.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIAL ── */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-6">
-              <Quote className="w-6 h-6 text-slate-300" />
-            </div>
-            <blockquote className="text-xl md:text-2xl text-slate-600 leading-relaxed mb-8 font-medium">
-              &ldquo;SmartLog a transformé notre gestion d'entrepôt. Nous sommes passés de 3 jours d'inventaire à 2 heures. Et nous n'avons plus jamais eu de rupture de stock.&rdquo;
-            </blockquote>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-500">KM</div>
-              <div className="text-left">
-                <p className="font-semibold text-slate-800 text-sm">Kamel Mansouri</p>
-                <p className="text-xs text-slate-400">Directeur Logistique, Groupe SPA</p>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
       {/* ── TEAM ── */}
-      <section id="equipe" className="py-20 md:py-28 bg-slate-50 border-t border-slate-100">
+      <section id="equipe" className="py-24 md:py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-slate-500 text-xs font-semibold uppercase tracking-widest border border-slate-200 mb-5">Équipe</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">L'équipe SmartLog</h2>
-            <p className="text-slate-500 text-lg">Master 2 SCM — EHEC Alger · 2025-2026</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-16">
+            <span className="text-xs font-semibold text-primary uppercase tracking-widest mb-4 block">Équipe</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Derrière SmartLog.</h2>
+            <p className="text-lg text-slate-500">Master 2 SCM — EHEC Alger · 2025-2026</p>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-2xl p-6 border border-slate-200 text-center hover:shadow-lg hover:-translate-y-0.5 transition-all"
+                className="text-center"
               >
-                <div className={`w-16 h-16 rounded-xl ${m.color} flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg shadow-sm`}>
+                <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mx-auto mb-3 text-slate-600 font-bold text-sm">
                   {m.initials}
                 </div>
-                <h3 className="font-bold text-slate-800 text-sm">{m.name}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">{m.role}</p>
+                <h3 className="font-semibold text-slate-800 text-sm">{m.name}</h3>
+                <p className="text-xs text-slate-400">{m.role}</p>
               </motion.div>
             ))}
           </div>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-8 text-center text-xs text-slate-400">
-            EHEC Alger · Master 2 Supply Chain Management · Sous la direction de l'équipe pédagogique
-          </motion.p>
         </div>
       </section>
 
       {/* ── FAQ ── */}
-      <section id="faq" className="py-20 md:py-28 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-3xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200/50 text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">FAQ</span>
-            <h2 className="text-slate-900 font-bold text-3xl md:text-4xl tracking-tight mb-4">Questions fréquentes</h2>
-            <p className="text-slate-500 text-lg">Tout ce que vous devez savoir avant de démarrer.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Questions fréquentes.</h2>
+            <p className="text-lg text-slate-500">Tout ce que vous devez savoir avant de démarrer.</p>
           </motion.div>
           <div className="space-y-3">
             {[
               { q: "Quel est le coût d'un kit RFID UHF SmartLog ?", a: "Nos kits démarrent à 450 000 DZD pour une configuration PME (1 portique, 2 antennes, 1000 tags). Le déploiement complet d'un entrepôt de 500m² est généralement entre 1.2M et 2.5M DZD, incluant l'installation et la formation." },
-              { q: 'Puis-je utiliser SmartLog sans matériel RFID ?', a: "Absolument. Vous pouvez utiliser l'application en mode scan code-barres avec des lecteurs Zebra standards. Le WMS fonctionne parfaitement sans RFID et vous pouvez migrer vers le RFID quand vous le souhaitez." },
-              { q: "Comment fonctionne la migration depuis mon système actuel ?", a: "Notre équipe technique vous accompagne. L'import des données (produits, stocks, fournisseurs) se fait via fichier Excel ou CSV. Comptez 2 à 5 jours ouvrés pour une migration complète selon la taille de votre catalogue." },
-              { q: 'SmartLog est-il conforme à la réglementation algérienne ?', a: "Oui. SmartLog respecte la loi 18-05 sur le commerce électronique et la protection des données. Nos serveurs sont situés en Algérie chez un hébergeur agréé. Nous supportons l'intégration avec le système comptable intégré (SCI)." },
-              { q: 'Quand les fonctionnalités IA avancées sont-elles disponibles ?', a: "Les alertes simples et le Z-Score sont opérationnels dès le jour 1. Les modèles Prophet (6-12 mois) et LSTM (12+ mois) nécessitent un historique de données suffisant pour fournir des prédictions fiables." },
+              { q: 'Puis-je utiliser SmartLog sans matériel RFID ?', a: "Absolument. Vous pouvez utiliser l'application en mode scan code-barres. Le WMS fonctionne parfaitement sans RFID et vous pouvez migrer vers le RFID quand vous le souhaitez." },
+              { q: "Comment fonctionne la migration depuis mon système actuel ?", a: "Notre équipe vous accompagne. L'import des données se fait via Excel ou CSV. Comptez 2 à 5 jours ouvrés pour une migration complète." },
+              { q: 'SmartLog est-il conforme à la réglementation algérienne ?', a: "Oui. SmartLog respecte la loi 18-05 sur le commerce électronique. Nos serveurs sont situés en Algérie chez un hébergeur agréé." },
+              { q: "Quand les fonctionnalités IA avancées sont-elles disponibles ?", a: "Les alertes simples et le Z-Score sont opérationnels dès le jour 1. Les modèles Prophet (6-12 mois) et LSTM (12+ mois) nécessitent un historique suffisant." },
             ].map((faq, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all"
+                className="border border-slate-200 rounded-xl overflow-hidden"
               >
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left">
-                  <span className="text-sm font-semibold text-slate-700 pr-4">{faq.q}</span>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+                  <span className="text-sm font-medium text-slate-700 pr-4">{faq.q}</span>
                   <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {openFaq === i && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-                      <p className="px-5 pb-5 text-sm text-slate-500 leading-relaxed border-t border-slate-100 pt-4">{faq.a}</p>
+                      <p className="px-5 pb-4 text-sm text-slate-500 leading-relaxed border-t border-slate-100 pt-4">{faq.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -827,23 +521,20 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-20 md:py-28 bg-slate-50 border-t border-slate-100">
+      <section className="py-20 bg-slate-900 text-white">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mx-auto mb-6 overflow-hidden shadow-sm">
-              <Image src="/logo.png" alt="SmartLog" width={40} height={40} className="object-cover" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
               Prêt à digitaliser votre logistique ?
             </h2>
-            <p className="text-slate-500 text-lg mb-8 max-w-xl mx-auto">
-              Rejoignez les PME algériennes qui ont déjà modernisé leur entrepôt. Fini les fichiers Excel et les inventaires interminables.
+            <p className="text-slate-400 text-lg mb-8 max-w-xl mx-auto">
+              Rejoignez les PME algériennes qui ont modernisé leur entrepôt. Fini Excel et les inventaires interminables.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/dashboard" className="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-white px-8 py-3.5 rounded-xl text-sm font-semibold shadow-sm hover:shadow-lg transition-all flex items-center justify-center gap-2 group">
+              <Link href="/dashboard" className="w-full sm:w-auto bg-white text-slate-900 hover:bg-slate-100 px-8 py-3.5 rounded-xl text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2 group">
                 Entrer dans l'application <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
-              <Link href="/login" className="w-full sm:w-auto border border-slate-200 hover:border-slate-300 text-slate-600 px-8 py-3.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 bg-white shadow-sm hover:shadow-md">
+              <Link href="/login" className="w-full sm:w-auto border border-slate-600 hover:border-slate-500 text-slate-300 px-8 py-3.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2">
                 <Lock className="w-4 h-4" /> Espace client
               </Link>
             </div>
@@ -852,46 +543,44 @@ export default function LandingPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-slate-900 text-white">
+      <footer className="bg-slate-950 text-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden">
                   <Image src="/logo.png" alt="SmartLog" width={28} height={28} className="object-cover" />
                 </div>
                 <span className="font-bold text-white text-sm">SmartLog</span>
               </div>
-              <p className="text-sm text-white/40 leading-relaxed max-w-md">Première plateforme SaaS algérienne combinant RFID UHF et intelligence artificielle pour la gestion d'entrepôts.</p>
-              <div className="flex items-center gap-4 mt-4 text-xs text-white/30">
+              <p className="text-sm text-slate-500 leading-relaxed max-w-md">Première solution SaaS algérienne combinant RFID UHF et intelligence artificielle pour la gestion d'entrepôts.</p>
+              <div className="flex items-center gap-4 mt-4 text-xs text-slate-600">
                 <span className="flex items-center gap-1"><Globe className="w-3 h-3" /> Alger, Algérie</span>
                 <span>contact@smartlog.dz</span>
-                <span>+213 (0) 770 12 34 56</span>
               </div>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-4">Produit</h4>
-              <div className="space-y-2.5">
-                {['Fonctionnalités', 'Dashboard', 'IA Prédictive', 'Documentation API'].map(item => (
-                  <p key={item} className="text-sm text-white/50 hover:text-white cursor-pointer transition-colors">{item}</p>
+              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Produit</h4>
+              <div className="space-y-2.5 text-sm text-slate-500">
+                {['Fonctionnalités', 'Dashboard', 'IA Prédictive', 'Tarifs'].map(item => (
+                  <p key={item} className="hover:text-white cursor-pointer transition-colors">{item}</p>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-4">Équipe</h4>
-              <div className="space-y-2.5 text-sm text-white/50">
+              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Équipe</h4>
+              <div className="space-y-2.5 text-sm text-slate-500">
                 {team.map(m => (
-                  <p key={m.name}>{m.name} — {m.role}</p>
+                  <p key={m.name}>{m.name}</p>
                 ))}
               </div>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
+          <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600">
             <span>© 2026 SmartLog — Tous droits réservés</span>
             <div className="flex items-center gap-4">
               <span>Mentions légales</span>
               <span>Confidentialité</span>
-              <span>www.smartlog.dz</span>
             </div>
           </div>
         </div>
