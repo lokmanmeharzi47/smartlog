@@ -130,8 +130,9 @@ export default function DashboardPage() {
     <>
       <TopBar title="Dashboard" subtitle="Vue globale de l'entrepôt — Temps réel" period="5s" />
 
-      <main className="flex-1 p-4 md:p-6 space-y-5 fade-in max-w-[1600px] mx-auto">
+      <main className="flex-1 p-4 md:p-6 space-y-6 fade-in max-w-[1600px] mx-auto">
 
+        {/* KPIs Row */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           <KpiCard
             label="Total articles en stock"
@@ -165,10 +166,12 @@ export default function DashboardPage() {
           />
         </div>
 
+        {/* Advanced Metrics */}
         <AdvancedMetricsGrid />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        {/* Charts Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2 dashboard-card">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
@@ -182,11 +185,11 @@ export default function DashboardPage() {
             </div>
             <div className="p-4">
               {loading ? (
-                <div className="h-[200px] bg-slate-100 rounded-xl animate-pulse" />
+                <div className="h-[220px] bg-slate-100 rounded-xl animate-pulse" />
               ) : barData.length === 0 ? (
-                <div className="h-[200px] flex items-center justify-center text-slate-400 text-sm">Aucun article chargé</div>
+                <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm">Aucun article chargé</div>
               ) : (
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={barData} margin={{ top: 5, right: 8, bottom: 25, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                     <XAxis
@@ -209,24 +212,24 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <div className="dashboard-card">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
               <span className="text-primary text-sm font-semibold">Répartition par catégorie</span>
             </div>
             <div className="p-4">
               {loading ? (
-                <div className="h-[200px] bg-slate-100 rounded-xl animate-pulse" />
+                <div className="h-[220px] bg-slate-100 rounded-xl animate-pulse" />
               ) : categoryData.length === 0 ? (
-                <div className="h-[200px] flex items-center justify-center text-slate-400 text-sm">Aucune donnée</div>
+                <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm">Aucune donnée</div>
               ) : (
                 <div className="flex flex-col items-center gap-3">
-                  <ResponsiveContainer width="100%" height={140}>
+                  <ResponsiveContainer width="100%" height={150}>
                     <PieChart>
                       <Pie
                         data={categoryData}
                         cx="50%" cy="50%"
-                        innerRadius={38} outerRadius={62}
+                        innerRadius={42} outerRadius={68}
                         dataKey="value" strokeWidth={0}
                       >
                         {categoryData.map((e, i) => <Cell key={i} fill={e.fill} />)}
@@ -234,10 +237,10 @@ export default function DashboardPage() {
                       <Tooltip content={<CustomTooltip />} />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="w-full space-y-1">
+                  <div className="w-full space-y-1.5">
                     {categoryData.map(c => (
                       <div key={c.name} className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c.fill }} />
+                        <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: c.fill }} />
                         <span className="text-slate-400 text-[11px] flex-1 truncate">{c.name}</span>
                         <span className="text-slate-600 text-[11px] font-mono font-semibold">{c.value}</span>
                       </div>
@@ -249,8 +252,9 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        {/* Bottom Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="dashboard-card">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
@@ -258,7 +262,7 @@ export default function DashboardPage() {
               </div>
               <span className="text-slate-400 text-[10px] font-mono">Qté / (Seuil × 3)</span>
             </div>
-            <div className="p-5 space-y-3.5">
+            <div className="p-5 space-y-4">
               {loading ? (
                 [...Array(4)].map((_, i) => (
                   <div key={i} className="space-y-1">
@@ -273,14 +277,14 @@ export default function DashboardPage() {
                   const barColor = z.pct >= 90 ? 'bg-red-500' : z.pct >= 70 ? 'bg-orange-400' : 'bg-secondary'
                   return (
                     <div key={z.zone}>
-                      <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center justify-between mb-1.5">
                         <span className="text-slate-600 text-xs font-semibold">{z.zone}</span>
                         <div className="flex items-center gap-2">
                           <span className="text-slate-400 text-[10px] font-mono">{z.stock} / {z.capacity} u</span>
                           <span className={`text-[11px] font-bold font-mono ${z.pct >= 90 ? 'text-red-500' : z.pct >= 70 ? 'text-orange-500' : 'text-secondary'}`}>{z.pct}%</span>
                         </div>
                       </div>
-                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${z.pct}%` }}
@@ -295,21 +299,21 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <div className="dashboard-card">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                <span className="text-primary text-sm font-semibold">Fil d&apos;événements</span>
+                <span className="text-primary text-sm font-semibold">Fil d'événements</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-emerald-600 text-[9px] font-bold uppercase tracking-wider">Live</span>
-                <span className="text-slate-400 text-[10px] font-mono ml-1">{stats?.todayMovements ?? 0} aujourd&apos;hui</span>
+                <span className="text-slate-400 text-[10px] font-mono ml-1">{stats?.todayMovements ?? 0} aujourd'hui</span>
               </div>
             </div>
             <div
               className="divide-y divide-slate-100 overflow-y-auto"
-              style={{ maxHeight: '260px', scrollbarWidth: 'thin' }}
+              style={{ maxHeight: '280px', scrollbarWidth: 'thin' }}
             >
               {loading ? (
                 [...Array(4)].map((_, i) => (
@@ -321,15 +325,15 @@ export default function DashboardPage() {
                 <div className="p-8 text-center text-slate-400 text-sm">Aucun mouvement enregistré</div>
               ) : (
                 moves.map(m => (
-                  <div key={m.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
-                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  <div key={m.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
+                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 ${
                       m.type === 'IN'
                         ? 'bg-emerald-50 border border-emerald-200'
                         : 'bg-red-50 border border-red-200'
                     }`}>
                       {m.type === 'IN'
-                        ? <ArrowUp className="w-3 h-3 text-emerald-600" />
-                        : <ArrowDown className="w-3 h-3 text-red-600" />
+                        ? <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
+                        : <ArrowDown className="w-3.5 h-3.5 text-red-600" />
                       }
                     </div>
                     <div className="flex-1 min-w-0">

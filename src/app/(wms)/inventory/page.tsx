@@ -77,7 +77,7 @@ export default function InventoryPage() {
       <TopBar title="Inventaire" subtitle={`${products.length} produits — Mise à jour temps réel`} />
 
       <main className="flex-1 p-4 md:p-6 fade-in max-w-[1600px] mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
           <div className="relative flex-1 max-w-xs w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -85,7 +85,7 @@ export default function InventoryPage() {
               placeholder="Rechercher par nom, code, catégorie…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all shadow-sm"
+              className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all shadow-sm"
             />
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -109,7 +109,7 @@ export default function InventoryPage() {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
           <div className="overflow-x-auto">
             <table className="w-full text-sm block md:table">
               <thead className="hidden md:table-header-group">

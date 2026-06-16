@@ -61,6 +61,7 @@ export default function KpiCard({
   }
 
   const accentClass = colorMap[accent] || colorMap.default;
+  const accentLightClass = accent === "default" ? "bg-slate-100" : `bg-${accent}-50`;
 
   const TrendIcon =
     trend === undefined ? null : trend > 0 ? TrendingUp : trend < 0 ? TrendingDown : Minus;
@@ -72,15 +73,15 @@ export default function KpiCard({
 
   return (
     <motion.div
-      whileHover={{ y: -3 }}
-      className="group bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden transition-all duration-200 shadow-sm hover:shadow-lg"
+      whileHover={{ y: -2 }}
+      className="group bg-white border border-slate-200 rounded-2xl p-5 relative overflow-hidden transition-all duration-200 shadow-sm hover:shadow-elevated hover:border-slate-300"
     >
-      <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${accentClass}`} />
+      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentClass} opacity-80`} />
 
-      <div className="absolute -top-10 -right-10 w-24 h-24 bg-secondary/5 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
+      <div className="absolute -top-12 -right-12 w-28 h-28 bg-secondary/5 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700" />
 
       {pulse && (
-        <div className="absolute top-4 right-4 flex h-2 w-2">
+        <div className="absolute top-3 right-3 flex h-2 w-2">
           <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-gradient-to-r ${accentClass}`} />
           <span className={`relative inline-flex rounded-full h-2 w-2 bg-gradient-to-r ${accentClass}`} />
         </div>
@@ -88,25 +89,25 @@ export default function KpiCard({
 
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-3">
-          <div className="min-w-0">
-            <p className="text-slate-400 text-[9px] font-bold uppercase tracking-[1.5px] font-mono mb-0.5 truncate">
+          <div className="min-w-0 flex-1">
+            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[1.5px] mb-1 truncate">
               {label}
             </p>
-            {(subLabel || description) && (
-              <p className="text-slate-400 text-[9px] font-medium truncate">
+            {(subLabel ?? description) && (
+              <p className="text-slate-400 text-[10px] font-medium truncate">
                 {subLabel || description}
               </p>
             )}
           </div>
           {icon && (
-            <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-400 group-hover:text-primary group-hover:bg-primary/5 transition-colors flex-shrink-0 ml-2">
+            <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-400 group-hover:text-primary group-hover:bg-primary/5 transition-colors flex-shrink-0 ml-2">
               {icon}
             </div>
           )}
         </div>
 
         <div className="flex items-baseline gap-1.5">
-          <span className={`${valueSize} font-bold text-primary tracking-tight font-mono leading-none`}>
+          <span className={`${valueSize} font-bold text-primary tracking-tight leading-none`}>
             {value}
           </span>
           {(unit || suffix) && (

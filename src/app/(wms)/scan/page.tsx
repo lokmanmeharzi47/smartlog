@@ -111,7 +111,7 @@ export default function ScanPage() {
               onClick={() => setActiveTab('MANUAL')}
               className={`flex-1 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${
                 activeTab === 'MANUAL'
-                  ? 'bg-white text-primary shadow-sm'
+                  ? 'bg-white text-primary shadow-sm border border-slate-200'
                   : 'text-slate-400 hover:text-slate-600'
               }`}
             >
@@ -121,7 +121,7 @@ export default function ScanPage() {
               onClick={() => setActiveTab('RFID')}
               className={`flex-1 py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'RFID'
-                  ? 'bg-white text-primary shadow-sm'
+                  ? 'bg-white text-primary shadow-sm border border-slate-200'
                   : 'text-slate-400 hover:text-slate-600'
               }`}
             >

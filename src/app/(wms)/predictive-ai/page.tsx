@@ -27,29 +27,31 @@ export default function PredictiveAIPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="px-4 md:px-8 pt-6 pb-4 border-b border-slate-200 bg-white shadow-sm">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-secondary/10 border border-secondary/20">
-              <BrainCircuit className="w-5 h-5 text-secondary" />
+      <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200">
+        <div className="px-4 md:px-8 pt-5 pb-4">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-secondary/10 border border-secondary/20 shadow-sm">
+                <BrainCircuit className="w-5 h-5 text-secondary" />
+              </div>
+              <div>
+                <h1 className="text-primary font-bold text-xl tracking-tight">IA Prédictive</h1>
+                <p className="text-slate-400 text-xs mt-0.5">
+                  Prévisions intelligentes et détection des ruptures en temps réel
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-primary font-bold text-xl tracking-tight">IA Prédictive</h1>
-              <p className="text-slate-400 text-xs mt-0.5">
-                Prévisions intelligentes et détection des ruptures en temps réel
-              </p>
+            <div className="flex items-center gap-2">
+              <GenerateDemoData />
+              <motion.div
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary/10 border border-secondary/20 rounded-full"
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                <span className="text-secondary text-[10px] font-bold tracking-wider uppercase">WMA Engine</span>
+              </motion.div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <GenerateDemoData />
-            <motion.div
-              animate={{ opacity: [0.8, 1, 0.8] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary/10 border border-secondary/20 rounded-full"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-              <span className="text-secondary text-[10px] font-bold tracking-wider uppercase">WMA Engine</span>
-            </motion.div>
           </div>
         </div>
       </div>
