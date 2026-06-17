@@ -14,6 +14,7 @@ import { Package, AlertTriangle, CheckCircle, TrendingUp, ArrowUp, ArrowDown } f
 import toast from 'react-hot-toast'
 import { AdvancedMetricsGrid } from '@/features/dashboard/components/AdvancedMetricsGrid'
 import { motion } from 'framer-motion'
+import { getStockStatus } from '@/features/inventory/utils/stock'
 
 function fmt(n: number) {
   return n >= 1_000_000 ? (n / 1_000_000).toFixed(1) + 'M'
@@ -40,8 +41,9 @@ function CustomTooltip({ active, payload, label }: {
 }
 
 function getBarColor(stock: number, minStock: number): string {
-  if (stock <= minStock) return '#ef4444'
-  if (stock <= minStock * 1.5) return '#f97316'
+  const status = getStockStatus(stock, minStock)
+  if (status === 'CRITICAL') return '#ef4444'
+  if (status === 'LOW') return '#f97316'
   return '#0099e0'
 }
 
@@ -128,7 +130,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <TopBar title="Dashboard" subtitle="Vue globale de l'entrepôt — Temps réel" period="5s" />
+      <TopBar title="Dashboard" subtitle="Vue globale de l'entrepôt — Temps réel" />
 
       <main className="flex-1 p-4 md:p-6 space-y-6 fade-in max-w-[1600px] mx-auto">
 
@@ -183,13 +185,13 @@ export default function DashboardPage() {
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ef4444] inline-block" />Critique</span>
               </div>
             </div>
-            <div className="p-4">
+            <div className="p-4 overflow-x-auto">
               {loading ? (
                 <div className="h-[220px] bg-slate-100 rounded-xl animate-pulse" />
               ) : barData.length === 0 ? (
                 <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm">Aucun article chargé</div>
               ) : (
-                <ResponsiveContainer width="100%" height={220}>
+                <ResponsiveContainer width="100%" height={220} minWidth={500}>
                   <BarChart data={barData} margin={{ top: 5, right: 8, bottom: 25, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                     <XAxis

@@ -25,11 +25,7 @@ export default function AlertsPage() {
       setAlerts(data)
       setPredictions(preds)
       if (isRealtimeUpdate) {
-        toast('Inventaire mis à jour. Recalcul des alertes.', {
-          icon: '🔄',
-          style: { background: '#3b82f6', color: '#fff' },
-          duration: 3000
-        })
+        toast.success('Inventaire mis à jour. Recalcul des alertes.', { duration: 3000 })
       }
     } catch {
       toast.error('Erreur de chargement des alertes', { duration: 7000 })
@@ -137,42 +133,52 @@ export default function AlertsPage() {
 
         <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
+            <table className="w-full text-sm block md:table">
+              <thead className="hidden md:table-header-group">
                 <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Produit & SKU</th>
-                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Type</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider text-left">Produit & SKU</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider text-left">Type</th>
                   <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider text-right">Stock / Seuil</th>
-                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Message & Action</th>
+                  <th className="p-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider text-left">Message & Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="block md:table-row-group">
                 {loading ? (
-                  <tr><td colSpan={4} className="p-6 text-center text-slate-400 text-sm">Chargement des alertes...</td></tr>
+                  <tr className="block md:table-row"><td colSpan={4} className="block md:table-cell p-6 text-center text-slate-400 text-sm">Chargement des alertes...</td></tr>
                 ) : filteredAlerts.length === 0 ? (
-                  <tr><td colSpan={4} className="p-6 text-center text-emerald-500 font-medium text-sm">✓ Aucune alerte trouvée</td></tr>
+                  <tr className="block md:table-row"><td colSpan={4} className="block md:table-cell p-6 text-center text-emerald-500 font-medium text-sm">✓ Aucune alerte trouvée</td></tr>
                 ) : (
                   paginatedAlerts.map(a => {
                     const cfg = getAlertConfig(a.type)
                     return (
-                      <tr key={a.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="p-3">
-                          <p className="text-primary font-semibold text-sm">{a.productName}</p>
-                          <p className="text-slate-400 text-[10px] font-mono">{a.sku}</p>
+                      <tr key={a.id} className="block md:table-row border-b border-slate-100 hover:bg-slate-50 transition-all p-3 md:p-0">
+                        <td className="flex justify-between items-center md:table-cell px-3 py-2 md:p-3">
+                          <span className="md:hidden text-[10px] text-slate-400 uppercase font-bold">Produit</span>
+                          <div className="text-right md:text-left">
+                            <p className="text-primary font-semibold text-sm">{a.productName}</p>
+                            <p className="text-slate-400 text-[10px] font-mono">{a.sku}</p>
+                          </div>
                         </td>
-                        <td className="p-3">
+                        <td className="flex justify-between items-center md:table-cell px-3 py-2 md:p-3">
+                          <span className="md:hidden text-[10px] text-slate-400 uppercase font-bold">Type</span>
                           <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg border ${cfg.bg} ${cfg.border}`}>
                             {cfg.icon}
                             <span className={`text-[10px] font-bold uppercase ${cfg.color}`}>{cfg.label}</span>
                           </div>
                         </td>
-                        <td className="p-3 text-right">
-                          <p className="text-primary font-mono font-bold">{a.currentStock}</p>
-                          <p className="text-slate-400 text-[10px] font-mono">Seuil: {a.threshold}</p>
+                        <td className="flex justify-between items-center md:table-cell px-3 py-2 md:p-3 md:text-right">
+                          <span className="md:hidden text-[10px] text-slate-400 uppercase font-bold">Stock</span>
+                          <div className="text-right md:text-right">
+                            <p className="text-primary font-mono font-bold">{a.currentStock}</p>
+                            <p className="text-slate-400 text-[10px] font-mono">Seuil: {a.threshold}</p>
+                          </div>
                         </td>
-                        <td className="p-3 max-w-[280px]">
-                          <p className={`text-xs font-semibold ${cfg.color}`}>{a.message}</p>
-                          <p className="text-slate-400 text-[10px] mt-0.5">{a.recommendedAction}</p>
+                        <td className="flex justify-between items-start md:table-cell px-3 py-2 md:p-3 md:max-w-[280px]">
+                          <span className="md:hidden text-[10px] text-slate-400 uppercase font-bold">Message</span>
+                          <div className="text-right md:text-left">
+                            <p className={`text-xs font-semibold ${cfg.color}`}>{a.message}</p>
+                            <p className="text-slate-400 text-[10px] mt-0.5">{a.recommendedAction}</p>
+                          </div>
                         </td>
                       </tr>
                     )

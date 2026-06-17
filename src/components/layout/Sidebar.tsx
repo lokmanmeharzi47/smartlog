@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabaseClient'
 import toast from 'react-hot-toast'
 import {
   LayoutDashboard, Package, ScanLine, AlertTriangle,
-  LogOut, FileText, BrainCircuit, ChevronLeft,
+  LogOut, FileText, BrainCircuit, Sparkles, ChevronLeft,
   ChevronRight, Settings,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -16,6 +16,7 @@ const navItems = [
   { href: '/inventory', label: 'Inventaire', icon: Package },
   { href: '/scan', label: 'Scan', icon: ScanLine },
   { href: '/predictive-ai', label: 'IA Prédictive', icon: BrainCircuit },
+  { href: '/ai-recommendations', label: 'Recommandations IA', icon: Sparkles },
   { href: '/alerts', label: 'Alertes', icon: AlertTriangle },
   { href: '/reports', label: 'Rapports', icon: FileText },
 ]
@@ -135,7 +136,7 @@ export default function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed }: 
                   <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-red-400" />
                 )}
                 {isCollapsed && (
-                  <span className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-xl shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 border border-white/10">
+                  <span className="absolute left-full ml-3 px-2.5 py-1.5 bg-white text-slate-700 text-xs font-medium rounded-xl shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 border border-slate-200">
                     {label}
                   </span>
                 )}

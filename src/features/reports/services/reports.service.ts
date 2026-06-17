@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabaseClient'
 import { fetchPredictions } from '@/features/predictive-ai/services/predictive.service'
+import { getStockStatus } from '@/features/inventory/utils/stock'
 
 export interface ReportDashboardData {
   totalStock: number
@@ -47,9 +48,17 @@ export async function fetchReportDashboard(): Promise<ReportDashboardData> {
   })
 
   // 3. Statuses (from predictions)
-  const critical = predictions.filter(p => p.stock <= p.minStock).length
-  const low = predictions.filter(p => p.stock > p.minStock && p.stock <= p.minStock * 1.5).length
-  const overstock = predictions.filter(p => p.stock > p.minStock * 3).length
+  let critical = 0
+  let low = 0
+  let overstock = 0
+  
+  predictions.forEach(p => {
+    const status = getStockStatus(p.stock, p.minStock)
+    if (status === 'CRITICAL') critical++
+    else if (status === 'LOW') low++
+    if (p.stock > p.minStock * 3) overstock++
+  })
+  
   const okItems = totalItems - critical - low - overstock
 
   const coverageRate = totalItems > 0 ? (okItems / totalItems) * 100 : 0

@@ -132,7 +132,7 @@ export default function LandingPage() {
       </motion.section>
 
       {/* ── STATS ── */}
-      <section ref={statsRef} className="py-16 bg-slate-900 text-white">
+      <section ref={statsRef} className="py-16 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -144,10 +144,10 @@ export default function LandingPage() {
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-1 tracking-tight">
+                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-1 tracking-tight">
                   {statsInView && <Counter to={stat.value} from={0} suffix={stat.suffix} />}
                 </div>
-                <div className="text-slate-400 text-sm">{stat.label}</div>
+                <div className="text-slate-500 text-sm">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -173,10 +173,10 @@ export default function LandingPage() {
               { icon: ScanLine, title: 'Scan & Mouvements', desc: 'Entrées/sorties par QR code ou RFID. Mise à jour temps réel du stock.' },
             ].map((f, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                className="group"
+                className="group bg-white rounded-xl border border-slate-200/50 hover:border-slate-200 p-5 -m-5 hover:shadow-sm transition-all"
               >
-                <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-slate-800 transition-colors">
-                  <f.icon className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
+                <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                  <f.icon className="w-5 h-5 text-slate-500 group-hover:text-primary transition-colors" />
                 </div>
                 <h3 className="text-slate-800 font-semibold text-sm mb-1.5">{f.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
@@ -243,12 +243,12 @@ export default function LandingPage() {
       </section>
 
       {/* ── AI ── */}
-      <section id="ai" className="py-24 md:py-32 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+      <section id="ai" className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mb-16">
-            <span className="text-xs font-semibold text-sky-400 uppercase tracking-widest mb-4 block">Intelligence Artificielle</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Des prévisions qui anticipent vos ruptures.</h2>
-            <p className="text-lg text-slate-400">Trois phases de maturité : du WMA classique au Deep Learning LSTM. Plus vos données murissent, plus les prédictions sont précises.</p>
+            <span className="text-xs font-semibold text-primary uppercase tracking-widest mb-4 block">Intelligence Artificielle</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Des prévisions qui anticipent vos ruptures.</h2>
+            <p className="text-lg text-slate-500">Trois phases de maturité : du WMA classique au Deep Learning LSTM. Plus vos données murissent, plus les prédictions sont précises.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-5 mb-16">
@@ -258,46 +258,46 @@ export default function LandingPage() {
               { phase: '12+ mois', method: 'LSTM — Deep Learning', desc: 'Réseau de neurones récurrent. Apprend les patterns complexes long terme.', mape: '< 10%' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-colors"
+                className="bg-white rounded-2xl p-6 border border-slate-200 hover:border-primary/20 hover:shadow-sm transition-all"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-slate-500 uppercase tracking-wider">{m.phase}</span>
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">{m.mape}</span>
+                  <span className="text-xs text-slate-400 uppercase tracking-wider">{m.phase}</span>
+                  <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">{m.mape}</span>
                 </div>
-                <h3 className="font-semibold text-white mb-1.5">{m.method}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">{m.desc}</p>
+                <h3 className="font-semibold text-slate-800 mb-1.5">{m.method}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{m.desc}</p>
               </motion.div>
             ))}
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-white/5 rounded-2xl p-6 border border-white/10"
+              className="bg-slate-50 rounded-2xl p-6 border border-slate-200"
             >
-              <h3 className="font-semibold text-white mb-3">Algorithme WMA</h3>
-              <p className="text-sm text-slate-400 mb-3">WMA = Σ(wᵢ × xᵢ) / Σwᵢ avec poids [1,2,3,4,5,6,7]</p>
-              <div className="bg-white/5 rounded-xl p-4 text-xs text-slate-400 font-mono space-y-1">
+              <h3 className="font-semibold text-slate-800 mb-3">Algorithme WMA</h3>
+              <p className="text-sm text-slate-500 mb-3">WMA = Σ(wᵢ × xᵢ) / Σwᵢ avec poids [1,2,3,4,5,6,7]</p>
+              <div className="bg-white rounded-xl p-4 text-xs text-slate-600 font-mono space-y-1 border border-slate-200">
                 <p>Exemple SL-006 : WMA = 95.5 u/jour</p>
                 <p>Prévision 7j = 668u · 14j = 1 337u</p>
-                <p className="text-emerald-400">Stock restant : 13 jours → Rupture le 31 mars 2026</p>
+                <p className="text-emerald-600">Stock restant : 13 jours → Rupture le 31 mars 2026</p>
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-white/5 rounded-2xl p-6 border border-white/10"
+              className="bg-slate-50 rounded-2xl p-6 border border-slate-200"
             >
-              <h3 className="font-semibold text-white mb-3">Recommandations automatiques</h3>
+              <h3 className="font-semibold text-slate-800 mb-3">Recommandations automatiques</h3>
               <div className="space-y-2">
                 {[
-                  { status: 'Urgent', cond: 'Jours < 7', action: 'Commander maintenant', color: 'text-red-300' },
-                  { status: 'Cette semaine', cond: '7 ≤ Jours < 14', action: 'Planifier commande', color: 'text-amber-300' },
-                  { status: 'OK', cond: 'Jours ≥ 14', action: 'Stock suffisant', color: 'text-emerald-300' },
+                  { status: 'Urgent', cond: 'Jours < 7', action: 'Commander maintenant', color: 'text-red-600' },
+                  { status: 'Cette semaine', cond: '7 ≤ Jours < 14', action: 'Planifier commande', color: 'text-amber-600' },
+                  { status: 'OK', cond: 'Jours ≥ 14', action: 'Stock suffisant', color: 'text-emerald-600' },
                 ].map((r, i) => (
-                  <div key={i} className="bg-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
+                  <div key={i} className="bg-white rounded-xl px-4 py-3 flex items-center justify-between border border-slate-200">
                     <div>
                       <p className={`text-sm font-medium ${r.color}`}>{r.status}</p>
-                      <p className="text-xs text-slate-500">{r.cond}</p>
+                      <p className="text-xs text-slate-400">{r.cond}</p>
                     </div>
-                    <span className="text-xs text-slate-400">{r.action}</span>
+                    <span className="text-xs text-slate-500">{r.action}</span>
                   </div>
                 ))}
               </div>
@@ -337,49 +337,49 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-slate-900 rounded-2xl border border-slate-700 shadow-xl overflow-hidden"
+              className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden"
             >
-              <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-700 bg-slate-800">
+              <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-200 bg-slate-50">
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-400" />
                   <div className="w-3 h-3 rounded-full bg-amber-400" />
                   <div className="w-3 h-3 rounded-full bg-emerald-400" />
                 </div>
-                <span className="text-xs text-slate-500 font-mono ml-2">Assistant SmartLog</span>
-                <span className="ml-auto text-[10px] text-emerald-400 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs text-slate-400 font-mono ml-2">Assistant SmartLog</span>
+                <span className="ml-auto text-[10px] text-emerald-600 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Gemini 4
                 </span>
               </div>
               <div className="p-5 space-y-4">
                 <div className="flex justify-start">
-                  <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 max-w-[85%]">
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">SmartLog IA</p>
-                    <p className="text-xs text-slate-300 leading-relaxed">
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 max-w-[85%]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">SmartLog IA</p>
+                    <p className="text-xs text-slate-600 leading-relaxed">
                       Bonjour ! Je suis votre assistant logistique. Je peux analyser vos stocks, anticiper les ruptures et recommander des commandes. Que souhaitez-vous savoir ?
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-end">
                   <div className="bg-secondary/20 border border-secondary/30 rounded-xl px-4 py-3 max-w-[85%]">
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-secondary/60 mb-1">Vous</p>
-                    <p className="text-xs text-white">Quels sont les articles en stock critique aujourd'hui ?</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-secondary/70 mb-1">Vous</p>
+                    <p className="text-xs text-slate-800">Quels sont les articles en stock critique aujourd'hui ?</p>
                   </div>
                 </div>
                 <div className="flex justify-start">
-                  <div className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 max-w-[90%]">
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">SmartLog IA</p>
-                    <div className="text-xs text-slate-300 leading-relaxed space-y-1">
-                      <p className="font-semibold text-white">3 articles critiques détectés :</p>
-                      <p>• <strong>SL-003</strong> — 12 u (seuil 50) → <span className="text-red-400">Commander 38 u</span></p>
-                      <p>• <strong>SL-008</strong> — 5 u (seuil 30) → <span className="text-red-400">Commander 25 u</span></p>
-                      <p>• <strong>SL-012</strong> — 0 u (seuil 20) → <span className="text-red-400">Rupture, commander 20 u</span></p>
-                      <p className="text-amber-400 mt-2">Risque : perte de 340 000 DZD de CA si non réapprovisionné sous 48h.</p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 max-w-[90%]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">SmartLog IA</p>
+                    <div className="text-xs text-slate-600 leading-relaxed space-y-1">
+                      <p className="font-semibold text-slate-900">3 articles critiques détectés :</p>
+                      <p>• <strong>SL-003</strong> — 12 u (seuil 50) → <span className="text-red-600">Commander 38 u</span></p>
+                      <p>• <strong>SL-008</strong> — 5 u (seuil 30) → <span className="text-red-600">Commander 25 u</span></p>
+                      <p>• <strong>SL-012</strong> — 0 u (seuil 20) → <span className="text-red-600">Rupture, commander 20 u</span></p>
+                      <p className="text-amber-600 mt-2">Risque : perte de 340 000 DZD de CA si non réapprovisionné sous 48h.</p>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 px-1">
-                  <div className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-500">
+                  <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-400">
                     Posez votre question...
                   </div>
                   <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center">
@@ -431,13 +431,13 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="bg-slate-800 rounded-2xl p-8 text-white shadow-sm"
+              className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm"
             >
-              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-5">
-                <BarChart4 className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center mb-5">
+                <BarChart4 className="w-6 h-6 text-sky-600" />
               </div>
-              <h3 className="text-lg font-bold mb-1">WMS SaaS + IA</h3>
-              <p className="text-sm text-slate-400 mb-5">Plateforme cloud centralisée. Dashboard temps réel, alertes Z-Score, prévisions IA progressives.</p>
+              <h3 className="text-lg font-bold text-slate-800 mb-1">WMS SaaS + IA</h3>
+              <p className="text-sm text-slate-500 mb-5">Plateforme cloud centralisée. Dashboard temps réel, alertes Z-Score, prévisions IA progressives.</p>
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
                   { label: 'Disponibilité', value: '99.9%' },
@@ -445,15 +445,15 @@ export default function LandingPage() {
                   { label: 'Données', value: 'Temps réel' },
                   { label: 'Déploiement', value: 'Cloud/Hybride' },
                 ].map((s, i) => (
-                  <div key={i} className="bg-white/5 rounded-lg px-3 py-2 text-xs border border-white/10">
-                    <span className="text-slate-500 block">{s.label}</span>
-                    <span className="text-white font-semibold">{s.value}</span>
+                  <div key={i} className="bg-slate-50 rounded-lg px-3 py-2 text-xs border border-slate-100">
+                    <span className="text-slate-400 block">{s.label}</span>
+                    <span className="text-slate-700 font-semibold">{s.value}</span>
                   </div>
                 ))}
               </div>
-              <ul className="space-y-2 text-sm text-slate-300">
+              <ul className="space-y-2 text-sm text-slate-600">
                 {['Dashboard KPIs (5s refresh)', 'Alertes anomalies Z-Score', 'Prévisions WMA → Prophet → LSTM', 'Assistant IA conversationnel', 'Bilingue Français/Arabe'].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />{item}</li>
+                  <li key={i} className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-sky-500 shrink-0" />{item}</li>
                 ))}
               </ul>
             </motion.div>

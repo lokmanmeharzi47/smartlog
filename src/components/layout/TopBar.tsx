@@ -8,7 +8,6 @@ interface TopBarProps {
   title: string
   subtitle?: string
   showExport?: boolean
-  period?: string
 }
 
 export default function TopBar({

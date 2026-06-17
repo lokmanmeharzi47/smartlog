@@ -50,18 +50,18 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm fade-in">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden relative">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm fade-in">
+      <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden relative">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
-              <Package className="w-4 h-4 text-cyan-400" />
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+              <Package className="w-4 h-4 text-primary" />
             </div>
-            <h2 className="text-white font-semibold">Ajouter un produit</h2>
+            <h2 className="text-slate-900 font-semibold">Ajouter un produit</h2>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-500 hover:text-white transition-colors"
+            className="text-slate-400 hover:text-slate-600 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -70,7 +70,7 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Code / Barcode *
               </label>
               <input
@@ -78,12 +78,12 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
                 name="barcode"
                 value={formData.barcode}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                 placeholder="Ex: P-001"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Désignation *
               </label>
               <input
@@ -91,7 +91,7 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                 placeholder="Ex: Ordinateur"
               />
             </div>
@@ -99,26 +99,26 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Catégorie
               </label>
               <input
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                 placeholder="Ex: Informatique"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Zone
               </label>
               <input
                 name="zone"
                 value={formData.zone}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                 placeholder="Ex: A-01"
               />
             </div>
@@ -126,7 +126,7 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Quantité Initiale
               </label>
               <input
@@ -135,11 +135,11 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
                 name="stock"
                 value={formData.stock}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Seuil Minimum
               </label>
               <input
@@ -148,23 +148,23 @@ export default function AddProductModal({ onClose, onSuccess }: AddProductModalP
                 name="min_stock"
                 value={formData.min_stock}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm placeholder-slate-400 focus:border-primary/30 focus:ring-1 focus:ring-primary/30 outline-none transition-all"
               />
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-800 flex justify-end gap-3 mt-6">
+          <div className="pt-4 border-t border-slate-200 flex justify-end gap-3 mt-6">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold rounded-xl transition-colors shadow-[0_0_15px_rgba(34,211,238,0.3)] disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-xl shadow-sm transition-all disabled:opacity-50"
             >
               {loading ? (
                 'Enregistrement...'

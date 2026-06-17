@@ -52,14 +52,14 @@ export default function GenerateDemoData() {
     <button
       onClick={handleGenerate}
       disabled={loading}
-      className="flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/25 rounded-full backdrop-blur-sm transition-all hover:bg-purple-500/20 disabled:opacity-50"
+      className="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full backdrop-blur-sm transition-all hover:bg-primary/20 disabled:opacity-50"
     >
       {loading ? (
-        <Loader2 className="w-4 h-4 text-purple-400 animate-spin" />
+        <Loader2 className="w-4 h-4 text-primary animate-spin" />
       ) : (
-        <Database className="w-4 h-4 text-purple-400" />
+        <Database className="w-4 h-4 text-primary" />
       )}
-      <span className="text-purple-300 text-xs font-bold tracking-wider uppercase">Générer Historique (Démo)</span>
+      <span className="text-primary text-xs font-bold tracking-wider uppercase">Générer Historique (Démo)</span>
     </button>
   )
 }

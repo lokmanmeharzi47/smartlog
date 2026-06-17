@@ -21,7 +21,7 @@ export default function AIChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '👋 Bonjour ! Je suis l\'assistant IA SmartLog. Posez-moi des questions sur la plateforme, les fonctionnalités, ou comment optimiser votre gestion d\'entrepôt.',
+      content: 'Bonjour ! Je suis l\'assistant IA SmartLog. Posez-moi des questions sur la plateforme, les fonctionnalités, ou comment optimiser votre gestion d\'entrepôt.',
     },
   ])
   const [input, setInput] = useState('')
@@ -76,11 +76,11 @@ export default function AIChatWidget() {
   function renderContent(content: string) {
     const lines = content.split('\n')
     return lines.map((line, i) => {
-      if (line.startsWith('## ')) return <h3 key={i} className="text-sm font-bold text-white mt-3 mb-1">{line.slice(3)}</h3>
-      if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="text-xs font-semibold text-white/90 mb-1">{line.slice(2, -2)}</p>
-      if (line.startsWith('- ')) return <li key={i} className="text-xs text-white/70 ml-3 list-disc">{line.slice(2)}</li>
+      if (line.startsWith('## ')) return <h3 key={i} className="text-sm font-bold text-slate-900 mt-3 mb-1">{line.slice(3)}</h3>
+      if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="text-xs font-semibold text-slate-800 mb-1">{line.slice(2, -2)}</p>
+      if (line.startsWith('- ')) return <li key={i} className="text-xs text-slate-600 ml-3 list-disc">{line.slice(2)}</li>
       if (line.trim() === '') return <div key={i} className="h-1" />
-      return <p key={i} className="text-xs text-white/70 leading-relaxed">{line}</p>
+      return <p key={i} className="text-xs text-slate-600 leading-relaxed">{line}</p>
     })
   }
 
@@ -101,22 +101,22 @@ export default function AIChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] bg-white border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
             style={{ maxHeight: 'min(600px, calc(100vh - 120px))' }}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700 bg-slate-800 flex-shrink-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50 flex-shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-secondary/20 border border-secondary/30 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-secondary/10 border border-secondary/20 flex items-center justify-center">
                   <Bot className="w-4 h-4 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold">Assistant SmartLog</p>
-                  <p className="text-white/40 text-[10px]">IA Conversationnelle</p>
+                  <p className="text-slate-900 text-sm font-semibold">Assistant SmartLog</p>
+                  <p className="text-slate-400 text-[10px]">IA Conversationnelle</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
+                className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-all"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -127,10 +127,10 @@ export default function AIChatWidget() {
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] rounded-xl px-3.5 py-2.5 ${
                     msg.role === 'user'
-                      ? 'bg-secondary/20 border border-secondary/30 text-white'
-                      : 'bg-slate-800 border border-slate-700 text-white/80'
+                      ? 'bg-secondary/20 border border-secondary/30 text-slate-800'
+                      : 'bg-slate-50 border border-slate-200 text-slate-600'
                   }`}>
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-white/40 mb-1">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
                       {msg.role === 'user' ? 'Vous' : 'SmartLog IA'}
                     </div>
                     <div className="text-xs leading-relaxed">
@@ -141,10 +141,10 @@ export default function AIChatWidget() {
               ))}
               {loading && (
                 <div className="flex justify-start">
-                  <div className="bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5">
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5">
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-3.5 h-3.5 animate-spin text-secondary" />
-                      <span className="text-xs text-white/50">Réflexion...</span>
+                      <span className="text-xs text-slate-500">Réflexion...</span>
                     </div>
                   </div>
                 </div>
@@ -154,13 +154,13 @@ export default function AIChatWidget() {
 
             {messages.length === 1 && (
               <div className="px-4 pb-2 flex-shrink-0">
-                <p className="text-[10px] text-white/30 mb-2">Questions rapides :</p>
+                <p className="text-[10px] text-slate-400 mb-2">Questions rapides :</p>
                 <div className="flex flex-wrap gap-1.5">
                   {quickQuestions.map((q, i) => (
                     <button
                       key={i}
                       onClick={() => handleSend(q)}
-                      className="text-[10px] bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white/80 rounded-lg px-2.5 py-1.5 transition-all flex items-center gap-1"
+                      className="text-[10px] bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-slate-700 rounded-lg px-2.5 py-1.5 transition-all flex items-center gap-1"
                     >
                       {q} <ChevronRight className="w-2.5 h-2.5" />
                     </button>
@@ -169,7 +169,7 @@ export default function AIChatWidget() {
               </div>
             )}
 
-            <div className="px-4 py-3 border-t border-slate-700 bg-slate-800 flex-shrink-0">
+            <div className="px-4 py-3 border-t border-slate-200 bg-slate-50 flex-shrink-0">
               <form
                 onSubmit={(e) => { e.preventDefault(); handleSend(input) }}
                 className="flex items-center gap-2"
@@ -181,12 +181,12 @@ export default function AIChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Posez votre question..."
                   disabled={loading}
-                  className="flex-1 bg-slate-700 border border-slate-600 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-secondary/50 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:border-secondary/50 transition-colors disabled:opacity-50"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || loading}
-                  className="w-9 h-9 bg-secondary hover:bg-secondary/90 disabled:bg-slate-700 disabled:text-slate-500 text-white rounded-xl flex items-center justify-center transition-all flex-shrink-0"
+                  className="w-9 h-9 bg-secondary hover:bg-secondary/90 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl flex items-center justify-center transition-all flex-shrink-0"
                 >
                   <Send className="w-4 h-4" />
                 </button>

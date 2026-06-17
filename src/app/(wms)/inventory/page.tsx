@@ -10,7 +10,6 @@ import { Search, Plus, Package } from 'lucide-react'
 import { getStockStatus } from '@/features/inventory/utils/stock'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { motion } from 'framer-motion'
-import PDFExportButton from '@/features/pdf-export/components/PDFExportButton'
 import AddProductModal from '@/features/inventory/components/AddProductModal'
 import { deleteProduct } from '@/lib/api'
 import { Pagination } from '@/components/ui/Pagination'
@@ -105,7 +104,6 @@ export default function InventoryPage() {
               <Plus className="w-3.5 h-3.5" />
               Ajouter
             </button>
-            <PDFExportButton />
           </div>
         </div>
 

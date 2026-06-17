@@ -21,7 +21,7 @@ export function ScanModal({ isOpen, onClose, onScanSuccess }: ScanModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl"
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
 
           {/* Modal Container */}
@@ -29,56 +29,48 @@ export function ScanModal({ isOpen, onClose, onScanSuccess }: ScanModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-[#081225] border border-cyan-500/20 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-2xl flex flex-col"
+            className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
           >
-            {/* Ambient Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-
             {/* Header */}
-            <div className="px-8 py-7 border-b border-white/5 flex items-center justify-between relative">
-              <div className="flex items-center gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-inner">
-                  <QrCode className="w-6 h-6 text-cyan-400" />
+            <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <QrCode className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold text-xl tracking-tight">Scanner un QR Code</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-0.5">Positionnez le QR code dans la zone</p>
+                  <h2 className="text-slate-900 font-bold text-base tracking-tight">Scanner un QR Code</h2>
+                  <p className="text-slate-500 text-sm mt-0.5">Positionnez le QR code dans la zone</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="w-11 h-11 rounded-2xl bg-slate-900/50 border border-slate-800 text-slate-500 hover:text-white hover:border-slate-700 transition-all flex items-center justify-center group"
+                className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-400 hover:text-slate-600 transition-all flex items-center justify-center"
               >
-                <X className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <X className="w-4.5 h-4.5" style={{ width: '18px', height: '18px' }} />
               </button>
             </div>
 
             {/* Scanner Body */}
-            <div className="p-8 md:p-10">
-              <div className="relative group">
-                {/* Decorative border */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-[2rem] blur-md opacity-50 group-hover:opacity-100 transition-opacity" />
-                
-                <div className="relative rounded-[2rem] overflow-hidden border border-white/10">
-                  <QRCodeScanner 
-                    onScanSuccess={onScanSuccess} 
-                    onScanError={(err) => console.log("Scan error:", err)}
-                  />
-                </div>
+            <div className="p-6 md:p-8">
+              <div className="relative rounded-xl overflow-hidden border border-slate-200">
+                <QRCodeScanner 
+                  onScanSuccess={onScanSuccess} 
+                  onScanError={(err) => console.log("Scan error:", err)}
+                />
               </div>
               
-              <div className="mt-8 flex items-center justify-center gap-4">
-                  <div className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500 shadow-[0_0_10px_#06b6d4]"></span>
-                  </div>
-                  <p className="text-slate-500 text-[11px] font-bold uppercase tracking-[3px] font-mono">Scan en cours...</p>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <div className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </div>
+                <p className="text-slate-400 text-[11px] font-bold uppercase tracking-[3px] font-mono">Scan en cours...</p>
               </div>
             </div>
 
             {/* Footer / Instructions */}
-            <div className="px-10 py-7 bg-slate-950/60 border-t border-white/5 text-center">
-                <p className="text-slate-400 text-xs font-medium leading-relaxed max-w-sm mx-auto opacity-80">
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 text-center">
+                <p className="text-slate-500 text-xs leading-relaxed max-w-sm mx-auto">
                     Détection automatique des codes QR, Code 128 et EAN-13.
                     Assurez-vous que le code est bien éclairé.
                 </p>

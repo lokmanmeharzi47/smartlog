@@ -14,7 +14,6 @@ export default function AIRecommendationsPage() {
       <TopBar
         title="Recommandations IA"
         subtitle="Centre de décision et actions urgentes générées par l'IA"
-        period="Temps réel"
       />
 
       <motion.div

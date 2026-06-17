@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Activity, PackageSearch, Cpu } from 'lucide-react'
+import { Activity, PackageSearch, Cpu, TrendingUp, Zap, Package } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts'
 import type { Prediction } from '../types'
 
@@ -189,7 +189,7 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
                       Z = {a.zScore.toFixed(2)}
                     </p>
                     <p className={`text-[10px] font-bold uppercase ${a.anomalyLevel === 'CRITICAL' ? 'text-red-500' : 'text-orange-500'}`}>
-                      {a.anomalyLevel === 'CRITICAL' ? '🔴 Critique' : '🟠 Modéré'}
+                      {a.anomalyLevel === 'CRITICAL' ? 'Critique' : 'Modéré'}
                     </p>
                   </div>
                 </motion.div>
@@ -275,11 +275,11 @@ export default function AdvancedAnalytics({ predictions, loading }: Props) {
           <div className="space-y-3">
             {orderedGroups.map(({ profile, items }) => {
               const sample = items[0]
-              const iconMap: Record<string, string> = { Stable: '📈', Irrégulier: '⚡', Faible: '📦' }
+              const iconMap: Record<string, React.ReactNode> = { Stable: <TrendingUp className="w-4 h-4 text-emerald-600" />, Irrégulier: <Zap className="w-4 h-4 text-amber-600" />, Faible: <Package className="w-4 h-4 text-slate-500" /> }
               return (
                 <div key={profile} className={`p-4 rounded-xl border ${sample.color}`}>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="font-bold text-sm">{iconMap[profile] || ''} {profile}</span>
+                    <span className="font-bold text-sm flex items-center gap-1.5">{iconMap[profile]} {profile}</span>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono opacity-70">{items.length} article{items.length > 1 ? 's' : ''}</span>
                     </div>

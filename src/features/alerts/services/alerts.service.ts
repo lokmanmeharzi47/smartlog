@@ -1,5 +1,6 @@
 import { fetchPredictions } from '@/features/predictive-ai/services/predictive.service'
 import type { Prediction } from '@/features/predictive-ai/types'
+import { getStockStatus } from '@/features/inventory/utils/stock'
 
 export type AlertSeverity = 'CRITICAL' | 'WARNING' | 'INFO'
 export type AlertType = 'CRITICAL_STOCK' | 'WARNING_STOCK' | 'PREDICTIVE' | 'OVERSTOCK'
@@ -26,9 +27,10 @@ export async function fetchAlerts(): Promise<Alert[]> {
   for (const p of predictions) {
     const { productId, productName, barcode: sku, stock, minStock } = p
     const maxStock = minStock * 3 // Fallback rule for maxStock if not defined
+    const status = getStockStatus(stock, minStock)
 
     // 1. Critical Alert: stock <= minStock
-    if (stock <= minStock) {
+    if (status === 'CRITICAL') {
       alerts.push({
         id: `${productId}-critical`,
         productId,
@@ -44,7 +46,7 @@ export async function fetchAlerts(): Promise<Alert[]> {
       })
     } 
     // 2. Warning Alert: stock <= minStock * 1.5
-    else if (stock <= minStock * 1.5) {
+    else if (status === 'LOW') {
       alerts.push({
         id: `${productId}-warning`,
         productId,
